@@ -7,6 +7,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,19 +33,72 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon --stacktrace
+      - name: Prepare build log directory
+        run: mkdir -p build-artifacts
 
-      - name: Upload APK artifact
+      - name: Build debug APK
+        shell: bash
+        run: |
+          set -o pipefail
+          gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build-artifacts/build.log
+
+      - name: Collect APK and build information
+        if: success()
+        shell: bash
+        run: |
+          mkdir -p build-artifacts
+          cp app/build/outputs/apk/debug/*.apk build-artifacts/
+          {
+            echo "Repository: $GITHUB_REPOSITORY"
+            echo "Commit: $GITHUB_SHA"
+            echo "Ref: $GITHUB_REF"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Java: $(java -version 2>&1 | head -n 1)"
+            echo "Gradle: $(gradle --version | awk '/^Gradle / {print $2; exit}')"
+            echo "Built at UTC: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          } > build-artifacts/build-info.txt
+
+      - name: Write failure information
+        if: failure()
+        shell: bash
+        run: |
+          mkdir -p build-artifacts
+          {
+            echo "Repository: $GITHUB_REPOSITORY"
+            echo "Commit: $GITHUB_SHA"
+            echo "Ref: $GITHUB_REF"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Result: BUILD FAILED"
+            echo "Failed at UTC: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          } > build-artifacts/build-info.txt
+
+      - name: Upload APK with build logs
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: ex-astris-save-editor
-          path: app/build/outputs/apk/debug/*.apk
+          path: |
+            build-artifacts/*.apk
+            build-artifacts/build.log
+            build-artifacts/build-info.txt
           if-no-files-found: error
 
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ex-astris-save-editor-build-logs
+          path: |
+            build-artifacts/build.log
+            build-artifacts/build-info.txt
+          if-no-files-found: warn
+
       - name: Publish release on tag
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: success() && startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/debug/*.apk
+          files: |
+            build-artifacts/*.apk
+            build-artifacts/build.log
+            build-artifacts/build-info.txt
           generate_release_notes: true

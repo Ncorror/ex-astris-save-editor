@@ -53,3 +53,15 @@ The artifact is named `ex-astris-save-editor`.
 - Keep the game completely closed while saving changes.
 - Keep cloud/local backups of important progress.
 - The Shizuku file service refuses paths outside Ex Astris' own `Android/data/com.gryphline.exastris.gp` directory.
+
+## Build artifacts and logs
+
+GitHub Actions stores the successful build as the `ex-astris-save-editor` artifact. It contains:
+
+- the debug APK;
+- `build.log` with the full Gradle output;
+- `build-info.txt` with the commit, run URL, Java/Gradle versions, and build time.
+
+If the build fails, the workflow still uploads `ex-astris-save-editor-build-logs` with `build.log` and `build-info.txt` so the failure can be diagnosed without downloading the complete GitHub Actions log archive.
+
+For tag builds (`v*`), the APK, `build.log`, and `build-info.txt` are also attached to the GitHub Release as separate files.

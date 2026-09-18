@@ -48,3 +48,28 @@ gh run watch
 Install and start Shizuku first. On Android 11+ the non-root method uses Wireless debugging. Then open the editor, grant Shizuku permission, and use **Open Ex Astris save**.
 
 Always fully close Ex Astris before overwriting the save.
+
+## Build logs
+
+On a successful GitHub Actions run, download the APK and its build logs together:
+
+```bash
+gh run download -n ex-astris-save-editor
+```
+
+The downloaded artifact contains the APK, `build.log`, and `build-info.txt`.
+
+If the build fails, download the diagnostic artifact instead:
+
+```bash
+gh run download -n ex-astris-save-editor-build-logs
+```
+
+For GitHub Release assets listed separately under the APK, push a version tag:
+
+```bash
+git tag v1.1.1
+git push origin v1.1.1
+```
+
+The tag workflow attaches the APK, `build.log`, and `build-info.txt` as separate Release files.
