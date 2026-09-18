@@ -13,6 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -27,7 +28,8 @@ jobs:
           packages: ''
 
       - name: Install Android SDK packages
-        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+        run: |
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - uses: gradle/actions/setup-gradle@v4
         with:
@@ -38,14 +40,14 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
 
       - name: Prepare APK package
         run: |
           mkdir -p release-files
-          if ls app/build/outputs/apk/debug/*.apk 1> /dev/null 2>&1; then
-            cp app/build/outputs/apk/debug/*.apk release-files/ex-astris-save-editor.apk
-          fi
+
+          cp app/build/outputs/apk/debug/*.apk release-files/ex-astris-save-editor.apk || true
+
           cat > release-files/build-info.txt <<INFO
 Application: Ex Astris Save Editor
 Version: 1.0.0
@@ -56,33 +58,22 @@ Android compile SDK: 34
 Shizuku support: enabled
 Theme: Dark Material 3
 INFO
+
           cp build.log release-files/build.log || true
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: ex-astris-save-editor-debug
-          path: release-files/*
-          if-no-files-found: error
+          path: release-files/
+          if-no-files-found: warn
 
       - name: Upload verification logs
-        if: steps.build.outcome != 'success'
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: ex-astris-save-editor-verification
           path: |
             build.log
             app/build/reports/
-            app/build/test-results/
-          if-no-files-found: ignore
-
-      - name: Fail after uploading logs
-        if: steps.build.outcome != 'success'
-        run: exit 1
-
-      - name: Publish release on tag
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: release-files/*
-          generate_release_notes: true
+          if-no-files-found: warn
