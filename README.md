@@ -138,3 +138,11 @@ gh run download -n ex-astris-save-editor-debug
 ## 1.3
 - Added Root access with libsu RootService, access mode selection, diagnostics, and staged privileged writes.
 - Kept the 1.2.1 stable quantity column fix.
+
+
+## v1.3.2
+
+- Root reconnect now refreshes a stale non-root libsu shell after SuperUser is enabled externally.
+- Root service connection is verified to run as UID 0.
+- Settings show only the selected access backend; Auto uses a compact combined diagnostic card.
+- Item quantity rendering fix from v1.3.1 is retained.

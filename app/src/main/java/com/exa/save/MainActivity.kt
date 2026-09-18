@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private enum class AccessMode { AUTO, ROOT, SHIZUKU, MANUAL }
     private enum class AccessBackend { ROOT, SHIZUKU, MANUAL, NONE }
+    private enum class RootProbeState { UNKNOWN, CHECKING, GRANTED, DENIED, ERROR }
 
     private var uri: Uri? = null
     private var directPath: String? = null
@@ -68,15 +70,37 @@ class MainActivity : AppCompatActivity() {
     @Volatile
     private var rootService: IShizukuFileService? = null
     private var rootBinding = false
+    private var rootProbeState = RootProbeState.UNKNOWN
+    private var rootLastError: String? = null
+    private var pendingOpenAfterConnect = false
 
     private val rootIntent by lazy { Intent(this, RootFileService::class.java) }
 
     private val rootConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            rootService = IShizukuFileService.Stub.asInterface(service)
+            val candidate = IShizukuFileService.Stub.asInterface(service)
+            val uid = try { candidate?.remoteUid ?: -1 } catch (_: Throwable) { -1 }
+            if (candidate == null || uid != 0) {
+                rootService = null
+                rootBinding = false
+                rootProbeState = RootProbeState.ERROR
+                rootLastError = getString(R.string.root_wrong_uid, uid)
+                updateRootUi()
+                updateAccessUi()
+                toast(rootLastError ?: getString(R.string.access_unavailable))
+                return
+            }
+
+            rootService = candidate
             rootBinding = false
+            rootProbeState = RootProbeState.GRANTED
+            rootLastError = null
             updateRootUi()
             updateAccessUi()
+            if (pendingOpenAfterConnect) {
+                pendingOpenAfterConnect = false
+                openExAstrisSave()
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -101,6 +125,10 @@ class MainActivity : AppCompatActivity() {
             bindingService = false
             updateShizukuUi()
             updateAccessUi()
+            if (pendingOpenAfterConnect) {
+                pendingOpenAfterConnect = false
+                openExAstrisSave()
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -129,6 +157,8 @@ class MainActivity : AppCompatActivity() {
             updateShizukuUi()
             if (result == PackageManager.PERMISSION_GRANTED) {
                 bindShizukuFileService()
+            } else {
+                pendingOpenAfterConnect = false
             }
             updateAccessUi()
         }
@@ -335,16 +365,16 @@ class MainActivity : AppCompatActivity() {
             AccessMode.MANUAL -> pickFile()
             AccessMode.AUTO -> when {
                 rootService != null || remoteService != null -> updateAccessUi()
-                Shell.isAppGrantedRoot() == true -> requestOrConnectRoot()
+                Shell.getCachedShell()?.isRoot == true -> requestOrConnectRoot(forceRefresh = false)
                 shizukuAlive() && hasShizukuPermission() -> bindShizukuFileService()
-                else -> requestOrConnectRoot()
+                else -> requestOrConnectRoot(forceRefresh = true)
             }
         }
     }
 
     // ---------------- Root / access ----------------
 
-    private fun requestOrConnectRoot() {
+    private fun requestOrConnectRoot(forceRefresh: Boolean = true) {
         if (rootService != null) {
             updateRootUi()
             updateAccessUi()
@@ -353,36 +383,92 @@ class MainActivity : AppCompatActivity() {
         if (rootBinding) return
 
         rootBinding = true
+        rootProbeState = RootProbeState.CHECKING
+        rootLastError = null
         updateRootUi()
         updateAccessUi()
 
+        val cached = try { Shell.getCachedShell() } catch (_: Throwable) { null }
+        if (forceRefresh && cached != null && !cached.isRoot) {
+            io.execute {
+                val closed = try {
+                    cached.waitAndClose(2, TimeUnit.SECONDS)
+                } catch (_: Throwable) {
+                    false
+                }
+                if (!closed) {
+                    try { cached.close() } catch (_: Throwable) {}
+                }
+                runOnUiThread { acquireRootShellAndBind() }
+            }
+        } else {
+            acquireRootShellAndBind()
+        }
+    }
+
+    private fun acquireRootShellAndBind() {
         try {
             Shell.getShell { shell ->
                 if (!shell.isRoot) {
                     rootBinding = false
+                    rootProbeState = RootProbeState.DENIED
+                    rootLastError = null
                     updateRootUi()
                     updateAccessUi()
                     if (accessMode() == AccessMode.AUTO && shizukuAlive()) {
                         requestOrConnectShizuku()
                     } else {
+                        pendingOpenAfterConnect = false
                         toast(getString(R.string.root_denied_detail))
                     }
                     return@getShell
                 }
+
+                rootProbeState = RootProbeState.GRANTED
+                rootLastError = null
+                updateRootUi()
                 try {
                     RootService.bind(rootIntent, rootConnection)
+                    binding.root.postDelayed({
+                        if (rootBinding && rootService == null) {
+                            rootBinding = false
+                            rootProbeState = RootProbeState.ERROR
+                            rootLastError = getString(R.string.root_service_timeout)
+                            updateRootUi()
+                            updateAccessUi()
+                            pendingOpenAfterConnect = false
+                            toast(rootLastError ?: getString(R.string.access_unavailable))
+                        }
+                    }, 10_000L)
                 } catch (e: Throwable) {
                     rootBinding = false
+                    rootProbeState = RootProbeState.ERROR
+                    rootLastError = e.message ?: e.javaClass.simpleName
                     updateRootUi()
                     updateAccessUi()
-                    toast(getString(R.string.root_bind_failed, e.message ?: e.javaClass.simpleName))
+                    pendingOpenAfterConnect = false
+                    toast(getString(R.string.root_bind_failed, rootLastError))
                 }
             }
         } catch (e: Throwable) {
             rootBinding = false
+            rootProbeState = RootProbeState.ERROR
+            rootLastError = e.message ?: e.javaClass.simpleName
             updateRootUi()
             updateAccessUi()
-            toast(getString(R.string.root_bind_failed, e.message ?: e.javaClass.simpleName))
+            pendingOpenAfterConnect = false
+            toast(getString(R.string.root_bind_failed, rootLastError))
+        }
+    }
+
+    private fun rootGrantState(): Boolean? {
+        if (rootService != null) return true
+        val cached = try { Shell.getCachedShell() } catch (_: Throwable) { null }
+        if (cached != null && cached.isAlive) return cached.isRoot
+        return when (rootProbeState) {
+            RootProbeState.GRANTED -> true
+            RootProbeState.DENIED -> false
+            else -> null
         }
     }
 
@@ -397,23 +483,29 @@ class MainActivity : AppCompatActivity() {
                 binding.rootDetail.text = getString(R.string.root_uid_detail, uid)
                 binding.rootButton.setText(R.string.root_reconnect)
             }
-            rootBinding -> {
+            rootBinding || rootProbeState == RootProbeState.CHECKING -> {
                 binding.rootStatus.setText(R.string.root_connecting)
                 binding.rootStatus.setTextColor(color(R.color.exa_warning))
-                binding.rootDetail.setText(R.string.root_description)
+                binding.rootDetail.setText(R.string.root_retrying)
                 binding.rootButton.setText(R.string.root_request)
             }
-            Shell.isAppGrantedRoot() == true -> {
+            rootProbeState == RootProbeState.ERROR -> {
+                binding.rootStatus.setText(R.string.root_checking)
+                binding.rootStatus.setTextColor(color(R.color.exa_warning))
+                binding.rootDetail.text = rootLastError ?: getString(R.string.root_description)
+                binding.rootButton.setText(R.string.root_reconnect)
+            }
+            rootGrantState() == true -> {
                 binding.rootStatus.setText(R.string.root_checking)
                 binding.rootStatus.setTextColor(color(R.color.exa_warning))
                 binding.rootDetail.setText(R.string.root_granted)
                 binding.rootButton.setText(R.string.root_reconnect)
             }
-            Shell.isAppGrantedRoot() == false -> {
+            rootGrantState() == false -> {
                 binding.rootStatus.setText(R.string.root_denied)
                 binding.rootStatus.setTextColor(color(R.color.exa_error))
                 binding.rootDetail.setText(R.string.root_denied_detail)
-                binding.rootButton.setText(R.string.root_request)
+                binding.rootButton.setText(R.string.root_reconnect)
             }
             else -> {
                 binding.rootStatus.setText(R.string.root_checking)
@@ -433,6 +525,10 @@ class MainActivity : AppCompatActivity() {
             AccessMode.SHIZUKU -> R.string.access_shizuku_summary
             AccessMode.MANUAL -> R.string.access_manual_summary
         })
+
+        binding.rootCard.visibility = if (mode == AccessMode.ROOT) View.VISIBLE else View.GONE
+        binding.shizukuCard.visibility = if (mode == AccessMode.SHIZUKU) View.VISIBLE else View.GONE
+        binding.accessDiagnosticsCard.visibility = if (mode == AccessMode.AUTO) View.VISIBLE else View.GONE
 
         val backend = activeBackend()
         val statusRes = when (backend) {
@@ -454,22 +550,25 @@ class MainActivity : AppCompatActivity() {
         binding.compactShizukuButton.visibility = if (ready) View.GONE else View.VISIBLE
         binding.compactShizukuButton.setText(if (mode == AccessMode.MANUAL) R.string.access_choose_file else R.string.connect)
 
-        val rootGrant = when (Shell.isAppGrantedRoot()) {
-            true -> getString(R.string.diag_yes)
-            false -> getString(R.string.diag_no)
-            null -> getString(R.string.diag_unknown)
+        val rootStateText = when {
+            rootService != null -> getString(R.string.diag_connected)
+            rootBinding -> getString(R.string.root_retrying)
+            rootGrantState() == true -> getString(R.string.diag_yes)
+            rootGrantState() == false -> getString(R.string.diag_no)
+            else -> getString(R.string.diag_unknown)
         }
-        val rootSvc = if (rootService != null) getString(R.string.diag_connected) else getString(R.string.diag_disconnected)
-        val shizuku = if (remoteService != null) getString(R.string.diag_connected) else getString(R.string.diag_disconnected)
-        val androidData = if (rootService != null || remoteService != null) getString(R.string.diag_available) else getString(R.string.diag_unavailable)
+        val shizukuStateText = if (remoteService != null) {
+            getString(R.string.diag_connected)
+        } else if (shizukuAlive()) {
+            getString(R.string.diag_available)
+        } else {
+            getString(R.string.diag_disconnected)
+        }
         binding.accessDiagnostics.text = getString(
-            R.string.diagnostics_format,
-            mode.name,
-            backend.name,
-            rootGrant,
-            rootSvc,
-            shizuku,
-            androidData
+            R.string.auto_diag_format,
+            rootStateText,
+            shizukuStateText,
+            statusRes.let { getString(it).removePrefix("● ") }
         )
     }
 
@@ -492,6 +591,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestOrConnectShizuku() {
         if (!shizukuAlive()) {
+            pendingOpenAfterConnect = false
             toast(getString(R.string.shizuku_missing_message))
             updateShizukuUi()
             return
@@ -499,6 +599,7 @@ class MainActivity : AppCompatActivity() {
 
         try {
             if (Shizuku.isPreV11()) {
+                pendingOpenAfterConnect = false
                 toast(getString(R.string.shizuku_old))
                 return
             }
@@ -506,11 +607,13 @@ class MainActivity : AppCompatActivity() {
             if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
                 bindShizukuFileService()
             } else if (Shizuku.shouldShowRequestPermissionRationale()) {
+                pendingOpenAfterConnect = false
                 toast(getString(R.string.shizuku_denied))
             } else {
                 Shizuku.requestPermission(requestShizuku)
             }
         } catch (e: Throwable) {
+            pendingOpenAfterConnect = false
             toast(getString(R.string.shizuku_bind_failed, e.message ?: e.javaClass.simpleName))
         }
         updateShizukuUi()
@@ -660,8 +763,9 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        var backend = activeBackend()
+        val backend = activeBackend()
         if (backend == AccessBackend.NONE) {
+            pendingOpenAfterConnect = true
             connectSelectedAccess()
             return
         }

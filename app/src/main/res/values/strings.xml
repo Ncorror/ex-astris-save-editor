@@ -86,7 +86,7 @@
     <string name="access_auto">Auto</string>
     <string name="access_root">Root</string>
     <string name="access_shizuku">Shizuku</string>
-    <string name="access_manual">Manual</string>
+    <string name="access_manual">File</string>
     <string name="access_auto_summary">Automatic mode prefers an already-authorized root service, then Shizuku, then manual file selection.</string>
     <string name="access_root_summary">Use the libsu root service for direct Android/data access.</string>
     <string name="access_shizuku_summary">Use Shizuku for direct Android/data access without requiring root.</string>
@@ -102,14 +102,20 @@
     <string name="root_checking">● Root status unknown</string>
     <string name="root_ready">● Root service connected</string>
     <string name="root_granted">SuperUser permission is available. Connect the root service to use Android/data directly.</string>
-    <string name="root_denied">● Root access denied / unavailable</string>
-    <string name="root_denied_detail">The root manager did not grant this app SuperUser access. You can still use Shizuku or manual mode.</string>
+    <string name="root_denied">● Root not acquired</string>
+    <string name="root_denied_detail">A root session was not acquired. If SuperUser is already allowed in your root manager, tap Recheck Root.</string>
     <string name="root_description">Root access is restricted inside the app to Ex Astris\' own Android/data directory.</string>
-    <string name="root_request">Request root</string>
-    <string name="root_reconnect">Reconnect root</string>
+    <string name="root_request">Check root</string>
+    <string name="root_reconnect">Recheck root</string>
     <string name="root_connecting">● Connecting root service…</string>
     <string name="root_bind_failed">Could not start root file service: %1$s</string>
     <string name="root_uid_detail">UID %1$d · direct Android/data access available</string>
+    <string name="root_service_timeout">Root is allowed, but the root service did not connect in time. Try again or restart the app.</string>
+    <string name="root_wrong_uid">Root service started without UID 0 (UID %1$d).</string>
+    <string name="root_retrying">Rechecking SuperUser…</string>
+    <string name="auto_diag_format">Root: %1$s
+Shizuku: %2$s
+Active access: %3$s</string>
     <string name="diagnostics_format">Selected: %1$s
 Active: %2$s
 Root grant: %3$s

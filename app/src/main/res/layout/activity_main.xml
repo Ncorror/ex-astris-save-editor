@@ -237,6 +237,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/saveFileCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
@@ -490,6 +491,7 @@
                     android:textSize="12sp" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/rootCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -533,6 +535,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/shizukuCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
@@ -576,6 +579,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/accessDiagnosticsCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
