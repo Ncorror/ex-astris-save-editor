@@ -3,8 +3,8 @@
     "name": "Астрит",
     "name_en": "Astrite",
     "cat": "currency",
-    "description": "Ресурс усиления персонажей на экране «Орбитали». Получается за сражения, задания и исследование мира.",
-    "description_en": "Character-upgrade resource used on the Orbitals screen. Earned from battles, quests and exploration.",
+    "description": "Ресурс усиления персонажей на экране «Орбитали». Получается в сражениях, заданиях и при исследовании мира.",
+    "description_en": "Character-upgrade resource used on the Orbitals screen. Obtained from combat, quests, and exploration.",
     "verified": true
   },
   "10001": {
@@ -12,79 +12,87 @@
     "name_en": "Doron",
     "cat": "currency",
     "description": "Основная валюта Аллиндо. Используется для покупки предметов у торговцев.",
-    "description_en": "Allindo's general currency, used to buy items from merchants.",
+    "description_en": "General currency of Allindo, used to buy items from merchants.",
     "verified": true
   },
   "11001": {
     "name": "Янтарь жизненной силы",
     "name_en": "Vitality Amber",
     "cat": "consumable",
-    "description": "Восстанавливает 60% активности одному союзнику. После применения на 3 хода эффективность повторного лечения таким янтарём снижается.",
-    "description_en": "Restores 60% Vitality to one ally. Repeated healing of the same type is reduced for 3 turns.",
+    "description": "Восстанавливает 60% активности одному союзнику. После применения на 3 хода эффективность повторного лечения Янтарём жизненной силы снижается на 70%.",
+    "description_en": "Restores 60% Vitality to one ally. For 3 turns afterward, additional Vitality Amber healing is reduced by 70%.",
     "verified": true
   },
   "11002": {
     "name": "Янтарь витапотока",
     "name_en": "Vitaflow Amber",
     "cat": "consumable",
-    "description": "Восстанавливает 25% активности всей группе. После применения на 3 хода эффективность повторного лечения таким янтарём снижается.",
-    "description_en": "Restores 25% Vitality to the whole party. Repeated healing of the same type is reduced for 3 turns.",
+    "description": "Восстанавливает 25% активности всей группе. После применения на 3 хода эффективность повторного лечения Янтарём витапотока снижается на 70%.",
+    "description_en": "Restores 25% Vitality to the whole party. For 3 turns afterward, additional Vitaflow Amber healing is reduced by 70%.",
     "verified": true
   },
   "12000": {
     "name": "Красный кристалл в обёртке, крупный",
     "name_en": "Red crystal in wrapping, large",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save.",
     "verified": false
   },
   "12003": {
     "name": "Красный кристалл в обёртке",
     "name_en": "Red crystal in wrapping",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save.",
     "verified": false
   },
   "12004": {
     "name": "Красный кристалл в обёртке, вариант",
     "name_en": "Red crystal in wrapping, variant",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save.",
     "verified": false
   },
   "12005": {
     "name": "Жёлто-зелёный свёрток",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "verified": false
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "verified": false,
+    "name_en": "Yellow-green wrapped item",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save."
   },
   "12007": {
     "name": "Жёлтый свёрток",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "verified": false
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "verified": false,
+    "name_en": "Yellow wrapped item",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save."
   },
   "12008": {
     "name": "Красный свёрток с завитком",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "verified": false
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "verified": false,
+    "name_en": "Red wrapped item with swirl",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save."
   },
   "12009": {
     "name": "Розовый свёрток",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "verified": false
+    "description": "Боевой расходник из группы янтарей. Янтари применяются к персонажам для лечения или временных боевых эффектов. Точный эффект этого внутреннего ID пока не сопоставлен с официальным названием. Изменение количества проверено в живом сохранении.",
+    "verified": false,
+    "name_en": "Pink wrapped item",
+    "description_en": "Combat consumable from the Amber item group. Ambers are used on characters for healing or temporary combat effects. The exact effect for this internal ID has not yet been matched to an official item name. Quantity editing was verified in a live save."
   },
   "12999": {
     "name": "Триод энтропита",
     "name_en": "Entropith Triode",
     "cat": "consumable",
-    "description": "Батарея для энтропитов. При использовании восстанавливает 1 шкалу Ionix (энергии Роя), необходимую для активации энтропитов.",
-    "description_en": "Battery for Entropiths. Restores one Ionix gauge used to activate Entropiths.",
+    "description": "Батарея для энтропитов. При использовании восстанавливает 1 шкалу Ionix — ресурс, необходимый для активации энтропитов.",
+    "description_en": "A battery for Entropiths. Using it restores 1 Ionix gauge, the resource required to activate Entropiths.",
     "verified": true
   },
   "200000": {
@@ -92,7 +100,7 @@
     "name_en": "Bio-debris",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200001": {
@@ -100,7 +108,7 @@
     "name_en": "Bio-deposit",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200002": {
@@ -108,7 +116,7 @@
     "name_en": "Jel",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200003": {
@@ -116,7 +124,7 @@
     "name_en": "Molding Jel",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200004": {
@@ -124,7 +132,7 @@
     "name_en": "Carboid Shell",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200005": {
@@ -132,7 +140,7 @@
     "name_en": "Alloid Shell",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200008": {
@@ -140,7 +148,7 @@
     "name_en": "Fibrous Fur",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200009": {
@@ -148,7 +156,7 @@
     "name_en": "Matted Fur",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200101": {
@@ -156,7 +164,7 @@
     "name_en": "Fluorite",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "200102": {
@@ -164,208 +172,212 @@
     "name_en": "Solid Doronite",
     "cat": "material",
     "description": "Материал для изготовления ключей Лайлы и улучшения энтропитов.",
-    "description_en": "Crafting material used for Laylah-Keys and Entropith upgrades.",
+    "description_en": "Crafting material used to make Laylah-Keys and upgrade Entropiths.",
     "verified": true
   },
   "210000": {
     "name": "Волокнистое семя",
     "name_en": "Fibrous Seed",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210001": {
     "name": "Волокнистый плод",
     "name_en": "Fibrous Fruit",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210002": {
     "name": "Подпанцирный мох",
     "name_en": "Shellwort",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210003": {
     "name": "Ком подпанцирного мха",
     "name_en": "Shellwort Mass",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210004": {
     "name": "Серебряный Миррормун",
     "name_en": "Silver Mirrormoon",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210005": {
     "name": "Золотой Миррормун",
     "name_en": "Gold Mirrormoon",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210008": {
     "name": "Карбонизированная фасция",
     "name_en": "Carbonized Fascia",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210009": {
     "name": "Карбонизированный гиалин",
     "name_en": "Carbonized Hyaline",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "210012": {
     "name": "Янтарная капля",
     "cat": "material",
-    "description": "Материал из сохранения. Точное назначение этого ID ещё уточняется.",
-    "verified": false
+    "description": "Материал или кулинарный ингредиент из сохранения. Точное официальное название этого ID пока не сопоставлено. Изменение количества проверено в живом сохранении.",
+    "verified": false,
+    "name_en": "Amber-colored drop",
+    "description_en": "Material or cooking ingredient found in the save. The exact official name for this ID has not yet been matched. Quantity editing was verified in a live save."
   },
   "210014": {
     "name": "Галактическая масала",
     "name_en": "Galactic Masala",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "211000": {
     "name": "Флоуид",
     "name_en": "Floweed",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "211001": {
     "name": "Пух Крейвера",
     "name_en": "Craver's Puff",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "211002": {
     "name": "Гладкошляпка",
     "name_en": "Smoothcap",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "211003": {
     "name": "Гроздь шляпок",
     "name_en": "Stacker Caps",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "211004": {
     "name": "Ликосфера",
     "name_en": "Licosphere",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "211005": {
     "name": "Мясо титами",
     "name_en": "Titami Meat",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "212000": {
     "name": "Медовый потбаг",
     "name_en": "Honeypot",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "212001": {
     "name": "Кислый потбаг",
     "name_en": "Sourpot",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "212002": {
     "name": "Горький потбаг",
     "name_en": "Bitterpot",
     "cat": "material",
-    "description": "Кулинарный ингредиент для приготовления блюд и временных усилений.",
-    "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
+    "description": "Кулинарный ингредиент. Используется для приготовления блюд, которые дают временные усиления до отдыха или следующей готовки.",
+    "description_en": "Cooking ingredient used to prepare dishes that grant temporary bonuses until resting or cooking again.",
     "verified": true
   },
   "500000": {
     "name": "Энтропит, медно-оранжевое кольцо",
-    "name_en": "Entropite, copper-orange ring",
+    "name_en": "Entropith, copper-orange ring",
     "cat": "entropite",
-    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
-    "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
+    "description": "Экипируемый боевой энтропит. Энтропиты расходуют Ionix и могут улучшаться Ядрами Лайлы; у разных моделей свои боевые эффекты. Точное официальное название и эффект этого ID пока не сопоставлены. Обычно хранится 1 экземпляр; массовое изменение отключено.",
+    "description_en": "Equipable combat Entropith. Entropiths consume Ionix and can be upgraded with Laylah Kernels; different models have different combat effects. The exact official name and effect for this ID have not yet been matched. Normally stored as a single copy; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
   "500001": {
     "name": "Энтропит, синий кристалл, вариант",
     "cat": "entropite",
-    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
+    "description": "Экипируемый боевой энтропит. Энтропиты расходуют Ionix и могут улучшаться Ядрами Лайлы; у разных моделей свои боевые эффекты. Точное официальное название и эффект этого ID пока не сопоставлены. Обычно хранится 1 экземпляр; массовое изменение отключено.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Entropith, blue crystal, variant",
+    "description_en": "Equipable combat Entropith. Entropiths consume Ionix and can be upgraded with Laylah Kernels; different models have different combat effects. The exact official name and effect for this ID have not yet been matched. Normally stored as a single copy; bulk editing is disabled."
   },
   "500002": {
     "name": "Энтропит, бело-золотой",
-    "name_en": "Entropite, white and gold",
+    "name_en": "Entropith, white and gold",
     "cat": "entropite",
-    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
-    "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
+    "description": "Экипируемый боевой энтропит. Энтропиты расходуют Ionix и могут улучшаться Ядрами Лайлы; у разных моделей свои боевые эффекты. Точное официальное название и эффект этого ID пока не сопоставлены. Обычно хранится 1 экземпляр; массовое изменение отключено.",
+    "description_en": "Equipable combat Entropith. Entropiths consume Ionix and can be upgraded with Laylah Kernels; different models have different combat effects. The exact official name and effect for this ID have not yet been matched. Normally stored as a single copy; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
   "500004": {
     "name": "Энтропит, синий кристалл",
-    "name_en": "Entropite, blue crystal",
+    "name_en": "Entropith, blue crystal",
     "cat": "entropite",
-    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
-    "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
+    "description": "Экипируемый боевой энтропит. Энтропиты расходуют Ionix и могут улучшаться Ядрами Лайлы; у разных моделей свои боевые эффекты. Точное официальное название и эффект этого ID пока не сопоставлены. Обычно хранится 1 экземпляр; массовое изменение отключено.",
+    "description_en": "Equipable combat Entropith. Entropiths consume Ionix and can be upgraded with Laylah Kernels; different models have different combat effects. The exact official name and effect for this ID have not yet been matched. Normally stored as a single copy; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
   "500008": {
     "name": "Энтропит, бело-серебристый",
-    "name_en": "Entropite, white and silver",
+    "name_en": "Entropith, white and silver",
     "cat": "entropite",
-    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
-    "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
+    "description": "Экипируемый боевой энтропит. Энтропиты расходуют Ionix и могут улучшаться Ядрами Лайлы; у разных моделей свои боевые эффекты. Точное официальное название и эффект этого ID пока не сопоставлены. Обычно хранится 1 экземпляр; массовое изменение отключено.",
+    "description_en": "Equipable combat Entropith. Entropiths consume Ionix and can be upgraded with Laylah Kernels; different models have different combat effects. The exact official name and effect for this ID have not yet been matched. Normally stored as a single copy; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
   "500012": {
     "name": "Энтропит, бело-бирюзовый гироскоп",
-    "name_en": "Entropite, white-turquoise gyroscope",
+    "name_en": "Entropith, white-turquoise gyroscope",
     "cat": "entropite",
-    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
-    "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
+    "description": "Экипируемый боевой энтропит. Энтропиты расходуют Ionix и могут улучшаться Ядрами Лайлы; у разных моделей свои боевые эффекты. Точное официальное название и эффект этого ID пока не сопоставлены. Обычно хранится 1 экземпляр; массовое изменение отключено.",
+    "description_en": "Equipable combat Entropith. Entropiths consume Ionix and can be upgraded with Laylah Kernels; different models have different combat effects. The exact official name and effect for this ID have not yet been matched. Normally stored as a single copy; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -373,70 +385,76 @@
     "name": "Белёсая костяная раковина",
     "name_en": "Pale bone shell",
     "cat": "material",
-    "description": "Материал. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Material. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый материал/обменный предмет из сохранения. Точное официальное название и назначение этого ID пока не сопоставлены. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable material/trade item found in the save. The exact official name and purpose for this ID have not yet been matched. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "600001": {
     "name": "Бирюзово-красная раковина",
     "name_en": "Turquoise-red conch",
     "cat": "material",
-    "description": "Материал. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Material. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый материал/обменный предмет из сохранения. Точное официальное название и назначение этого ID пока не сопоставлены. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable material/trade item found in the save. The exact official name and purpose for this ID have not yet been matched. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "600002": {
     "name": "Золотой моток",
     "name_en": "Gold coil",
     "cat": "material",
-    "description": "Материал. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Material. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый материал/обменный предмет из сохранения. Точное официальное название и назначение этого ID пока не сопоставлены. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable material/trade item found in the save. The exact official name and purpose for this ID have not yet been matched. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "600003": {
     "name": "Серебристая рыба-креветка",
     "name_en": "Silvery shrimp-fish",
     "cat": "material",
-    "description": "Материал. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Material. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый материал/обменный предмет из сохранения. Точное официальное название и назначение этого ID пока не сопоставлены. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable material/trade item found in the save. The exact official name and purpose for this ID have not yet been matched. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "710001": {
     "name": "Ящик с бутылями, этикетка с лапшой",
     "name_en": "Bottle crate, noodle label",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
   "710002": {
     "name": "Ящик с бутылями, этикетка с волнами",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Bottle crate, wave label",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution."
   },
   "710004": {
     "name": "Ящик с бутылями, этикетка с костром",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Bottle crate, campfire label",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution."
   },
   "710005": {
     "name": "Ящик с бутылями, этикетка с лапшой",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Bottle crate, noodle label, variant",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution."
   },
   "710006": {
     "name": "Ящик с бутылями, красная этикетка",
     "name_en": "Bottle crate, red label",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
@@ -444,8 +462,8 @@
     "name": "Ящик с бутылями, оранжевая этикетка",
     "name_en": "Bottle crate, orange label",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
@@ -453,8 +471,8 @@
     "name": "Ящик с бутылями, розовая этикетка с каплями",
     "name_en": "Bottle crate, pink label with droplets",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
@@ -462,8 +480,8 @@
     "name": "Ящик с бутылями, этикетка с ёлками",
     "name_en": "Bottle crate, fir tree label",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
@@ -471,94 +489,100 @@
     "name": "Ящик с бутылями, этикетка со звёздами",
     "name_en": "Bottle crate, star label",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
   "720005": {
     "name": "Ящик с бутылями, этикетка с лежаком",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Bottle crate, lounge-chair label",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution."
   },
   "730001": {
     "name": "Ящик с бутылями, этикетка со змейкой",
     "name_en": "Bottle crate, snake label",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution.",
     "verified": false,
     "bulk_editable": false
   },
   "730002": {
     "name": "Ящик с бутылями, этикетка со змейкой",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "description": "Предмет торговли/набора из сумки. В проверенном сохранении такие предметы встречались по 1 экземпляру; точное назначение не подтверждено. Массовое изменение количества отключено как мера предосторожности.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Bottle crate, snake label, variant",
+    "description_en": "Trade/pack item from the Bag. In the tested save these items were seen as single copies; their exact purpose is not confirmed. Bulk quantity editing is disabled as a precaution."
   },
   "800002": {
     "name": "Маска серая с синим",
     "name_en": "Mask, grey with blue",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "800003": {
     "name": "Маска тёмная с фиолетовым",
     "name_en": "Mask, dark with purple",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "800006": {
     "name": "Маска с розовыми перьями",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "verified": false
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "verified": false,
+    "name_en": "Mask with pink feathers",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay."
   },
   "800008": {
     "name": "Маска белая с золотым узором",
     "name_en": "Mask, white with gold pattern",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "800009": {
     "name": "Маска белая с синим",
     "name_en": "Mask, white with blue",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "800010": {
     "name": "Маска тёмная с розовым",
     "name_en": "Mask, dark with pink",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "800011": {
     "name": "Маска тёмная с фиолетовым, вариант",
     "name_en": "Mask, dark with purple, variant",
     "cat": "consumable",
-    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
-    "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "description": "Стекуемый расходник из сохранения. Точный игровой эффект этого ID пока не сопоставлен с официальным названием. Изменение количества проверено в живой игре.",
+    "description_en": "Stackable consumable found in the save. The exact in-game effect for this ID has not yet been matched to an official name. Quantity editing was verified in live gameplay.",
     "verified": false
   },
   "9710000": {
     "name": "Реликвия, тёмная с бирюзой, метка треугольник",
     "name_en": "Relic, dark with turquoise, triangle mark",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -566,8 +590,8 @@
     "name": "Реликвия, тёмно-бирюзовая, метка треугольник",
     "name_en": "Relic, dark turquoise, triangle mark",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -575,8 +599,8 @@
     "name": "Реликвия, тёмно-зелёная, метка треугольник",
     "name_en": "Relic, dark green, triangle mark",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -584,8 +608,8 @@
     "name": "Реликвия с бирюзовыми вставками",
     "name_en": "Relic with turquoise inlays",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -593,8 +617,8 @@
     "name": "Золотистый каменный шпиль",
     "name_en": "Golden stone spire",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -602,8 +626,8 @@
     "name": "Реликвия, коричневый пень, метка треугольник",
     "name_en": "Relic, brown stump, triangle mark",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -611,24 +635,26 @@
     "name": "Реликвия, бирюзово-тёмный осколок, метка треугольник",
     "name_en": "Relic, turquoise-dark shard, triangle mark",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
   "9710017": {
     "name": "Реликвия бирюзовая, метка треугольник",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
     "verified": false,
-    "bulk_editable": false
+    "bulk_editable": false,
+    "name_en": "Turquoise relic, triangle mark",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled."
   },
   "9910001": {
     "name": "Бело-золотой свиток-клинок",
     "name_en": "White and gold scroll blade",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -636,16 +662,16 @@
     "name": "Ядро Лайлы",
     "name_en": "Laylah Kernel",
     "cat": "material",
-    "description": "Материал для улучшения энтропитов. В обычном прохождении количество таких ядер ограничено.",
-    "description_en": "Upgrade material for Entropiths. The normal playthrough provides only a limited number of these kernels.",
+    "description": "Материал для улучшения энтропитов. В обычном прохождении количество Ядер Лайлы ограничено.",
+    "description_en": "Upgrade material for Entropiths. Only a limited number of Laylah Kernels are obtainable in normal progression.",
     "verified": true
   },
   "9910024": {
     "name": "Белый кристаллический парус",
     "name_en": "White crystalline sail",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   },
@@ -653,8 +679,8 @@
     "name": "Синяя подарочная коробка с цветком",
     "name_en": "Blue gift box with a flower",
     "cat": "other",
-    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
-    "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "description": "Особый предмет из сумки, наблюдавшийся в одном экземпляре. Точное официальное назначение этого ID пока не подтверждено. Количество лучше не менять; массовое редактирование отключено.",
+    "description_en": "Special Bag item observed as a single copy. The exact official purpose of this ID is not yet confirmed. Its quantity should generally be left unchanged; bulk editing is disabled.",
     "verified": false,
     "bulk_editable": false
   }

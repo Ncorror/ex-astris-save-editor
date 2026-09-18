@@ -1,10 +1,10 @@
-> Current development build: **1.5.2** — v1.5.1 stability plus 13 newly discovered catalog items and matching icons.
+> Current development build: **1.5.3** — complete Russian/English item descriptions for the 82-entry catalog.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.5.2**.
+Current development version: **1.5.3**.
 
 ## Current status
 
@@ -29,7 +29,7 @@ The Root implementation is intentionally provider-agnostic at the app level: it 
 - Per-item quantity editing.
 - Add-by-ID.
 - Bulk **Set / Add / Subtract** with arbitrary values and quick presets.
-- Search by ID, localized names, aliases and known descriptions.
+- Name search across Russian and English item names.
 - Category filters.
 - Real item icons loaded by numeric item ID.
 - Item descriptions and a conservative knowledge-status marker.
@@ -201,6 +201,10 @@ app/src/main/assets/items.json
 The editor intentionally separates public name/purpose evidence from internal numeric-ID mapping. Public references generally do not publish Ex Astris save IDs, so unknown mappings must not be invented.
 
 See `ITEM_RESEARCH.md`.
+
+### Languages and evidence
+
+The item catalog presented by the app is intentionally **Russian + English only**. Japanese/Chinese references may be used during research, but their text is translated and is not shipped as an additional UI language. Every one of the 82 catalog entries has both a Russian and an English name/description. Exact effects are shown only when the internal ID mapping is supported; otherwise the editor displays a useful class-level description and clearly marks the mapping as unverified.
 
 ## Build
 

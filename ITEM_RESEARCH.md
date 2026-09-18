@@ -1,80 +1,56 @@
 # Ex Astris item research notes
 
-This file documents the item-name/purpose data used by the editor. It is deliberately conservative: public references describe many Ex Astris items, but they do **not** publish the internal numeric save IDs. Numeric-ID mappings in `app/src/main/assets/items.json` therefore come from the editor's existing catalog/visual identification and are only given richer descriptions when the match is reasonably clear.
+This file documents the evidence policy behind `app/src/main/assets/items.json`. The app itself ships item metadata in **Russian and English only**. Japanese/Chinese text may be consulted as a research source but is translated before it reaches the catalog.
 
-## Main public reference
+## Public terminology reference
 
-Community terminology/reference table (JP / CN / EN), based on the global v1.1.0 game data:
+Primary community reference (global v1.1.0 terminology table):
 
 - https://drmone.hatenablog.com/entry/exAstrisJpCn
 
-It documents, among other things:
+It provides the game's English terminology and effects for many items, including:
 
-- **Astrite** — character-upgrade resource used on the Orbitals screen; generally obtained through combat, quests and exploration.
-- **Doron** — general in-game currency used for purchases from merchants.
-- **Vitality Amber** — restores 60% Vitality to one ally, with reduced effectiveness from the same healing effect for three turns afterward.
-- **Vitaflow Amber** — restores 25% Vitality to the whole party, with the same three-turn repeat-healing penalty.
-- **Entropith Triode** — Entropith battery that restores one Ionix gauge.
-- **Laylah Kernel** — Entropith upgrade material; the reference notes a finite total obtainable in normal progression.
-- Crafting materials such as Bio-debris, Bio-deposit, Jel, Molding Jel, Carboid Shell, Alloid Shell, Fibrous Fur, Matted Fur, Fluorite and Solid Doronite.
-- Cooking ingredients such as Fibrous Seed, Fibrous Fruit, Shellwort, Shellwort Mass, Silver/Gold Mirrormoon, Carbonized Fascia/Hyaline, Galactic Masala, Floweed, Craver's Puff, Smoothcap, Stacker Caps, Licosphere, Titami Meat, Honeypot, Sourpot and Bitterpot.
+- Astrite — Orbitals/character-upgrade resource.
+- Doron — general merchant currency.
+- Vitality Amber — restores 60% Vitality to one ally; further Vitality Amber healing is reduced by 70% for 3 turns.
+- Vitaflow Amber — restores 25% Vitality to the party; further Vitaflow Amber healing is reduced by 70% for 3 turns.
+- Attack Amber, Burst Amber, Flux Amber, Overload Amber, Hardening Amber, Stimulant Amber and Frenzy Amber — additional combat consumables with documented effects.
+- Entropith Triode — battery that restores one Ionix gauge.
+- Laylah Kernel — Entropith upgrade item.
+- Crafting materials: Bio-debris, Bio-deposit, Jel, Molding Jel, Carboid Shell, Alloid Shell, Fibrous Fur, Matted Fur, Fluorite and Solid Doronite.
+- Cooking ingredients: Fibrous Seed/Fruit, Shellwort/Mass, Silver/Gold Mirrormoon, Carbonized Fascia/Hyaline, Galactic Masala, Floweed, Craver's Puff, Smoothcap, Stacker Caps, Licosphere, Titami Meat, Honeypot, Sourpot and Bitterpot.
+- Fourteen named Entropiths, including EP: Impact, Mender, Lightning, Razor Gale, Triple Bolt, Blaze, Tempest, Barrier, Concussion, Arc Field, Igneous, Gust, Smite and Cluster.
 
-## IDs currently matched with useful descriptions
+## Important limitation: numeric save IDs
 
-The current editor catalog includes confident working matches for:
+The public reference does **not** publish a table pairing those public names with the numeric IDs used by the save file. Therefore the editor does not guess exact mappings merely because a visual shape or ID range looks plausible.
 
-- `10000` — Astrite
-- `10001` — Doron
-- `11001` — Vitality Amber
-- `11002` — Vitaflow Amber
-- `12999` — Entropith Triode
-- `200000`–`200005`, `200008`, `200009`, `200101`, `200102` — crafting-material entries listed above
-- `210000`–`212002` (with gaps) — cooking ingredients listed above
-- `9910007` — Laylah Kernel
+For example, the catalog contains seven currently-unmapped `120xx` combat-consumable IDs and the public reference lists seven additional Amber types. The counts line up, but that alone is not sufficient evidence to assign Attack/Burst/Flux/etc. to particular numeric IDs. Those entries therefore receive a bilingual Amber-family description while remaining `verified: false`.
 
-These are marked `verified: true` in the catalog only to mean that the **name/purpose text has a public reference**. It does not mean the game publisher has published a table pairing those names with the save IDs.
+The same rule applies to the six observed `500xxx` Entropith IDs: the general Entropith mechanics are known, but their exact public names/effects remain unassigned until stronger icon/game-data evidence is found.
 
-## Known official/community item names still awaiting reliable ID mapping
+## Live-game edit safety
 
-The same reference lists additional combat consumables:
+The supplied `safety.md` records tests on the 82-item catalog. The editor uses those findings conservatively:
 
-- Attack Amber
-- Burst Amber
-- Flux Amber
-- Overload Amber
-- Hardening Amber
-- Stimulant Amber
-- Frenzy Amber
+- quantities for currencies, `11xxx/12xxx` consumables, `800xxx` masks, common materials/cooking items, `600xxx` entries and Laylah Kernel were tested successfully;
+- Entropiths are equipment-like single-copy items and stay protected from bulk editing;
+- `971xxxx` relic-like entries and the special `9910001/9910024/9910028` items stay protected;
+- bottle-crate/pack IDs (`710xxx/720xxx/730xxx`) were observed as single-copy vendor items with unclear purpose and stay protected;
+- zero is not used as a substitute for deletion;
+- the game should be fully closed before overwriting its save.
 
-It also lists fourteen Entropiths, including Impact, Mender, Lightning, Razor Gale, Triple Bolt, Blaze, Tempest, Barrier, Concussion, Arc Field and Igneous. Several IDs in the editor clearly belong to Entropiths, but their exact name-to-ID mapping is intentionally left preliminary until icons or stronger game-data evidence can distinguish them.
+## v1.5.3 bilingual catalog policy
 
-## Current icon coverage
-
-The current project now contains resource images for all 69 pre-v1.5.2 catalog entries, including the Astrite (`10000`) and Doron (`10001`) HUD/resource symbols added in v1.4.4. Icon presence does not by itself prove an item-name mapping; descriptions should still follow the evidence rules above.
-
-## How to improve the mapping with item icons
-
-When real item icons are added, name them:
+All 82 records now contain:
 
 ```text
-app/src/main/res/drawable-nodpi/item_<ID>.png
+name             Russian display name
+name_en          English display name
+description      Russian description
+description_en   English description
+verified         whether the name/purpose mapping has external support
+bulk_editable    optional conservative bulk-edit override
 ```
 
-For example:
-
-```text
-item_10000.png
-item_11001.png
-item_500000.png
-```
-
-Comparing those icons with public screenshots/reference lists is the safest next step for resolving the remaining unknown IDs without inventing names.
-
-
-## v1.5.2 additions
-
-The user supplied an updated catalog snapshot and icon archive containing 13 IDs not present in v1.5.1. They are added as **unverified** catalog entries using the supplied Russian names/categories. No official-name claim is made for these new IDs until independently verified.
-
-IDs: `12005`, `12007`, `12008`, `12009`, `210012`, `500001`, `710002`, `710004`, `710005`, `720005`, `730002`, `800006`, `9710017`.
-
-The project now contains 82 catalog entries and matching item images for all 82 IDs.
+When a mapping is unverified, the description still explains the item's known class, observed behavior and edit-safety status without inventing an official name/effect.

@@ -126,3 +126,14 @@ With autosave ON:
 - Total `item_*.png` resource count is 82.
 - New Entropith/Other IDs are skipped by bulk editing.
 - Name-only search can find the new Russian names.
+
+
+## v1.5.3 bilingual catalog regression
+
+- [ ] Russian locale shows Russian item names and descriptions.
+- [ ] English/non-Russian locale shows English item names and descriptions.
+- [ ] Search finds items by both Russian and English names.
+- [ ] All 82 catalog entries open without blank description text.
+- [ ] Unverified Amber/Entropith/special-item entries do not claim a specific official effect.
+- [ ] Entropith, relic/special and bottle-crate entries remain excluded from bulk quantity editing.
+- [ ] Known stack-safe materials/consumables remain available for bulk editing.

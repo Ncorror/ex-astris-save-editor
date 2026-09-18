@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.3
+
+- Completed Russian and English names/descriptions for all 82 catalog entries.
+- Kept Japanese/Chinese research terminology out of the app UI; it is used only as source material.
+- Added precise sourced effects for Vitality Amber, Vitaflow Amber and Entropith Triode.
+- Added sourced purpose descriptions for crafting materials, cooking ingredients, Astrite, Doron and Laylah Kernel.
+- Added bilingual conservative descriptions for IDs whose exact official name/effect is not yet mapped.
+- Incorporated live-game safety findings into descriptions for stack-safe materials/consumables and protected unique/Entropith/vendor items.
+- Preserved bulk-edit protections from v1.5.1/v1.5.2.
+
 ## 1.5.2
 
 - Added 13 newly discovered item IDs from the user-provided catalog snapshot.
