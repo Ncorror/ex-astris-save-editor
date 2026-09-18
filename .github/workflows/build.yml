@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
@@ -31,7 +31,7 @@ jobs:
         run: |
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: '8.7'
 
@@ -55,7 +55,7 @@ jobs:
           fi
 
           echo "Application: Ex Astris Save Editor" > release-files/build-info.txt
-          echo "Version: 1.4.1" >> release-files/build-info.txt
+          echo "Version: 1.4.2" >> release-files/build-info.txt
           echo "Build number: $GITHUB_RUN_NUMBER" >> release-files/build-info.txt
           echo "Commit: $GITHUB_SHA" >> release-files/build-info.txt
           echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> release-files/build-info.txt
@@ -72,7 +72,7 @@ jobs:
 
       - name: Upload APK artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ex-astris-save-editor-debug
           path: release-files/
@@ -80,7 +80,7 @@ jobs:
 
       - name: Upload verification artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ex-astris-save-editor-verification
           path: verification-files/
@@ -88,7 +88,7 @@ jobs:
 
       - name: Publish release on tag
         if: steps.build.outcome == 'success' && startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             release-files/ex-astris-save-editor.apk

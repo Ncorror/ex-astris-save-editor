@@ -12,6 +12,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,9 +40,19 @@ class MainActivity : AppCompatActivity() {
     private val io = Executors.newSingleThreadExecutor()
     private val prefs by lazy { getSharedPreferences("exa_ui", MODE_PRIVATE) }
 
-    private val requestOpen = 1
-    private val requestSaveAs = 2
     private val requestShizuku = 73
+
+    private val openDocumentLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { selected ->
+        if (selected != null) openUri(selected)
+    }
+
+    private val createDocumentLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("*/*")
+    ) { selected ->
+        if (selected != null) writeToUri(selected)
+    }
 
     private val categoryOrder = listOf("currency", "consumable", "material", "entropite", "other")
 
@@ -171,8 +182,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(state: Bundle?) {
-        super.onCreate(state)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         Shell.setDefaultBuilder(
             Shell.Builder.create()
                 .setContext(applicationContext)
@@ -658,8 +669,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.shizuku_not_running,
                 R.color.exa_error,
                 R.string.shizuku_missing_message,
-                R.string.connect,
-                false
+                R.string.connect
             )
             return
         }
@@ -675,8 +685,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.shizuku_permission_needed,
                 R.color.exa_warning,
                 R.string.shizuku_description,
-                R.string.grant,
-                false
+                R.string.grant
             )
             return
         }
@@ -689,16 +698,14 @@ class MainActivity : AppCompatActivity() {
                 R.string.shizuku_ready,
                 R.color.exa_success,
                 detail,
-                R.string.reconnect,
-                true
+                R.string.reconnect
             )
         } else {
             applyShizukuState(
                 R.string.shizuku_checking,
                 R.color.exa_warning,
                 R.string.shizuku_description,
-                R.string.reconnect,
-                false
+                R.string.reconnect
             )
         }
     }
@@ -707,8 +714,7 @@ class MainActivity : AppCompatActivity() {
         statusRes: Int,
         colorRes: Int,
         detailRes: Int,
-        buttonRes: Int,
-        ready: Boolean
+        buttonRes: Int
     ) {
         val statusText = getString(statusRes)
         val color = color(colorRes)
@@ -908,29 +914,12 @@ class MainActivity : AppCompatActivity() {
     // ---------------- Storage Access Framework fallback ----------------
 
     private fun pickFile() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-        }
-        startActivityForResult(intent, requestOpen)
+        openDocumentLauncher.launch(arrayOf("*/*"))
     }
 
     private fun saveAs() {
         if (save == null) return toast(getString(R.string.open_first))
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            putExtra(Intent.EXTRA_TITLE, "SaveFile0.save")
-        }
-        startActivityForResult(intent, requestSaveAs)
-    }
-
-    @Deprecated("Deprecated in Android SDK, retained for minSdk-compatible simple SAF flow")
-    override fun onActivityResult(req: Int, res: Int, data: Intent?) {
-        super.onActivityResult(req, res, data)
-        if (res != RESULT_OK || data?.data == null) return
-        val selected = data.data!!
-        if (req == requestOpen) openUri(selected) else if (req == requestSaveAs) writeToUri(selected)
+        createDocumentLauncher.launch("SaveFile0.save")
     }
 
     private fun openUri(selected: Uri) {
