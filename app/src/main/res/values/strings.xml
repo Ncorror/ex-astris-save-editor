@@ -90,7 +90,7 @@
     <string name="access_auto_summary">Automatic mode prefers an already-authorized root service, then Shizuku, then manual file selection.</string>
     <string name="access_root_summary">Use the libsu root service for direct Android/data access.</string>
     <string name="access_shizuku_summary">Use Shizuku for direct Android/data access without requiring root.</string>
-    <string name="access_manual_summary">Do not use privileged access; choose the save file with Android's document picker.</string>
+    <string name="access_manual_summary">Do not use privileged access; choose the save file with Android\'s document picker.</string>
     <string name="access_diagnostics_placeholder">Access diagnostics will appear here.</string>
     <string name="access_active_root">● Root connected</string>
     <string name="access_active_shizuku">● Shizuku connected</string>
@@ -104,7 +104,7 @@
     <string name="root_granted">SuperUser permission is available. Connect the root service to use Android/data directly.</string>
     <string name="root_denied">● Root access denied / unavailable</string>
     <string name="root_denied_detail">The root manager did not grant this app SuperUser access. You can still use Shizuku or manual mode.</string>
-    <string name="root_description">Root access is restricted inside the app to Ex Astris' own Android/data directory.</string>
+    <string name="root_description">Root access is restricted inside the app to Ex Astris\' own Android/data directory.</string>
     <string name="root_request">Request root</string>
     <string name="root_reconnect">Reconnect root</string>
     <string name="root_connecting">● Connecting root service…</string>
