@@ -38,12 +38,14 @@ jobs:
       - name: Build debug APK
         id: build
         continue-on-error: true
+        shell: bash
         run: |
           set -o pipefail
           gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
 
       - name: Prepare artifacts
         if: always()
+        shell: bash
         run: |
           mkdir -p release-files verification-files
 
@@ -52,16 +54,14 @@ jobs:
             cp "$APK_PATH" release-files/ex-astris-save-editor.apk
           fi
 
-          {
-            echo "Application: Ex Astris Save Editor"
-            echo "Version: 1.0.0"
-            echo "Build number: $GITHUB_RUN_NUMBER"
-            echo "Commit: $GITHUB_SHA"
-            echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-            echo "Android compile SDK: 34"
-            echo "Shizuku support: enabled"
-            echo "Theme: Dark Material 3"
-          } > release-files/build-info.txt
+          echo "Application: Ex Astris Save Editor" > release-files/build-info.txt
+          echo "Version: 1.1" >> release-files/build-info.txt
+          echo "Build number: $GITHUB_RUN_NUMBER" >> release-files/build-info.txt
+          echo "Commit: $GITHUB_SHA" >> release-files/build-info.txt
+          echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> release-files/build-info.txt
+          echo "Android compile SDK: 34" >> release-files/build-info.txt
+          echo "Shizuku support: enabled" >> release-files/build-info.txt
+          echo "Theme: Dark Material 3" >> release-files/build-info.txt
 
           cp release-files/build-info.txt verification-files/build-info.txt
           cp build.log release-files/build.log 2>/dev/null || true
@@ -84,6 +84,16 @@ jobs:
           name: ex-astris-save-editor-verification
           path: verification-files/
           if-no-files-found: warn
+
+      - name: Publish release on tag
+        if: steps.build.outcome == 'success' && startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-files/ex-astris-save-editor.apk
+            release-files/build.log
+            release-files/build-info.txt
+          generate_release_notes: true
 
       - name: Mark build as failed
         if: steps.build.outcome != 'success'
