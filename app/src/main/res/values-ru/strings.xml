@@ -141,7 +141,7 @@ Android/data: %6$s</string>
     <string name="auto_backup">Автоматический backup</string>
     <string name="auto_backup_summary">Создавать локальную копию при каждом открытии сохранения.</string>
     <string name="item_icons_title">Файлы иконок предметов</string>
-    <string name="item_icons_summary">Добавляй иконки в res/drawable-nodpi с именами вида item_10000.webp. Список подхватит их автоматически.</string>
+    <string name="item_icons_summary">Добавляй иконки в res/drawable-nodpi с именами вида item_10000.png или item_10000.webp. Список подхватит их автоматически.</string>
     <string name="about_title">О приложении</string>
     <string name="version_label">Версия %1$s</string>
 
@@ -178,4 +178,17 @@ Android/data: %6$s</string>
     <string name="switch_save">Сменить сохранение</string>
     <string name="unsaved_changes_count">● Несохранённых позиций: %1$d</string>
     <string name="compact_unsaved_count">%1$s · изменено %2$d</string>
+    <string name="save_guard_title">● Есть несохранённые изменения</string>
+    <string name="save_guard_title_count">● Не сохранено: %1$d поз.</string>
+    <string name="save_guard_subtitle">%1$s · файл ещё не записан</string>
+    <string name="save_guard_default_subtitle">Файл ещё не записан</string>
+    <string name="undo_change">Отменить</string>
+    <string name="changes_pending_notice">Изменение применено в редакторе, но save ещё не записан.</string>
+    <string name="undo_done">Последнее изменение отменено</string>
+    <string name="undo_failed">Не удалось отменить изменение: %1$s</string>
+    <string name="discard_failed">Не удалось вернуть сохранённое состояние: %1$s</string>
+    <string name="unsaved_dialog_title">Есть несохранённые изменения</string>
+    <string name="unsaved_dialog_message">Изменено позиций: %1$d в %2$s. Сохранить изменения перед продолжением?</string>
+    <string name="save_and_continue">Сохранить и продолжить</string>
+    <string name="continue_without_saving">Без сохранения</string>
 </resources>

@@ -48,20 +48,24 @@ The same reference lists additional combat consumables:
 
 It also lists fourteen Entropiths, including Impact, Mender, Lightning, Razor Gale, Triple Bolt, Blaze, Tempest, Barrier, Concussion, Arc Field and Igneous. Several IDs in the editor clearly belong to Entropiths, but their exact name-to-ID mapping is intentionally left preliminary until icons or stronger game-data evidence can distinguish them.
 
+## Current icon coverage
+
+The current project now contains resource images for all 69 catalog entries, including the Astrite (`10000`) and Doron (`10001`) HUD/resource symbols added in v1.4.4. Icon presence does not by itself prove an item-name mapping; descriptions should still follow the evidence rules above.
+
 ## How to improve the mapping with item icons
 
 When real item icons are added, name them:
 
 ```text
-app/src/main/res/drawable-nodpi/item_<ID>.webp
+app/src/main/res/drawable-nodpi/item_<ID>.png
 ```
 
 For example:
 
 ```text
-item_10000.webp
-item_11001.webp
-item_500000.webp
+item_10000.png
+item_11001.png
+item_500000.png
 ```
 
 Comparing those icons with public screenshots/reference lists is the safest next step for resolving the remaining unknown IDs without inventing names.

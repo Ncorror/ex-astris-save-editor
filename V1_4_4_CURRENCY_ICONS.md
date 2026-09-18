@@ -1,5 +1,8 @@
 # v1.4.4 — missing currency icons
 
+> Historical v1.4.4 asset note. v1.5.0 keeps these currency icons unchanged.
+
+
 Added the two remaining resource icons reconstructed from the user-provided in-game screenshots:
 
 - `item_10000.png` — Astrite / Астрит (dark triangular mark on the light HUD badge)

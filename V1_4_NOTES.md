@@ -1,5 +1,8 @@
 # v1.4.0 development notes
 
+> Historical v1.4 development notes. Current behavior is documented in `README.md` and `V1_5_0_SAVE_GUARD.md`.
+
+
 ## UX changes
 
 - Item edit sheet now has an alternate-language name, a short purpose/usage description, and an explicit knowledge-status label.

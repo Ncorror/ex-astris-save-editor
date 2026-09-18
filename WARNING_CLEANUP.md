@@ -1,5 +1,8 @@
 # Warning cleanup — v1.4.2
 
+> Historical build-cleanup note. The cleaned warning state is retained in v1.5.0.
+
+
 Cleaned warnings from the successful v1.4.1 build:
 
 - Renamed `onCreate` parameter to `savedInstanceState`.

@@ -1,5 +1,8 @@
 # v1.4.3 — icon crop polish
 
+> Historical icon-polish notes. v1.4.4 later added the two currency icons; v1.5.0 keeps this icon set unchanged.
+
+
 - Re-cropped all 67 item icons directly from the supplied in-game inventory screenshots using the ID mapping from `item_icons.zip`.
 - Standardized crop geometry and scale so icons sit more evenly in the editor.
 - Recovered full artwork for items that were visibly clipped in the earlier 128x128 crops (notably several materials, masks, relics, scroll/crystal/gift items).

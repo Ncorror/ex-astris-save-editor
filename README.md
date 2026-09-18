@@ -1,107 +1,210 @@
 # Ex Astris Save Editor
 
-Android editor for Ex Astris local save files.
+Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-## What it does
+Current development version: **1.5.0**.
 
-- Supports **Root (libsu)**, **Shizuku / Sui**, and the Android document picker as three access backends.
-- Searches `com.gryphline.exastris.gp` for `SaveFile0.save` and other `.save` files.
-- Uses a libsu **RootService** when SuperUser is selected and a Shizuku **UserService** for shell/root access.
-- Restricts the privileged service to the Ex Astris package directory.
-- Automatic mode can use Root first, Shizuku second, with manual file selection always available.
-- Parses the zstd module container and edits backpack item counts.
-- Provides search, category filters, add-by-ID, per-item editing and bulk presets.
-- Creates local backups and can reload a backup into the editor.
-- Uses a dark Material 3 interface split into **Items / Save / Settings** so the item list stays uncluttered.
+## Current status
+
+Verified on a real device:
+
+- Root access works with **APatch / KernelPatch**.
+- Shizuku access works without using the Root backend.
+- The editor finds and opens the real Ex Astris save under `Android/data`.
+- Item edits are written back successfully and are visible in the game.
+- Local backups can be created and loaded.
+- The Android build is produced by GitHub Actions.
+
+The Root implementation is intentionally provider-agnostic at the app level: it uses libsu and should be compatible with normal `su` providers such as Magisk, KernelSU / KernelSU Next and APatch. Only APatch has been verified in this project so far; other providers still need device testing.
+
+## Main features
+
+- Root (`libsu 6.0.0`) backend.
+- Shizuku (`13.1.5`) backend.
+- Android Storage Access Framework fallback.
+- Automatic discovery of `SaveFile0.save` and `AutoSaveFile*.save`.
+- zstd module parsing and backpack item editing.
+- Per-item quantity editing.
+- Add-by-ID.
+- Bulk **Set / Add / Subtract** with arbitrary values and quick presets.
+- Search by ID, localized names, aliases and known descriptions.
+- Category filters.
+- Real item icons loaded by numeric item ID.
+- Item descriptions and a conservative knowledge-status marker.
+- Automatic and manual local backups.
+- Optional autosave.
+- Persistent protection against forgotten unsaved changes.
+
+## Unsaved-change protection (v1.5.0)
+
+Manual saving remains the default because Ex Astris should be fully closed while its save file is being overwritten. To make manual saving hard to forget, v1.5.0 adds several independent signals:
+
+1. A persistent **unsaved changes bar** appears above the bottom navigation on every page.
+2. The bar shows the number of changed item entries and the active save filename.
+3. The bar contains **Undo** and **Save** actions.
+4. The **Save** tab receives a numeric badge while changes are pending.
+5. The compact save strip also shows the changed-entry count.
+6. After Apply / Add / Delete / Bulk edit, a Snackbar states that the editor state changed but the file has not been written yet, with a direct Save action.
+7. Leaving the app, switching save files, choosing another file, changing access backend, or restoring a backup while edits are pending opens a three-way prompt:
+   - Save and continue
+   - Continue without saving
+   - Cancel
+8. “Continue without saving” restores the last saved in-memory snapshot before continuing; it does not merely hide the warning.
+9. One-step Undo is available before the next successful file write.
+
+After a successful write, the global bar and Save-tab badge disappear and the Save page reports that all changes are saved.
 
 ## UI structure
 
 ### Items
 
-The main page is intentionally compact:
-
-- small active-access/save status strip;
-- search field and category chips;
-- item cards with an icon slot, name, category/ID and quantity;
-- a floating add button;
-- a bottom sheet for item quantities;
-- a separate bottom sheet for bulk actions.
+- compact active-backend/save strip;
+- search;
+- category chips;
+- icon + item name + category/ID + quantity cards;
+- floating Add button;
+- per-item editor bottom sheet;
+- bulk editor bottom sheet;
+- persistent unsaved-change guard above the bottom navigation when required.
 
 ### Save
 
-Contains file details, open/save/export controls and local backup controls. The long `content://` or filesystem path is kept here instead of occupying the item list.
+- active file name and source backend;
+- save timestamp, module count and inventory count;
+- filesystem/content URI location;
+- saved/unsaved status;
+- Save changes;
+- Switch save;
+- manual file selection;
+- export copy;
+- local backup management.
 
 ### Settings
 
-Contains access mode, Root/Shizuku diagnostics plus UI/safety preferences:
+Access modes:
+
+- **Auto** — connected Root first, then Shizuku; manual file selection remains available.
+- **Root** — libsu RootService.
+- **Shizuku** — Shizuku UserService.
+- **File** — Android document picker only.
+
+Preferences:
 
 - show/hide numeric item IDs;
-- compact or larger item icons;
-- confirmation for bulk actions;
-- automatic backup when a save is opened.
+- 52 dp / 64 dp item icons;
+- confirm bulk actions;
+- automatic backup;
+- optional autosave.
 
-## Adding item icons
+## Root / Shizuku security boundary
 
-The list is already wired for icons. Put image resources in:
-
-```text
-app/src/main/res/drawable-nodpi/
-```
-
-Use the item ID in the resource name:
-
-```text
-item_10000.webp
-item_10001.webp
-item_11001.webp
-```
-
-PNG also works. Android resource filenames must stay lowercase and use only letters, digits and underscores. If an icon is missing, the app shows the built-in placeholder automatically.
-
-
-## Access modes
-
-The Settings page now offers four modes:
-
-- **Auto** — use a connected Root service first, then Shizuku; manual selection remains the fallback.
-- **Root** — request SuperUser and bind a libsu 6.0.0 RootService.
-- **Shizuku** — use the existing Shizuku 13.1.5 UserService.
-- **Manual** — never request privileged access; use Android's document picker.
-
-Both privileged backends expose the same restricted file API and refuse paths outside:
+Both privileged file backends expose the same restricted API. The service rejects paths outside Ex Astris' package directory:
 
 ```text
 /storage/emulated/*/Android/data/com.gryphline.exastris.gp
 ```
 
-Privileged writes are staged into a temporary file, fsynced, and then renamed over the original. The editor also keeps local backup copies.
+Privileged writes are staged to a temporary file, flushed/fsynced, then committed over the original. Local backups are independent of the game directory.
 
-## Shizuku setup
+## Save discovery
 
-1. Install Shizuku.
-2. On Android 11+, start Shizuku using Wireless debugging (or use root/Sui).
-3. Open Ex Astris Save Editor.
-4. Tap **Connect / Grant** and approve the permission in Shizuku.
-5. Fully close Ex Astris before writing its save.
-6. Open the save, edit items, then use the **Save** tab to write changes.
-
-The Android package currently targeted is:
+The editor searches below:
 
 ```text
-com.gryphline.exastris.gp
+/storage/emulated/0/Android/data/com.gryphline.exastris.gp/
 ```
 
-Typical local save location is below:
+A real tested path had this shape:
 
 ```text
-/storage/emulated/0/Android/data/com.gryphline.exastris.gp/files/<account-or-random-id>/save/
+/storage/emulated/0/Android/data/com.gryphline.exastris.gp/files/<profile-id>/Save/SaveFile0.save
 ```
 
-The exact subdirectory is discovered automatically.
+The exact profile ID is discovered automatically.
+
+When several saves are available, `SaveFile0.save` is preferred unless a previously selected path is still present. The picker can still be opened explicitly to select another save or an `AutoSaveFile*.save` slot.
+
+## Editing workflow
+
+Recommended safe workflow:
+
+```text
+Fully close Ex Astris
+        ↓
+Open SaveFile0.save
+        ↓
+Edit / Apply
+        ↓
+Persistent “unsaved” bar appears
+        ↓
+Optional Undo
+        ↓
+Save
+        ↓
+Backup + atomic write
+        ↓
+“All changes saved”
+```
+
+Autosave can be enabled in Settings, but is intentionally off by default.
+
+## Bulk editing
+
+Bulk actions support:
+
+- all items or one category;
+- Set / Add / Subtract;
+- any typed numeric value;
+- quick presets (shortcuts, not limits);
+- current search/filter only;
+- preview of the number of affected entries;
+- optional confirmation.
+
+## Item icons
+
+Images are resolved automatically from:
+
+```text
+app/src/main/res/drawable-nodpi/
+```
+
+Naming:
+
+```text
+item_<ID>.png
+item_<ID>.webp
+```
+
+Examples:
+
+```text
+item_10000.png
+item_10001.png
+item_11001.png
+item_9710003.png
+```
+
+The current set includes the two currency/resource HUD icons (`10000` Astrite and `10001` Doron) plus the inventory-item crops collected from the supplied game screenshots. Missing future IDs fall back to the built-in placeholder.
+
+See `ICON_CROPS.md`, `V1_4_3_ICON_POLISH.md`, and `V1_4_4_CURRENCY_ICONS.md` for the image-history notes.
+
+## Item knowledge base
+
+Catalog metadata lives in:
+
+```text
+app/src/main/assets/items.json
+```
+
+The editor intentionally separates public name/purpose evidence from internal numeric-ID mapping. Public references generally do not publish Ex Astris save IDs, so unknown mappings must not be invented.
+
+See `ITEM_RESEARCH.md`.
 
 ## Build
 
-The repository includes GitHub Actions. Push to `main`, then:
+GitHub Actions is configured in `.github/workflows/build.yml`.
+
+Push to `main` and watch the run:
 
 ```bash
 gh run watch
@@ -110,19 +213,19 @@ gh run watch
 Successful runs publish:
 
 ```text
-ex-astris-save-editor-debug
+ex-astris-save-editor-debug/
   ex-astris-save-editor.apk
   build.log
   build-info.txt
 
-ex-astris-save-editor-verification
+ex-astris-save-editor-verification/
   build.log
   build-info.txt
-  reports/       (when available)
-  test-results/  (when available)
+  reports/       # when generated
+  test-results/  # when generated
 ```
 
-Download the APK artifact with:
+Download the APK artifact:
 
 ```bash
 gh run download -n ex-astris-save-editor-debug
@@ -130,34 +233,22 @@ gh run download -n ex-astris-save-editor-debug
 
 ## Safety notes
 
-- Keep the game completely closed while saving changes.
-- Keep backups of important progress.
-- Automatic backups are enabled by default and can be disabled in Settings.
-- Root and Shizuku services refuse paths outside Ex Astris' own `Android/data/com.gryphline.exastris.gp` directory.
+- Fully close Ex Astris before writing its save.
+- Keep automatic backup enabled unless there is a specific reason not to.
+- Do not treat AutoSave files as interchangeable with the main save without knowing what the game will load next.
+- Root/Shizuku access is restricted to the Ex Astris `Android/data` tree.
+- If a write fails, do not retry blindly; inspect the error and keep the backup.
 
-## 1.3
-- Added Root access with libsu RootService, access mode selection, diagnostics, and staged privileged writes.
-- Kept the 1.2.1 stable quantity column fix.
+## Documentation map
 
-
-## v1.4.0
-
-- Root reconnect now refreshes a stale non-root libsu shell after SuperUser is enabled externally.
-- Root service connection is verified to run as UID 0.
-- Settings show only the selected access backend; Auto uses a compact combined diagnostic card.
-- Item quantity rendering fix from v1.3.1 is retained.
-
-
-## Item knowledge base (v1.4)
-
-The editor now stores short per-item descriptions in `assets/items.json`. Entries marked `verified: true` have name/purpose text checked against a public Ex Astris community reference; unknown IDs remain explicitly marked as preliminary instead of being guessed. See `ITEM_RESEARCH.md` for sources and the ID-mapping caveat.
-
-Search now matches IDs, localized names, English/Russian aliases and known descriptions. The edit sheet shows the alternate-language name and a short description when available.
-
-## Editing workflow (v1.4)
-
-- Bulk editing supports **Set / Add / Subtract**, any typed value, optional quick presets, all categories or one category, and an optional current-search/filter limit.
-- Preset buttons are shortcuts only; they are not limits.
-- Unsaved edits are visible in the compact save strip, which turns into a one-tap **Save** action while changes are pending.
-- Optional autosave is available in Settings, but manual save remains the default because Ex Astris should be fully closed before the file is written.
-- The last privileged save path is remembered and `SaveFile0.save` is preferred automatically when appropriate.
+- `README.md` — current product overview.
+- `SETUP.md` — Termux/GitHub build and update flow.
+- `TESTING.md` — regression checklist.
+- `CHANGELOG.md` — release history.
+- `V1_5_0_SAVE_GUARD.md` — unsaved-change protection design.
+- `ITEM_RESEARCH.md` — item-description research and ID caveats.
+- `ICON_CROPS.md` — icon extraction conventions.
+- `V1_4_3_ICON_POLISH.md` — full icon crop polish pass.
+- `V1_4_4_CURRENCY_ICONS.md` — Astrite/Doron icon completion.
+- `WARNING_CLEANUP.md` — build-warning cleanup history.
+- `V1_4_NOTES.md` — v1.4 feature-development notes.

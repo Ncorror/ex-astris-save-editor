@@ -12,6 +12,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +23,7 @@ import com.exa.save.databinding.BottomSheetBulkActionsBinding
 import com.exa.save.databinding.BottomSheetEditItemBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.ipc.RootService
 import org.json.JSONObject
@@ -75,6 +77,10 @@ class MainActivity : AppCompatActivity() {
     private val verifiedItems = HashSet<Int>()
     private var hasUnsavedChanges = false
     private var editGeneration = 0L
+    private var baselineSnapshot: ByteArray? = null
+    private var undoSnapshot: ByteArray? = null
+    private var isSaving = false
+    private var suppressAccessModeListener = false
 
     private var activeCategory: String? = null
     private var searchQuery = ""
@@ -198,6 +204,7 @@ class MainActivity : AppCompatActivity() {
         setupActions()
         setupNavigation()
         setupSettings()
+        setupBackNavigation()
 
         Shizuku.addBinderReceivedListenerSticky(binderReceivedListener)
         Shizuku.addBinderDeadListener(binderDeadListener)
@@ -266,9 +273,15 @@ class MainActivity : AppCompatActivity() {
         }
         binding.rootButton.setOnClickListener { requestOrConnectRoot() }
         binding.shizukuButton.setOnClickListener { requestOrConnectShizuku() }
-        binding.openGameButton.setOnClickListener { openExAstrisSave(forcePicker = save != null) }
-        binding.openManualButton.setOnClickListener { pickFile() }
+        binding.openGameButton.setOnClickListener {
+            resolveUnsavedChanges { openExAstrisSave(forcePicker = save != null) }
+        }
+        binding.openManualButton.setOnClickListener {
+            resolveUnsavedChanges { pickFile() }
+        }
         binding.saveButton.setOnClickListener { saveBack() }
+        binding.saveNowButton.setOnClickListener { saveBack() }
+        binding.undoChangeButton.setOnClickListener { undoLastChange() }
         binding.saveAsButton.setOnClickListener { saveAs() }
         binding.addFab.setOnClickListener { showAddItemSheet() }
         binding.bulkButton.setOnClickListener { showBulkActionsSheet() }
@@ -306,19 +319,23 @@ class MainActivity : AppCompatActivity() {
             AccessMode.MANUAL -> binding.accessModeGroup.check(R.id.accessManualButton)
         }
         binding.accessModeGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (!isChecked) return@addOnButtonCheckedListener
-            val mode = when (checkedId) {
+            if (!isChecked || suppressAccessModeListener) return@addOnButtonCheckedListener
+            val requestedMode = when (checkedId) {
                 R.id.accessRootButton -> AccessMode.ROOT
                 R.id.accessShizukuButton -> AccessMode.SHIZUKU
                 R.id.accessManualButton -> AccessMode.MANUAL
                 else -> AccessMode.AUTO
             }
-            prefs.edit().putString("access_mode", mode.name).apply()
-            updateAccessUi()
-            when (mode) {
-                AccessMode.ROOT -> if (rootService == null) requestOrConnectRoot()
-                AccessMode.SHIZUKU -> if (remoteService == null) requestOrConnectShizuku()
-                else -> Unit
+            val previousMode = accessMode()
+            if (requestedMode == previousMode) return@addOnButtonCheckedListener
+
+            if (hasUnsavedChanges) {
+                suppressAccessModeListener = true
+                binding.accessModeGroup.check(accessModeButtonId(previousMode))
+                suppressAccessModeListener = false
+                resolveUnsavedChanges { applyAccessMode(requestedMode) }
+            } else {
+                applyAccessMode(requestedMode)
             }
         }
 
@@ -359,6 +376,26 @@ class MainActivity : AppCompatActivity() {
     private fun confirmBulkActions(): Boolean = prefs.getBoolean("confirm_bulk", true)
     private fun automaticBackup(): Boolean = prefs.getBoolean("auto_backup", true)
     private fun automaticSaveChanges(): Boolean = prefs.getBoolean("auto_save_changes", false)
+
+    private fun accessModeButtonId(mode: AccessMode): Int = when (mode) {
+        AccessMode.AUTO -> R.id.accessAutoButton
+        AccessMode.ROOT -> R.id.accessRootButton
+        AccessMode.SHIZUKU -> R.id.accessShizukuButton
+        AccessMode.MANUAL -> R.id.accessManualButton
+    }
+
+    private fun applyAccessMode(mode: AccessMode) {
+        prefs.edit().putString("access_mode", mode.name).apply()
+        suppressAccessModeListener = true
+        binding.accessModeGroup.check(accessModeButtonId(mode))
+        suppressAccessModeListener = false
+        updateAccessUi()
+        when (mode) {
+            AccessMode.ROOT -> if (rootService == null) requestOrConnectRoot()
+            AccessMode.SHIZUKU -> if (remoteService == null) requestOrConnectShizuku()
+            else -> Unit
+        }
+    }
 
     private fun accessMode(): AccessMode = try {
         AccessMode.valueOf(prefs.getString("access_mode", AccessMode.AUTO.name) ?: AccessMode.AUTO.name)
@@ -893,6 +930,8 @@ class MainActivity : AppCompatActivity() {
                 backupOriginal(bytes)
                 runOnUiThread {
                     save = parsed
+                    baselineSnapshot = bytes.copyOf()
+                    undoSnapshot = null
                     hasUnsavedChanges = false
                     editGeneration = 0L
                     directPath = path
@@ -934,6 +973,8 @@ class MainActivity : AppCompatActivity() {
                 backupOriginal(bytes)
                 runOnUiThread {
                     save = parsed
+                    baselineSnapshot = bytes.copyOf()
+                    undoSnapshot = null
                     hasUnsavedChanges = false
                     editGeneration = 0L
                     uri = selected
@@ -1022,20 +1063,22 @@ class MainActivity : AppCompatActivity() {
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.choose_backup)
-            .setItems(labels) { _, which -> loadBackup(backups[which]) }
+            .setItems(labels) { _, which ->
+                resolveUnsavedChanges { loadBackup(backups[which]) }
+            }
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
     private fun loadBackup(file: File) {
+        val before = snapshotForUndo()
         io.execute {
             try {
                 val parsed = SaveFile(file.readBytes())
                 runOnUiThread {
                     save = parsed
-                    editGeneration += 1
-                    hasUnsavedChanges = true
                     refreshInventory()
+                    markDirty(before)
                     updateFileUi()
                     toast(getString(R.string.backup_loaded))
                 }
@@ -1049,14 +1092,17 @@ class MainActivity : AppCompatActivity() {
 
     // ---------------- write ----------------
 
-    private fun saveBack() {
+    private fun saveBack(onSuccess: (() -> Unit)? = null) {
         val sf = save ?: return toast(getString(R.string.open_first))
+        if (isSaving) return
         val targetPath = directPath
         val documentUri = uri
 
         if (targetPath == null && documentUri == null) return toast(getString(R.string.open_first))
 
+        isSaving = true
         binding.saveButton.isEnabled = false
+        binding.saveNowButton.isEnabled = false
         val generationBeingSaved = editGeneration
         val itemsBeingSaved = LinkedHashMap(currentItems)
         io.execute {
@@ -1096,17 +1142,22 @@ class MainActivity : AppCompatActivity() {
                     contentResolver.openOutputStream(documentUri!!, "wt")!!.use { it.write(data) }
                 }
                 runOnUiThread {
-                    binding.saveButton.isEnabled = true
+                    isSaving = false
                     baselineItems = itemsBeingSaved
-                    if (editGeneration == generationBeingSaved) {
+                    baselineSnapshot = data.copyOf()
+                    val fullySaved = editGeneration == generationBeingSaved
+                    if (fullySaved) {
                         hasUnsavedChanges = false
+                        undoSnapshot = null
                     }
                     updateDirtyUi()
                     toast(if (automaticSaveChanges()) getString(R.string.autosave_written) else getString(R.string.written, data.size))
+                    if (fullySaved) onSuccess?.invoke()
                 }
             } catch (e: Throwable) {
                 runOnUiThread {
-                    binding.saveButton.isEnabled = true
+                    isSaving = false
+                    updateDirtyUi()
                     toast(getString(R.string.cannot_write, e.message ?: e.javaClass.simpleName))
                 }
             }
@@ -1186,7 +1237,10 @@ class MainActivity : AppCompatActivity() {
             binding.addFab.isEnabled = false
             renderRows()
             baselineItems = emptyMap()
+            baselineSnapshot = null
+            undoSnapshot = null
             hasUnsavedChanges = false
+            isSaving = false
             updateDirtyUi()
             updateBackupUi()
             return
@@ -1233,23 +1287,137 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.all_changes_saved)
         }
         binding.dirtyStatus.setTextColor(color(if (hasUnsavedChanges) R.color.exa_warning else R.color.exa_success))
-        if (save != null) {
-            val label = directPath?.let { File(it).name }
+
+        val label = if (save != null) {
+            directPath?.let { File(it).name }
                 ?: uri?.lastPathSegment?.substringAfterLast('/')
                 ?: "SaveFile0.save"
+        } else {
+            getString(R.string.no_file_short)
+        }
+
+        if (save != null) {
             binding.compactFileTitle.text = if (hasUnsavedChanges) {
                 getString(R.string.compact_unsaved_count, label, changedCount)
             } else label
             binding.compactFileTitle.setTextColor(color(if (hasUnsavedChanges) R.color.exa_warning else R.color.exa_text_secondary))
         }
+
+        val showGuard = hasUnsavedChanges && save != null
+        binding.saveGuardBar.visibility = if (showGuard) View.VISIBLE else View.GONE
+        if (showGuard) {
+            binding.saveGuardTitle.text = if (changedCount > 0) {
+                getString(R.string.save_guard_title_count, changedCount)
+            } else {
+                getString(R.string.save_guard_title)
+            }
+            binding.saveGuardSubtitle.text = getString(R.string.save_guard_subtitle, label)
+        }
+        binding.undoChangeButton.isEnabled = showGuard && undoSnapshot != null && !isSaving
+        binding.saveNowButton.isEnabled = showGuard && !isSaving
+        binding.saveButton.isEnabled = save != null && !isSaving
+
+        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_save)
+        badge.isVisible = showGuard
+        if (showGuard) badge.number = changedCount.coerceAtLeast(1)
+
         updateAccessUi()
     }
 
-    private fun markDirty() {
+    private fun snapshotForUndo(): ByteArray? = try {
+        save?.build()
+    } catch (_: Throwable) {
+        null
+    }
+
+    private fun markDirty(before: ByteArray? = null) {
+        if (before != null) undoSnapshot = before
         editGeneration += 1
         hasUnsavedChanges = true
         updateDirtyUi()
-        if (automaticSaveChanges()) saveBack()
+        if (automaticSaveChanges()) {
+            saveBack()
+        } else {
+            Snackbar.make(binding.root, R.string.changes_pending_notice, Snackbar.LENGTH_LONG)
+                .setAnchorView(binding.saveGuardBar)
+                .setAction(R.string.save_short) { saveBack() }
+                .show()
+        }
+    }
+
+    private fun undoLastChange() {
+        val snapshot = undoSnapshot ?: return
+        try {
+            save = SaveFile(snapshot)
+            undoSnapshot = null
+            editGeneration += 1
+            refreshInventory()
+            hasUnsavedChanges = changedItemCount() > 0
+            updateFileUi()
+            toast(getString(R.string.undo_done))
+        } catch (e: Throwable) {
+            toast(getString(R.string.undo_failed, e.message ?: e.javaClass.simpleName))
+        }
+    }
+
+    private fun discardUnsavedChanges(after: () -> Unit) {
+        val snapshot = baselineSnapshot
+        if (snapshot == null) {
+            hasUnsavedChanges = false
+            undoSnapshot = null
+            updateDirtyUi()
+            after()
+            return
+        }
+        io.execute {
+            try {
+                val parsed = SaveFile(snapshot)
+                runOnUiThread {
+                    save = parsed
+                    refreshInventory()
+                    baselineItems = LinkedHashMap(currentItems)
+                    hasUnsavedChanges = false
+                    undoSnapshot = null
+                    editGeneration += 1
+                    updateFileUi()
+                    after()
+                }
+            } catch (e: Throwable) {
+                runOnUiThread {
+                    toast(getString(R.string.discard_failed, e.message ?: e.javaClass.simpleName))
+                }
+            }
+        }
+    }
+
+    private fun resolveUnsavedChanges(after: () -> Unit) {
+        if (!hasUnsavedChanges || save == null) {
+            after()
+            return
+        }
+        val changedCount = changedItemCount()
+        val label = directPath?.let { File(it).name }
+            ?: uri?.lastPathSegment?.substringAfterLast('/')
+            ?: "SaveFile0.save"
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.unsaved_dialog_title)
+            .setMessage(getString(R.string.unsaved_dialog_message, changedCount, label))
+            .setPositiveButton(R.string.save_and_continue) { _, _ -> saveBack(onSuccess = after) }
+            .setNeutralButton(R.string.continue_without_saving) { _, _ -> discardUnsavedChanges(after) }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun setupBackNavigation() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (hasUnsavedChanges) {
+                    resolveUnsavedChanges { finish() }
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 
     // ---------------- item editing sheets ----------------
@@ -1293,16 +1461,18 @@ class MainActivity : AppCompatActivity() {
         sheet.amountMaxButton.setOnClickListener { setAmount(999_999) }
 
         sheet.applyButton.setOnClickListener {
+            val before = snapshotForUndo()
             val value = readAmount()
             val changed = sf.setItems { itemId, _ -> if (itemId == id) value else null }
             refreshInventory()
-            if (changed > 0) markDirty()
+            if (changed > 0) markDirty(before)
             dialog.dismiss()
         }
         sheet.deleteButton.setOnClickListener {
-            sf.removeItems(setOf(id))
+            val before = snapshotForUndo()
+            val removed = sf.removeItems(setOf(id))
             refreshInventory()
-            markDirty()
+            if (removed.isNotEmpty()) markDirty(before)
             dialog.dismiss()
         }
 
@@ -1324,9 +1494,10 @@ class MainActivity : AppCompatActivity() {
                 plan[id] = parts.getOrNull(1)?.toIntOrNull() ?: 500
             }
             if (plan.isEmpty()) return@setOnClickListener
+            val before = snapshotForUndo()
             val added = sf.addItems(plan)
             refreshInventory()
-            if (added.isNotEmpty()) markDirty()
+            if (added.isNotEmpty()) markDirty(before)
             toast(getString(R.string.added, added.size))
             dialog.dismiss()
         }
@@ -1429,6 +1600,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun performBulk(ids: Set<Int>, value: Int, operation: BulkOperation) {
         val sf = save ?: return toast(getString(R.string.open_first))
+        val before = snapshotForUndo()
         val changed = sf.setItems { id, current ->
             if (id !in ids) null else when (operation) {
                 BulkOperation.SET -> value
@@ -1437,7 +1609,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         refreshInventory()
-        if (changed > 0) markDirty()
+        if (changed > 0) markDirty(before)
         toast(getString(R.string.entries_changed, changed))
     }
 

@@ -1,5 +1,8 @@
 # Item icon crop pass — v1.4.1
 
+> Historical first crop-pass note. The final crop set is described by `V1_4_3_ICON_POLISH.md`; v1.4.4 adds currency icons.
+
+
 The supplied icon archive was keyed by internal item ID. The five in-game inventory screenshots were used as the higher-quality source for a new centered crop pass.
 
 - Output resource naming: `item_<ID>.png`

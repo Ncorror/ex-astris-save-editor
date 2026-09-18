@@ -1,24 +1,53 @@
-# Publish and build from Termux
+# Ex Astris Save Editor — build / update from Termux
 
-If the repository already exists locally, copy the updated project over it and push:
+Current development version: **1.5.0**.
+
+Repository:
+
+```text
+https://github.com/Ncorror/ex-astris-save-editor.git
+```
+
+## Apply a project archive to the existing checkout
+
+Example:
 
 ```bash
-cd ~/ex-astris-save-editor/apk
+cd ~
+rm -rf ~/exa-update
+mkdir -p ~/exa-update
 
+unzip -o /storage/emulated/0/Download/ex_astris_save_editor_v150_save_guard.zip \
+  -d ~/exa-update
+
+cd ~/ex-astris-save-editor/apk
+cp -a ~/exa-update/. ./
+
+git status
 git add -A
-git commit -m "Add Root access and unified Android data backends"
-git push
+git commit -m "Add persistent unsaved change protection"
+git push origin main
 
 gh run watch
 ```
 
-After a successful run:
+Do not create a second commit if `git push` fails only because DNS/network is unavailable. The local commit already exists; restore connectivity and run:
 
 ```bash
-gh run download -n ex-astris-save-editor-debug
+git push origin main
 ```
 
-The artifact contains:
+## Download CI artifacts
+
+```bash
+gh run list
+gh run watch
+
+gh run download -n ex-astris-save-editor-debug
+gh run download -n ex-astris-save-editor-verification
+```
+
+The debug artifact contains:
 
 ```text
 ex-astris-save-editor.apk
@@ -26,15 +55,9 @@ build.log
 build-info.txt
 ```
 
-The second Actions artifact is:
+The verification artifact contains build diagnostics and reports when available.
 
-```text
-ex-astris-save-editor-verification
-```
-
-It keeps build diagnostics and reports.
-
-## First publication
+## First publication only
 
 ```bash
 cd ~/ex-astris-save-editor/apk
@@ -53,37 +76,84 @@ gh repo create ex-astris-save-editor \
   --description "Save file editor for Ex Astris with Root and Shizuku Android/data access"
 ```
 
+## Release tag
+
+For a v1.5.0 release:
+
+```bash
+git tag v1.5.0
+git push origin v1.5.0
+```
+
+The tag workflow attaches the APK, `build.log`, and `build-info.txt` to the GitHub Release.
+
+## Access testing on phone
+
+### Root
+
+Root is implemented with libsu and is intended to work with normal `su` providers. APatch / KernelPatch is already verified on a real device. Magisk, KernelSU and KernelSU Next should be tested separately before being documented as verified.
+
+Expected state:
+
+```text
+Root connected
+UID 0
+Android/data available
+```
+
+### Shizuku
+
+1. Start Shizuku.
+2. Grant the app permission.
+3. Select Shizuku or Auto.
+4. Open the game save.
+5. Verify file source says `Shizuku · Android/data`.
+6. Edit one obvious value.
+7. Fully close Ex Astris before writing.
+8. Save and verify the changed value inside the game.
+
+## Unsaved-change guard test
+
+With autosave disabled:
+
+1. Edit one item and tap Apply.
+2. Confirm the persistent warning bar appears above the bottom navigation.
+3. Confirm the Save tab gets a numeric badge.
+4. Tap Undo and verify the value returns.
+5. Edit again.
+6. Try to switch save files; verify the Save / Continue without saving / Cancel dialog appears.
+7. Repeat for backend switching and app Back.
+8. Save and confirm the bar + badge disappear.
+
 ## Item icons
 
-Put item art in:
+Place images in:
 
 ```text
 app/src/main/res/drawable-nodpi/
 ```
 
-Name each image after its item ID:
+Use:
 
 ```text
-item_10000.webp
-item_11001.webp
-item_200010.webp
+item_<ID>.png
 ```
 
-No Kotlin changes are required for new icons; the adapter resolves them automatically.
+or:
 
-## On the phone
+```text
+item_<ID>.webp
+```
 
-Choose an access mode in Settings. Root mode uses the device SuperUser manager; Shizuku mode uses Shizuku (Wireless debugging on Android 11+ for non-root setups). Manual mode needs neither.
+No Kotlin edit is required; the adapter resolves resources by item ID.
 
-Always fully close Ex Astris before overwriting its save.
+## Network/DNS troubleshooting
 
-## Release assets
-
-For a GitHub Release with the APK and build files listed separately:
+If GitHub commands return `Could not resolve host: github.com`:
 
 ```bash
-git tag v1.3.0
-git push origin v1.3.0
+ping -c 1 1.1.1.1
+getent hosts github.com
 ```
 
-The tag workflow attaches the APK, `build.log`, and `build-info.txt` to the Release.
+If IP connectivity works but the hostname does not resolve, restore Android network / Private DNS / VPN connectivity and retry the push. Do not re-copy the project and do not make another commit solely for this error.
