@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ex Astris Save Editor</string>
-    <string name="subtitle">Редактор сохранений через Shizuku</string>
+    <string name="subtitle">Редактор сохранений через Root / Shizuku</string>
 
     <string name="nav_inventory">Предметы</string>
     <string name="nav_save">Сохранение</string>
@@ -26,7 +26,7 @@
 
     <string name="no_file">Сохранение не загружено</string>
     <string name="no_file_short">Сохранение не выбрано</string>
-    <string name="no_file_hint">Открой сохранение Ex Astris через Shizuku или выбери файл вручную.</string>
+    <string name="no_file_hint">Открой сохранение Ex Astris через Root, Shizuku или выбери файл вручную.</string>
     <string name="open_game_save">Найти сохранение игры</string>
     <string name="open_manual">Выбрать файл</string>
     <string name="save">Сохранить изменения</string>
@@ -81,6 +81,48 @@
     <string name="backup_loaded">Копия загружена в редактор. Нажми «Сохранить изменения», чтобы записать её обратно.</string>
     <string name="backup_failed">Ошибка резервной копии: %1$s</string>
     <string name="choose_backup">Выбери резервную копию</string>
+
+    <string name="settings_access">Доступ</string>
+    <string name="access_auto">Авто</string>
+    <string name="access_root">Root</string>
+    <string name="access_shizuku">Shizuku</string>
+    <string name="access_manual">Ручной</string>
+    <string name="access_auto_summary">Автоматический режим использует уже разрешённый Root, затем Shizuku, а при их отсутствии — ручной выбор файла.</string>
+    <string name="access_root_summary">Прямой доступ к Android/data через root-сервис libsu.</string>
+    <string name="access_shizuku_summary">Прямой доступ к Android/data через Shizuku без обязательного Root.</string>
+    <string name="access_manual_summary">Не использовать привилегированный доступ; выбирать сохранение через системный проводник Android.</string>
+    <string name="access_diagnostics_placeholder">Здесь появится диагностика доступа.</string>
+    <string name="access_active_root">● Root подключён</string>
+    <string name="access_active_shizuku">● Shizuku подключён</string>
+    <string name="access_active_manual">● Ручной доступ к файлу</string>
+    <string name="access_unavailable">● Нет привилегированного доступа</string>
+    <string name="access_choose_file">Выбрать файл</string>
+    <string name="access_root_file_source">Root · Android/data</string>
+
+    <string name="root_checking">● Статус Root неизвестен</string>
+    <string name="root_ready">● Root-сервис подключён</string>
+    <string name="root_granted">SuperUser уже разрешён. Подключи root-сервис для прямого доступа к Android/data.</string>
+    <string name="root_denied">● Root недоступен или запрещён</string>
+    <string name="root_denied_detail">Root-менеджер не дал приложению SuperUser. Можно продолжить через Shizuku или ручной режим.</string>
+    <string name="root_description">Даже с Root приложение ограничивает доступ только папкой Ex Astris внутри Android/data.</string>
+    <string name="root_request">Запросить Root</string>
+    <string name="root_reconnect">Переподключить Root</string>
+    <string name="root_connecting">● Подключение root-сервиса…</string>
+    <string name="root_bind_failed">Не удалось запустить root-сервис: %1$s</string>
+    <string name="root_uid_detail">UID %1$d · прямой доступ к Android/data доступен</string>
+    <string name="diagnostics_format">Выбрано: %1$s
+Активно: %2$s
+Root-разрешение: %3$s
+Root-сервис: %4$s
+Shizuku: %5$s
+Android/data: %6$s</string>
+    <string name="diag_yes">да</string>
+    <string name="diag_no">нет</string>
+    <string name="diag_unknown">неизвестно</string>
+    <string name="diag_connected">подключён</string>
+    <string name="diag_disconnected">не подключён</string>
+    <string name="diag_available">доступна</string>
+    <string name="diag_unavailable">недоступна</string>
 
     <string name="settings_interface">Интерфейс</string>
     <string name="settings_safety">Редактирование и безопасность</string>

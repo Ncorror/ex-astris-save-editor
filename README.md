@@ -4,11 +4,11 @@ Android editor for Ex Astris local save files.
 
 ## What it does
 
-- Connects to **Shizuku / Sui** and opens Ex Astris files under `Android/data` without giving the normal app broad storage access.
+- Supports **Root (libsu)**, **Shizuku / Sui**, and the Android document picker as three access backends.
 - Searches `com.gryphline.exastris.gp` for `SaveFile0.save` and other `.save` files.
-- Reads and writes through a Shizuku **UserService** running as shell/root.
+- Uses a libsu **RootService** when SuperUser is selected and a Shizuku **UserService** for shell/root access.
 - Restricts the privileged service to the Ex Astris package directory.
-- Keeps the Android document picker as a fallback.
+- Automatic mode can use Root first, Shizuku second, with manual file selection always available.
 - Parses the zstd module container and edits backpack item counts.
 - Provides search, category filters, add-by-ID, per-item editing and bulk presets.
 - Creates local backups and can reload a backup into the editor.
@@ -20,7 +20,7 @@ Android editor for Ex Astris local save files.
 
 The main page is intentionally compact:
 
-- small Shizuku/save status strip;
+- small active-access/save status strip;
 - search field and category chips;
 - item cards with an icon slot, name, category/ID and quantity;
 - a floating add button;
@@ -33,7 +33,7 @@ Contains file details, open/save/export controls and local backup controls. The 
 
 ### Settings
 
-Contains Shizuku status plus UI/safety preferences:
+Contains access mode, Root/Shizuku diagnostics plus UI/safety preferences:
 
 - show/hide numeric item IDs;
 - compact or larger item icons;
@@ -57,6 +57,24 @@ item_11001.webp
 ```
 
 PNG also works. Android resource filenames must stay lowercase and use only letters, digits and underscores. If an icon is missing, the app shows the built-in placeholder automatically.
+
+
+## Access modes
+
+The Settings page now offers four modes:
+
+- **Auto** — use a connected Root service first, then Shizuku; manual selection remains the fallback.
+- **Root** — request SuperUser and bind a libsu 6.0.0 RootService.
+- **Shizuku** — use the existing Shizuku 13.1.5 UserService.
+- **Manual** — never request privileged access; use Android's document picker.
+
+Both privileged backends expose the same restricted file API and refuse paths outside:
+
+```text
+/storage/emulated/*/Android/data/com.gryphline.exastris.gp
+```
+
+Privileged writes are staged into a temporary file, fsynced, and then renamed over the original. The editor also keeps local backup copies.
 
 ## Shizuku setup
 
@@ -115,7 +133,8 @@ gh run download -n ex-astris-save-editor-debug
 - Keep the game completely closed while saving changes.
 - Keep backups of important progress.
 - Automatic backups are enabled by default and can be disabled in Settings.
-- The Shizuku service refuses paths outside Ex Astris' own `Android/data/com.gryphline.exastris.gp` directory.
+- Root and Shizuku services refuse paths outside Ex Astris' own `Android/data/com.gryphline.exastris.gp` directory.
 
-## 1.2.1
-- Fixed item quantity rendering for long values: stable right-aligned numeric column, tabular digits, no wrapping, auto-size fallback.
+## 1.3
+- Added Root access with libsu RootService, access mode selection, diagnostics, and staged privileged writes.
+- Kept the 1.2.1 stable quantity column fix.

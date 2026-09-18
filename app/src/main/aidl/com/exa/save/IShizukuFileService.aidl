@@ -9,4 +9,7 @@ interface IShizukuFileService {
     ParcelFileDescriptor openRead(String path) = 3;
     ParcelFileDescriptor openWrite(String path) = 4;
     boolean exists(String path) = 5;
+    ParcelFileDescriptor openAtomicWrite(String path) = 6;
+    void commitAtomicWrite(String path) = 7;
+    void abortAtomicWrite(String path) = 8;
 }

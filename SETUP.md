@@ -6,7 +6,7 @@ If the repository already exists locally, copy the updated project over it and p
 cd ~/ex-astris-save-editor/apk
 
 git add -A
-git commit -m "Redesign UI for item icons and navigation"
+git commit -m "Add Root access and unified Android data backends"
 git push
 
 gh run watch
@@ -50,7 +50,7 @@ gh repo create ex-astris-save-editor \
   --source=. \
   --remote=origin \
   --push \
-  --description "Save file editor for Ex Astris with Shizuku Android/data access"
+  --description "Save file editor for Ex Astris with Root and Shizuku Android/data access"
 ```
 
 ## Item icons
@@ -73,7 +73,7 @@ No Kotlin changes are required for new icons; the adapter resolves them automati
 
 ## On the phone
 
-Install and start Shizuku first. On Android 11+ the non-root method uses Wireless debugging. Then open the editor and grant Shizuku permission.
+Choose an access mode in Settings. Root mode uses the device SuperUser manager; Shizuku mode uses Shizuku (Wireless debugging on Android 11+ for non-root setups). Manual mode needs neither.
 
 Always fully close Ex Astris before overwriting its save.
 
@@ -82,8 +82,8 @@ Always fully close Ex Astris before overwriting its save.
 For a GitHub Release with the APK and build files listed separately:
 
 ```bash
-git tag v1.2.0
-git push origin v1.2.0
+git tag v1.3.0
+git push origin v1.3.0
 ```
 
 The tag workflow attaches the APK, `build.log`, and `build-info.txt` to the Release.

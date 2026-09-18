@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ex Astris Save Editor</string>
-    <string name="subtitle">Save editor with Shizuku access</string>
+    <string name="subtitle">Save editor with Root / Shizuku access</string>
 
     <string name="nav_inventory">Items</string>
     <string name="nav_save">Save</string>
@@ -26,7 +26,7 @@
 
     <string name="no_file">No save loaded</string>
     <string name="no_file_short">No save selected</string>
-    <string name="no_file_hint">Open the Ex Astris save through Shizuku or choose a file manually.</string>
+    <string name="no_file_hint">Open the Ex Astris save through Root, Shizuku, or choose a file manually.</string>
     <string name="open_game_save">Find game save</string>
     <string name="open_manual">Choose file</string>
     <string name="save">Save changes</string>
@@ -81,6 +81,48 @@
     <string name="backup_loaded">Backup loaded into the editor. Tap Save changes to write it back.</string>
     <string name="backup_failed">Backup operation failed: %1$s</string>
     <string name="choose_backup">Choose backup</string>
+
+    <string name="settings_access">Access</string>
+    <string name="access_auto">Auto</string>
+    <string name="access_root">Root</string>
+    <string name="access_shizuku">Shizuku</string>
+    <string name="access_manual">Manual</string>
+    <string name="access_auto_summary">Automatic mode prefers an already-authorized root service, then Shizuku, then manual file selection.</string>
+    <string name="access_root_summary">Use the libsu root service for direct Android/data access.</string>
+    <string name="access_shizuku_summary">Use Shizuku for direct Android/data access without requiring root.</string>
+    <string name="access_manual_summary">Do not use privileged access; choose the save file with Android's document picker.</string>
+    <string name="access_diagnostics_placeholder">Access diagnostics will appear here.</string>
+    <string name="access_active_root">● Root connected</string>
+    <string name="access_active_shizuku">● Shizuku connected</string>
+    <string name="access_active_manual">● Manual file access</string>
+    <string name="access_unavailable">● No privileged access</string>
+    <string name="access_choose_file">Choose file</string>
+    <string name="access_root_file_source">Root · Android/data</string>
+
+    <string name="root_checking">● Root status unknown</string>
+    <string name="root_ready">● Root service connected</string>
+    <string name="root_granted">SuperUser permission is available. Connect the root service to use Android/data directly.</string>
+    <string name="root_denied">● Root access denied / unavailable</string>
+    <string name="root_denied_detail">The root manager did not grant this app SuperUser access. You can still use Shizuku or manual mode.</string>
+    <string name="root_description">Root access is restricted inside the app to Ex Astris' own Android/data directory.</string>
+    <string name="root_request">Request root</string>
+    <string name="root_reconnect">Reconnect root</string>
+    <string name="root_connecting">● Connecting root service…</string>
+    <string name="root_bind_failed">Could not start root file service: %1$s</string>
+    <string name="root_uid_detail">UID %1$d · direct Android/data access available</string>
+    <string name="diagnostics_format">Selected: %1$s
+Active: %2$s
+Root grant: %3$s
+Root service: %4$s
+Shizuku: %5$s
+Android/data: %6$s</string>
+    <string name="diag_yes">yes</string>
+    <string name="diag_no">no</string>
+    <string name="diag_unknown">unknown</string>
+    <string name="diag_connected">connected</string>
+    <string name="diag_disconnected">disconnected</string>
+    <string name="diag_available">available</string>
+    <string name="diag_unavailable">unavailable</string>
 
     <string name="settings_interface">Interface</string>
     <string name="settings_safety">Editing &amp; safety</string>

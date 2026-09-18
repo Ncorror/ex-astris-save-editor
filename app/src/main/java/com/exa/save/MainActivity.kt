@@ -21,6 +21,8 @@ import com.exa.save.databinding.BottomSheetBulkActionsBinding
 import com.exa.save.databinding.BottomSheetEditItemBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.ipc.RootService
 import org.json.JSONObject
 import rikka.shizuku.Shizuku
 import java.io.ByteArrayOutputStream
@@ -42,8 +44,12 @@ class MainActivity : AppCompatActivity() {
 
     private val categoryOrder = listOf("currency", "consumable", "material", "entropite", "other")
 
+    private enum class AccessMode { AUTO, ROOT, SHIZUKU, MANUAL }
+    private enum class AccessBackend { ROOT, SHIZUKU, MANUAL, NONE }
+
     private var uri: Uri? = null
-    private var shizukuPath: String? = null
+    private var directPath: String? = null
+    private var directBackend: AccessBackend = AccessBackend.NONE
     private var save: SaveFile? = null
     private var currentItems: LinkedHashMap<Int, Int> = LinkedHashMap()
 
@@ -59,6 +65,28 @@ class MainActivity : AppCompatActivity() {
     private var remoteService: IShizukuFileService? = null
     private var bindingService = false
 
+    @Volatile
+    private var rootService: IShizukuFileService? = null
+    private var rootBinding = false
+
+    private val rootIntent by lazy { Intent(this, RootFileService::class.java) }
+
+    private val rootConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            rootService = IShizukuFileService.Stub.asInterface(service)
+            rootBinding = false
+            updateRootUi()
+            updateAccessUi()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            rootService = null
+            rootBinding = false
+            updateRootUi()
+            updateAccessUi()
+        }
+    }
+
     private val userServiceArgs by lazy {
         Shizuku.UserServiceArgs(ComponentName(this, ShizukuFileService::class.java))
             .processNameSuffix("exa_files")
@@ -72,24 +100,28 @@ class MainActivity : AppCompatActivity() {
             remoteService = IShizukuFileService.Stub.asInterface(service)
             bindingService = false
             updateShizukuUi()
+            updateAccessUi()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             remoteService = null
             bindingService = false
             updateShizukuUi()
+            updateAccessUi()
         }
     }
 
     private val binderReceivedListener = Shizuku.OnBinderReceivedListener {
         updateShizukuUi()
         if (hasShizukuPermission()) bindShizukuFileService()
+        updateAccessUi()
     }
 
     private val binderDeadListener = Shizuku.OnBinderDeadListener {
         remoteService = null
         bindingService = false
         updateShizukuUi()
+        updateAccessUi()
     }
 
     private val permissionListener = Shizuku.OnRequestPermissionResultListener { code, result ->
@@ -98,11 +130,17 @@ class MainActivity : AppCompatActivity() {
             if (result == PackageManager.PERMISSION_GRANTED) {
                 bindShizukuFileService()
             }
+            updateAccessUi()
         }
     }
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        Shell.setDefaultBuilder(
+            Shell.Builder.create()
+                .setContext(applicationContext)
+                .setTimeout(15)
+        )
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -117,14 +155,18 @@ class MainActivity : AppCompatActivity() {
         Shizuku.addBinderDeadListener(binderDeadListener)
         Shizuku.addRequestPermissionResultListener(permissionListener)
 
+        updateRootUi()
         updateShizukuUi()
         if (hasShizukuPermission()) bindShizukuFileService()
+        updateAccessUi()
         updateFileUi()
     }
 
     override fun onResume() {
         super.onResume()
+        updateRootUi()
         updateShizukuUi()
+        updateAccessUi()
         updateBackupUi()
     }
 
@@ -134,6 +176,10 @@ class MainActivity : AppCompatActivity() {
         Shizuku.removeRequestPermissionResultListener(permissionListener)
         try {
             Shizuku.unbindUserService(userServiceArgs, serviceConnection, false)
+        } catch (_: Throwable) {
+        }
+        try {
+            RootService.unbind(rootConnection)
         } catch (_: Throwable) {
         }
         io.shutdownNow()
@@ -167,7 +213,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupActions() {
-        binding.compactShizukuButton.setOnClickListener { requestOrConnectShizuku() }
+        binding.compactShizukuButton.setOnClickListener { connectSelectedAccess() }
+        binding.rootButton.setOnClickListener { requestOrConnectRoot() }
         binding.shizukuButton.setOnClickListener { requestOrConnectShizuku() }
         binding.openGameButton.setOnClickListener { openExAstrisSave() }
         binding.openManualButton.setOnClickListener { pickFile() }
@@ -202,6 +249,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSettings() {
+        when (accessMode()) {
+            AccessMode.AUTO -> binding.accessModeGroup.check(R.id.accessAutoButton)
+            AccessMode.ROOT -> binding.accessModeGroup.check(R.id.accessRootButton)
+            AccessMode.SHIZUKU -> binding.accessModeGroup.check(R.id.accessShizukuButton)
+            AccessMode.MANUAL -> binding.accessModeGroup.check(R.id.accessManualButton)
+        }
+        binding.accessModeGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            val mode = when (checkedId) {
+                R.id.accessRootButton -> AccessMode.ROOT
+                R.id.accessShizukuButton -> AccessMode.SHIZUKU
+                R.id.accessManualButton -> AccessMode.MANUAL
+                else -> AccessMode.AUTO
+            }
+            prefs.edit().putString("access_mode", mode.name).apply()
+            updateAccessUi()
+            when (mode) {
+                AccessMode.ROOT -> if (rootService == null) requestOrConnectRoot()
+                AccessMode.SHIZUKU -> if (remoteService == null) requestOrConnectShizuku()
+                else -> Unit
+            }
+        }
+
         binding.showIdsSwitch.isChecked = showItemIds()
         binding.largeIconsSwitch.isChecked = largeItemIcons()
         binding.confirmBulkSwitch.isChecked = confirmBulkActions()
@@ -234,6 +304,174 @@ class MainActivity : AppCompatActivity() {
     private fun largeItemIcons(): Boolean = prefs.getBoolean("large_icons", false)
     private fun confirmBulkActions(): Boolean = prefs.getBoolean("confirm_bulk", true)
     private fun automaticBackup(): Boolean = prefs.getBoolean("auto_backup", true)
+
+    private fun accessMode(): AccessMode = try {
+        AccessMode.valueOf(prefs.getString("access_mode", AccessMode.AUTO.name) ?: AccessMode.AUTO.name)
+    } catch (_: Throwable) {
+        AccessMode.AUTO
+    }
+
+    private fun activeBackend(): AccessBackend = when (accessMode()) {
+        AccessMode.ROOT -> if (rootService != null) AccessBackend.ROOT else AccessBackend.NONE
+        AccessMode.SHIZUKU -> if (remoteService != null) AccessBackend.SHIZUKU else AccessBackend.NONE
+        AccessMode.MANUAL -> AccessBackend.MANUAL
+        AccessMode.AUTO -> when {
+            rootService != null -> AccessBackend.ROOT
+            remoteService != null -> AccessBackend.SHIZUKU
+            else -> AccessBackend.NONE
+        }
+    }
+
+    private fun serviceFor(backend: AccessBackend): IShizukuFileService? = when (backend) {
+        AccessBackend.ROOT -> rootService
+        AccessBackend.SHIZUKU -> remoteService
+        else -> null
+    }
+
+    private fun connectSelectedAccess() {
+        when (accessMode()) {
+            AccessMode.ROOT -> requestOrConnectRoot()
+            AccessMode.SHIZUKU -> requestOrConnectShizuku()
+            AccessMode.MANUAL -> pickFile()
+            AccessMode.AUTO -> when {
+                rootService != null || remoteService != null -> updateAccessUi()
+                Shell.isAppGrantedRoot() == true -> requestOrConnectRoot()
+                shizukuAlive() && hasShizukuPermission() -> bindShizukuFileService()
+                else -> requestOrConnectRoot()
+            }
+        }
+    }
+
+    // ---------------- Root / access ----------------
+
+    private fun requestOrConnectRoot() {
+        if (rootService != null) {
+            updateRootUi()
+            updateAccessUi()
+            return
+        }
+        if (rootBinding) return
+
+        rootBinding = true
+        updateRootUi()
+        updateAccessUi()
+
+        try {
+            Shell.getShell { shell ->
+                if (!shell.isRoot) {
+                    rootBinding = false
+                    updateRootUi()
+                    updateAccessUi()
+                    if (accessMode() == AccessMode.AUTO && shizukuAlive()) {
+                        requestOrConnectShizuku()
+                    } else {
+                        toast(getString(R.string.root_denied_detail))
+                    }
+                    return@getShell
+                }
+                try {
+                    RootService.bind(rootIntent, rootConnection)
+                } catch (e: Throwable) {
+                    rootBinding = false
+                    updateRootUi()
+                    updateAccessUi()
+                    toast(getString(R.string.root_bind_failed, e.message ?: e.javaClass.simpleName))
+                }
+            }
+        } catch (e: Throwable) {
+            rootBinding = false
+            updateRootUi()
+            updateAccessUi()
+            toast(getString(R.string.root_bind_failed, e.message ?: e.javaClass.simpleName))
+        }
+    }
+
+    private fun updateRootUi() {
+        if (!::binding.isInitialized) return
+        val service = rootService
+        when {
+            service != null -> {
+                val uid = try { service.remoteUid } catch (_: Throwable) { 0 }
+                binding.rootStatus.setText(R.string.root_ready)
+                binding.rootStatus.setTextColor(color(R.color.exa_success))
+                binding.rootDetail.text = getString(R.string.root_uid_detail, uid)
+                binding.rootButton.setText(R.string.root_reconnect)
+            }
+            rootBinding -> {
+                binding.rootStatus.setText(R.string.root_connecting)
+                binding.rootStatus.setTextColor(color(R.color.exa_warning))
+                binding.rootDetail.setText(R.string.root_description)
+                binding.rootButton.setText(R.string.root_request)
+            }
+            Shell.isAppGrantedRoot() == true -> {
+                binding.rootStatus.setText(R.string.root_checking)
+                binding.rootStatus.setTextColor(color(R.color.exa_warning))
+                binding.rootDetail.setText(R.string.root_granted)
+                binding.rootButton.setText(R.string.root_reconnect)
+            }
+            Shell.isAppGrantedRoot() == false -> {
+                binding.rootStatus.setText(R.string.root_denied)
+                binding.rootStatus.setTextColor(color(R.color.exa_error))
+                binding.rootDetail.setText(R.string.root_denied_detail)
+                binding.rootButton.setText(R.string.root_request)
+            }
+            else -> {
+                binding.rootStatus.setText(R.string.root_checking)
+                binding.rootStatus.setTextColor(color(R.color.exa_warning))
+                binding.rootDetail.setText(R.string.root_description)
+                binding.rootButton.setText(R.string.root_request)
+            }
+        }
+    }
+
+    private fun updateAccessUi() {
+        if (!::binding.isInitialized) return
+        val mode = accessMode()
+        binding.accessModeSummary.setText(when (mode) {
+            AccessMode.AUTO -> R.string.access_auto_summary
+            AccessMode.ROOT -> R.string.access_root_summary
+            AccessMode.SHIZUKU -> R.string.access_shizuku_summary
+            AccessMode.MANUAL -> R.string.access_manual_summary
+        })
+
+        val backend = activeBackend()
+        val statusRes = when (backend) {
+            AccessBackend.ROOT -> R.string.access_active_root
+            AccessBackend.SHIZUKU -> R.string.access_active_shizuku
+            AccessBackend.MANUAL -> R.string.access_active_manual
+            AccessBackend.NONE -> R.string.access_unavailable
+        }
+        val statusColor = when (backend) {
+            AccessBackend.ROOT, AccessBackend.SHIZUKU -> R.color.exa_success
+            AccessBackend.MANUAL -> R.color.exa_primary
+            AccessBackend.NONE -> R.color.exa_warning
+        }
+        binding.compactShizukuStatus.setText(statusRes)
+        binding.compactShizukuStatus.setTextColor(color(statusColor))
+
+        val ready = backend == AccessBackend.ROOT || backend == AccessBackend.SHIZUKU
+        binding.openGameButton.isEnabled = true
+        binding.compactShizukuButton.visibility = if (ready) View.GONE else View.VISIBLE
+        binding.compactShizukuButton.setText(if (mode == AccessMode.MANUAL) R.string.access_choose_file else R.string.connect)
+
+        val rootGrant = when (Shell.isAppGrantedRoot()) {
+            true -> getString(R.string.diag_yes)
+            false -> getString(R.string.diag_no)
+            null -> getString(R.string.diag_unknown)
+        }
+        val rootSvc = if (rootService != null) getString(R.string.diag_connected) else getString(R.string.diag_disconnected)
+        val shizuku = if (remoteService != null) getString(R.string.diag_connected) else getString(R.string.diag_disconnected)
+        val androidData = if (rootService != null || remoteService != null) getString(R.string.diag_available) else getString(R.string.diag_unavailable)
+        binding.accessDiagnostics.text = getString(
+            R.string.diagnostics_format,
+            mode.name,
+            backend.name,
+            rootGrant,
+            rootSvc,
+            shizuku,
+            androidData
+        )
+    }
 
     // ---------------- Shizuku ----------------
 
@@ -353,15 +591,11 @@ class MainActivity : AppCompatActivity() {
         val statusText = getString(statusRes)
         val color = color(colorRes)
 
-        binding.compactShizukuStatus.text = statusText
-        binding.compactShizukuStatus.setTextColor(color)
         binding.shizukuStatus.text = statusText
         binding.shizukuStatus.setTextColor(color)
         binding.shizukuDetail.setText(detailRes)
         binding.shizukuButton.setText(buttonRes)
-        binding.compactShizukuButton.setText(buttonRes)
-        binding.compactShizukuButton.visibility = if (ready) View.GONE else View.VISIBLE
-        binding.openGameButton.isEnabled = ready
+        updateAccessUi()
     }
 
     // ---------------- catalog ----------------
@@ -420,9 +654,23 @@ class MainActivity : AppCompatActivity() {
     // ---------------- direct Android/data access ----------------
 
     private fun openExAstrisSave() {
-        val service = remoteService
-        if (service == null) {
-            requestOrConnectShizuku()
+        val mode = accessMode()
+        if (mode == AccessMode.MANUAL) {
+            pickFile()
+            return
+        }
+
+        var backend = activeBackend()
+        if (backend == AccessBackend.NONE) {
+            connectSelectedAccess()
+            return
+        }
+        if (backend == AccessBackend.MANUAL) {
+            pickFile()
+            return
+        }
+        val service = serviceFor(backend) ?: run {
+            connectSelectedAccess()
             return
         }
 
@@ -431,23 +679,25 @@ class MainActivity : AppCompatActivity() {
             try {
                 val paths = service.findSaveFiles()
                 runOnUiThread {
+                    updateRootUi()
                     updateShizukuUi()
+                    updateAccessUi()
                     when {
                         paths.isEmpty() -> toast(getString(R.string.save_not_found))
-                        paths.size == 1 -> openShizukuPath(paths[0])
-                        else -> showSaveCandidates(paths)
+                        paths.size == 1 -> openPrivilegedPath(paths[0], backend)
+                        else -> showSaveCandidates(paths, backend)
                     }
                 }
             } catch (e: Throwable) {
                 runOnUiThread {
-                    updateShizukuUi()
+                    updateAccessUi()
                     toast(getString(R.string.cannot_open, e.message ?: e.javaClass.simpleName))
                 }
             }
         }
     }
 
-    private fun showSaveCandidates(paths: Array<String>) {
+    private fun showSaveCandidates(paths: Array<String>, backend: AccessBackend) {
         val labels = paths.map { path ->
             val f = File(path)
             val parent = f.parentFile?.parentFile?.name.orEmpty()
@@ -456,13 +706,13 @@ class MainActivity : AppCompatActivity() {
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.save_candidates_title)
-            .setItems(labels) { _, which -> openShizukuPath(paths[which]) }
+            .setItems(labels) { _, which -> openPrivilegedPath(paths[which], backend) }
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
-    private fun openShizukuPath(path: String) {
-        val service = remoteService ?: return toast(getString(R.string.shizuku_not_running))
+    private fun openPrivilegedPath(path: String, backend: AccessBackend) {
+        val service = serviceFor(backend) ?: return toast(getString(R.string.access_unavailable))
         io.execute {
             try {
                 if (!service.exists(path)) throw IllegalStateException(getString(R.string.save_path_missing))
@@ -472,7 +722,8 @@ class MainActivity : AppCompatActivity() {
                 backupOriginal(bytes)
                 runOnUiThread {
                     save = parsed
-                    shizukuPath = path
+                    directPath = path
+                    directBackend = backend
                     uri = null
                     refreshInventory()
                     updateFileUi()
@@ -526,7 +777,8 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     save = parsed
                     uri = selected
-                    shizukuPath = null
+                    directPath = null
+                    directBackend = AccessBackend.MANUAL
                     refreshInventory()
                     updateFileUi()
                 }
@@ -549,7 +801,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun writeBackup(bytes: ByteArray): File? {
         val dir = backupDir() ?: return null
-        val stamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
+        val stamp = SimpleDateFormat("yyyyMMdd-HHmmss-SSS", Locale.US).format(Date())
         val file = File(dir, "SaveFile0.$stamp.bak")
         file.writeBytes(bytes)
         return file
@@ -636,23 +888,44 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveBack() {
         val sf = save ?: return toast(getString(R.string.open_first))
-        val directPath = shizukuPath
+        val targetPath = directPath
         val documentUri = uri
 
-        if (directPath == null && documentUri == null) return toast(getString(R.string.open_first))
+        if (targetPath == null && documentUri == null) return toast(getString(R.string.open_first))
 
         binding.saveButton.isEnabled = false
         io.execute {
             try {
                 val data = sf.build()
-                if (directPath != null) {
-                    val service = remoteService ?: throw IllegalStateException(getString(R.string.shizuku_not_running))
-                    if (!service.exists(directPath)) throw IllegalStateException(getString(R.string.save_path_missing))
-                    val pfd = service.openWrite(directPath)
-                    ParcelFileDescriptor.AutoCloseOutputStream(pfd).use { output ->
-                        output.write(data)
-                        output.flush()
-                        output.fd.sync()
+                if (targetPath != null) {
+                    val backend = directBackend
+                    val service = serviceFor(backend)
+                        ?: throw IllegalStateException(getString(R.string.access_unavailable))
+                    if (!service.exists(targetPath)) throw IllegalStateException(getString(R.string.save_path_missing))
+
+                    if (automaticBackup()) {
+                        try {
+                            val original = service.openRead(targetPath)
+                            val bytes = ParcelFileDescriptor.AutoCloseInputStream(original).use { it.readBytes() }
+                            writeBackup(bytes)
+                        } catch (_: Throwable) {
+                        }
+                    }
+
+                    var committed = false
+                    try {
+                        val pfd = service.openAtomicWrite(targetPath)
+                        ParcelFileDescriptor.AutoCloseOutputStream(pfd).use { output ->
+                            output.write(data)
+                            output.flush()
+                            output.fd.sync()
+                        }
+                        service.commitAtomicWrite(targetPath)
+                        committed = true
+                    } finally {
+                        if (!committed) {
+                            try { service.abortAtomicWrite(targetPath) } catch (_: Throwable) {}
+                        }
                     }
                 } else {
                     contentResolver.openOutputStream(documentUri!!, "wt")!!.use { it.write(data) }
@@ -749,7 +1022,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val label = shizukuPath?.let { File(it).name }
+        val label = directPath?.let { File(it).name }
             ?: uri?.lastPathSegment?.substringAfterLast('/')
             ?: "SaveFile0.save"
         val saved = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
@@ -757,9 +1030,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.compactFileTitle.text = label
         binding.fileTitle.text = label
-        binding.fileSource.setText(if (shizukuPath != null) R.string.save_source_shizuku else R.string.save_source_manual)
+        binding.fileSource.setText(when {
+            directPath == null -> R.string.save_source_manual
+            directBackend == AccessBackend.ROOT -> R.string.access_root_file_source
+            else -> R.string.save_source_shizuku
+        })
         binding.fileDetails.text = getString(R.string.save_details, saved, sf.mods.size, currentItems.size)
-        binding.filePath.text = shizukuPath ?: uri?.toString().orEmpty()
+        binding.filePath.text = directPath ?: uri?.toString().orEmpty()
         binding.saveButton.isEnabled = true
         binding.saveAsButton.isEnabled = true
         binding.bulkButton.isEnabled = true
