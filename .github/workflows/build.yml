@@ -55,7 +55,7 @@ jobs:
           fi
 
           echo "Application: Ex Astris Save Editor" > release-files/build-info.txt
-          echo "Version: 1.3.2" >> release-files/build-info.txt
+          echo "Version: 1.4.0" >> release-files/build-info.txt
           echo "Build number: $GITHUB_RUN_NUMBER" >> release-files/build-info.txt
           echo "Commit: $GITHUB_SHA" >> release-files/build-info.txt
           echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> release-files/build-info.txt

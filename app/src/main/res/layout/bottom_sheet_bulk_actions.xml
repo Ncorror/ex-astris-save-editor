@@ -22,61 +22,176 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="@string/bulk_subtitle"
+        android:text="@string/bulk_subtitle_v2"
         android:textColor="@color/exa_text_secondary"
         android:textSize="13sp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialsButton"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:gravity="start|center_vertical"
-        android:text="@string/bulk_materials"
-        app:icon="@drawable/ic_bolt" />
+        android:text="@string/bulk_category_label"
+        android:textColor="@color/exa_text_secondary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/categoryGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/allItemsButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="@string/cat_all" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialsButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="@string/bulk_materials" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/consumablesButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="@string/bulk_consumables" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/currencyButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="@string/bulk_resources" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/entropiteButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="@string/cat_entropite" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/otherButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="@string/cat_other" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </HorizontalScrollView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/operationGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/setOperationButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/bulk_set" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addOperationButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:text="@string/bulk_add" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/subtractOperationButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:text="@string/bulk_subtract" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="@string/bulk_value"
+        app:boxBackgroundColor="@color/exa_surface_variant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/valueInput"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="true"
+            android:inputType="number"
+            android:maxLines="1"
+            android:text="10000"
+            android:textColor="@color/exa_text"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/preset100Button" style="@style/Widget.Material3.Button.TonalButton" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginEnd="6dp" android:text="100" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/preset999Button" style="@style/Widget.Material3.Button.TonalButton" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginEnd="6dp" android:text="999" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/preset10kButton" style="@style/Widget.Material3.Button.TonalButton" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginEnd="6dp" android:text="10 000" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/preset100kButton" style="@style/Widget.Material3.Button.TonalButton" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginEnd="6dp" android:text="100 000" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/presetMaxButton" style="@style/Widget.Material3.Button.TonalButton" android:layout_width="wrap_content" android:layout_height="40dp" android:text="999 999" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:text="@string/set_10k"
+        android:layout_marginTop="5dp"
+        android:text="@string/quick_values_hint"
+        android:textColor="@color/exa_text_muted"
+        android:textSize="11sp" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/visibleOnlyCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/bulk_visible_only"
+        android:textColor="@color/exa_text" />
+
+    <TextView
+        android:id="@+id/previewText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:textColor="@color/exa_text_secondary"
         android:textSize="12sp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/consumablesButton"
-        style="@style/Widget.Material3.Button.TonalButton"
+        android:id="@+id/applyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="start|center_vertical"
-        android:text="@string/bulk_consumables"
-        app:icon="@drawable/ic_bolt" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:text="@string/set_10k"
-        android:textColor="@color/exa_text_secondary"
-        android:textSize="12sp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/currencyButton"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="start|center_vertical"
-        android:text="@string/bulk_currency"
-        app:icon="@drawable/ic_bolt" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:text="@string/set_100k"
-        android:textColor="@color/exa_text_secondary"
-        android:textSize="12sp" />
+        android:layout_marginTop="14dp"
+        android:text="@string/apply" />
 </LinearLayout>

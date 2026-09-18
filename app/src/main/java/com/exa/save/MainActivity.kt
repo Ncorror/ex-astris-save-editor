@@ -54,9 +54,16 @@ class MainActivity : AppCompatActivity() {
     private var directBackend: AccessBackend = AccessBackend.NONE
     private var save: SaveFile? = null
     private var currentItems: LinkedHashMap<Int, Int> = LinkedHashMap()
+    private var baselineItems: Map<Int, Int> = emptyMap()
 
     private val names = HashMap<Int, String>()
+    private val alternateNames = HashMap<Int, String>()
+    private val searchTexts = HashMap<Int, String>()
     private val cats = HashMap<Int, String>()
+    private val descriptions = HashMap<Int, String>()
+    private val verifiedItems = HashSet<Int>()
+    private var hasUnsavedChanges = false
+    private var editGeneration = 0L
 
     private var activeCategory: String? = null
     private var searchQuery = ""
@@ -243,10 +250,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupActions() {
-        binding.compactShizukuButton.setOnClickListener { connectSelectedAccess() }
+        binding.compactShizukuButton.setOnClickListener {
+            if (hasUnsavedChanges && save != null) saveBack() else connectSelectedAccess()
+        }
         binding.rootButton.setOnClickListener { requestOrConnectRoot() }
         binding.shizukuButton.setOnClickListener { requestOrConnectShizuku() }
-        binding.openGameButton.setOnClickListener { openExAstrisSave() }
+        binding.openGameButton.setOnClickListener { openExAstrisSave(forcePicker = save != null) }
         binding.openManualButton.setOnClickListener { pickFile() }
         binding.saveButton.setOnClickListener { saveBack() }
         binding.saveAsButton.setOnClickListener { saveAs() }
@@ -306,6 +315,7 @@ class MainActivity : AppCompatActivity() {
         binding.largeIconsSwitch.isChecked = largeItemIcons()
         binding.confirmBulkSwitch.isChecked = confirmBulkActions()
         binding.autoBackupSwitch.isChecked = automaticBackup()
+        binding.autoSaveSwitch.isChecked = automaticSaveChanges()
 
         binding.showIdsSwitch.setOnCheckedChangeListener { _, checked ->
             prefs.edit().putBoolean("show_ids", checked).apply()
@@ -321,6 +331,9 @@ class MainActivity : AppCompatActivity() {
         binding.autoBackupSwitch.setOnCheckedChangeListener { _, checked ->
             prefs.edit().putBoolean("auto_backup", checked).apply()
         }
+        binding.autoSaveSwitch.setOnCheckedChangeListener { _, checked ->
+            prefs.edit().putBoolean("auto_save_changes", checked).apply()
+        }
 
         val version = try {
             packageManager.getPackageInfo(packageName, 0).versionName ?: ""
@@ -334,6 +347,7 @@ class MainActivity : AppCompatActivity() {
     private fun largeItemIcons(): Boolean = prefs.getBoolean("large_icons", false)
     private fun confirmBulkActions(): Boolean = prefs.getBoolean("confirm_bulk", true)
     private fun automaticBackup(): Boolean = prefs.getBoolean("auto_backup", true)
+    private fun automaticSaveChanges(): Boolean = prefs.getBoolean("auto_save_changes", false)
 
     private fun accessMode(): AccessMode = try {
         AccessMode.valueOf(prefs.getString("access_mode", AccessMode.AUTO.name) ?: AccessMode.AUTO.name)
@@ -546,9 +560,14 @@ class MainActivity : AppCompatActivity() {
         binding.compactShizukuStatus.setTextColor(color(statusColor))
 
         val ready = backend == AccessBackend.ROOT || backend == AccessBackend.SHIZUKU
+        val quickSave = hasUnsavedChanges && save != null
         binding.openGameButton.isEnabled = true
-        binding.compactShizukuButton.visibility = if (ready) View.GONE else View.VISIBLE
-        binding.compactShizukuButton.setText(if (mode == AccessMode.MANUAL) R.string.access_choose_file else R.string.connect)
+        binding.compactShizukuButton.visibility = if (quickSave || !ready) View.VISIBLE else View.GONE
+        binding.compactShizukuButton.setText(when {
+            quickSave -> R.string.save_short
+            mode == AccessMode.MANUAL -> R.string.access_choose_file
+            else -> R.string.connect
+        })
 
         val rootStateText = when {
             rootService != null -> getString(R.string.diag_connected)
@@ -717,7 +736,15 @@ class MainActivity : AppCompatActivity() {
                 val ruName = v.optString("name", "")
                 val enName = v.optString("name_en", ruName)
                 names[id] = if (ru) ruName else enName
+                alternateNames[id] = (if (ru) enName else ruName).takeIf { it.isNotBlank() && it != names[id] }.orEmpty()
                 cats[id] = v.optString("cat", "")
+                val ruDesc = v.optString("description", "")
+                val enDesc = v.optString("description_en", ruDesc)
+                descriptions[id] = if (ru) ruDesc else enDesc
+                searchTexts[id] = listOf(
+                    id.toString(), ruName, enName, ruDesc, enDesc, v.optString("cat", "")
+                ).joinToString(" ").lowercase(Locale.ROOT)
+                if (v.optBoolean("verified", false)) verifiedItems.add(id)
             }
         } catch (_: Exception) {
         }
@@ -727,6 +754,25 @@ class MainActivity : AppCompatActivity() {
         val name = names[id]
         return if (name.isNullOrBlank()) getString(R.string.unnamed) else name
     }
+
+    private fun alternateNameOf(id: Int): String = alternateNames[id].orEmpty()
+
+    private fun matchesSearch(id: Int): Boolean {
+        if (searchQuery.isBlank()) return true
+        val haystack = searchTexts[id] ?: "$id ${nameOf(id)}".lowercase(Locale.ROOT)
+        return haystack.contains(searchQuery)
+    }
+
+    private fun descriptionOf(id: Int): String = descriptions[id].orEmpty().ifBlank {
+        when (catOf(id)) {
+            "material" -> if (preferRussian()) "Материал из сохранения." else "Material from the save file."
+            "consumable" -> if (preferRussian()) "Расходуемый предмет из сохранения." else "Consumable item from the save file."
+            "entropite" -> if (preferRussian()) "Боевой энтропит." else "Combat Entropith."
+            else -> if (preferRussian()) "Предмет из сохранения." else "Item from the save file."
+        }
+    }
+
+    private fun itemVerified(id: Int): Boolean = id in verifiedItems
 
     private fun catOf(id: Int): String {
         cats[id]?.let { if (it.isNotBlank()) return it }
@@ -756,7 +802,7 @@ class MainActivity : AppCompatActivity() {
 
     // ---------------- direct Android/data access ----------------
 
-    private fun openExAstrisSave() {
+    private fun openExAstrisSave(forcePicker: Boolean = false) {
         val mode = accessMode()
         if (mode == AccessMode.MANUAL) {
             pickFile()
@@ -789,7 +835,21 @@ class MainActivity : AppCompatActivity() {
                     when {
                         paths.isEmpty() -> toast(getString(R.string.save_not_found))
                         paths.size == 1 -> openPrivilegedPath(paths[0], backend)
-                        else -> showSaveCandidates(paths, backend)
+                        else -> {
+                            if (forcePicker) {
+                                showSaveCandidates(paths, backend)
+                            } else {
+                                val remembered = prefs.getString("last_save_path", null)
+                                val rememberedPath = paths.firstOrNull { it == remembered }
+                                val mainPath = paths.filter { File(it).name.equals("SaveFile0.save", ignoreCase = true) }
+                                    .singleOrNull()
+                                when {
+                                    rememberedPath != null -> openPrivilegedPath(rememberedPath, backend)
+                                    mainPath != null -> openPrivilegedPath(mainPath, backend)
+                                    else -> showSaveCandidates(paths, backend)
+                                }
+                            }
+                        }
                     }
                 }
             } catch (e: Throwable) {
@@ -805,7 +865,8 @@ class MainActivity : AppCompatActivity() {
         val labels = paths.map { path ->
             val f = File(path)
             val parent = f.parentFile?.parentFile?.name.orEmpty()
-            if (parent.isBlank()) f.name else "$parent / ${f.name}"
+            val base = if (parent.isBlank()) f.name else "$parent / ${f.name}"
+            if (path == directPath) "✓ $base" else base
         }.toTypedArray()
 
         MaterialAlertDialogBuilder(this)
@@ -826,10 +887,14 @@ class MainActivity : AppCompatActivity() {
                 backupOriginal(bytes)
                 runOnUiThread {
                     save = parsed
+                    hasUnsavedChanges = false
+                    editGeneration = 0L
                     directPath = path
+                    prefs.edit().putString("last_save_path", path).apply()
                     directBackend = backend
                     uri = null
                     refreshInventory()
+                    baselineItems = LinkedHashMap(currentItems)
                     updateFileUi()
                 }
             } catch (e: Throwable) {
@@ -880,10 +945,13 @@ class MainActivity : AppCompatActivity() {
                 backupOriginal(bytes)
                 runOnUiThread {
                     save = parsed
+                    hasUnsavedChanges = false
+                    editGeneration = 0L
                     uri = selected
                     directPath = null
                     directBackend = AccessBackend.MANUAL
                     refreshInventory()
+                    baselineItems = LinkedHashMap(currentItems)
                     updateFileUi()
                 }
             } catch (e: Throwable) {
@@ -976,6 +1044,8 @@ class MainActivity : AppCompatActivity() {
                 val parsed = SaveFile(file.readBytes())
                 runOnUiThread {
                     save = parsed
+                    editGeneration += 1
+                    hasUnsavedChanges = true
                     refreshInventory()
                     updateFileUi()
                     toast(getString(R.string.backup_loaded))
@@ -998,6 +1068,8 @@ class MainActivity : AppCompatActivity() {
         if (targetPath == null && documentUri == null) return toast(getString(R.string.open_first))
 
         binding.saveButton.isEnabled = false
+        val generationBeingSaved = editGeneration
+        val itemsBeingSaved = LinkedHashMap(currentItems)
         io.execute {
             try {
                 val data = sf.build()
@@ -1036,7 +1108,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 runOnUiThread {
                     binding.saveButton.isEnabled = true
-                    toast(getString(R.string.written, data.size))
+                    baselineItems = itemsBeingSaved
+                    if (editGeneration == generationBeingSaved) {
+                        hasUnsavedChanges = false
+                    }
+                    updateDirtyUi()
+                    toast(if (automaticSaveChanges()) getString(R.string.autosave_written) else getString(R.string.written, data.size))
                 }
             } catch (e: Throwable) {
                 runOnUiThread {
@@ -1082,11 +1159,7 @@ class MainActivity : AppCompatActivity() {
         val rows = currentItems.entries
             .asSequence()
             .filter { (id, _) -> activeCategory == null || catOf(id) == activeCategory }
-            .filter { (id, _) ->
-                if (searchQuery.isBlank()) true
-                else id.toString().contains(searchQuery) ||
-                        nameOf(id).lowercase(Locale.ROOT).contains(searchQuery)
-            }
+            .filter { (id, _) -> matchesSearch(id) }
             .sortedWith(compareBy<Map.Entry<Int, Int>>(
                 { categoryOrder.indexOf(catOf(it.key)).let { idx -> if (idx < 0) categoryOrder.size else idx } },
                 { it.key }
@@ -1117,11 +1190,15 @@ class MainActivity : AppCompatActivity() {
             binding.fileSource.setText(R.string.no_file_hint)
             binding.fileDetails.setText(R.string.empty_summary)
             binding.filePath.setText(R.string.no_file_hint)
+            binding.openGameButton.setText(R.string.open_game_save)
             binding.saveButton.isEnabled = false
             binding.saveAsButton.isEnabled = false
             binding.bulkButton.isEnabled = false
             binding.addFab.isEnabled = false
             renderRows()
+            baselineItems = emptyMap()
+            hasUnsavedChanges = false
+            updateDirtyUi()
             updateBackupUi()
             return
         }
@@ -1141,12 +1218,49 @@ class MainActivity : AppCompatActivity() {
         })
         binding.fileDetails.text = getString(R.string.save_details, saved, sf.mods.size, currentItems.size)
         binding.filePath.text = directPath ?: uri?.toString().orEmpty()
+        binding.openGameButton.setText(if (directPath != null) R.string.switch_save else R.string.open_game_save)
         binding.saveButton.isEnabled = true
         binding.saveAsButton.isEnabled = true
         binding.bulkButton.isEnabled = true
         binding.addFab.isEnabled = true
         renderRows()
+        updateDirtyUi()
         updateBackupUi()
+    }
+
+    private fun changedItemCount(): Int {
+        val ids = HashSet<Int>()
+        ids.addAll(baselineItems.keys)
+        ids.addAll(currentItems.keys)
+        return ids.count { baselineItems[it] != currentItems[it] }
+    }
+
+    private fun updateDirtyUi() {
+        if (!::binding.isInitialized) return
+        val changedCount = changedItemCount()
+        binding.dirtyStatus.text = if (hasUnsavedChanges) {
+            getString(R.string.unsaved_changes_count, changedCount)
+        } else {
+            getString(R.string.all_changes_saved)
+        }
+        binding.dirtyStatus.setTextColor(color(if (hasUnsavedChanges) R.color.exa_warning else R.color.exa_success))
+        if (save != null) {
+            val label = directPath?.let { File(it).name }
+                ?: uri?.lastPathSegment?.substringAfterLast('/')
+                ?: "SaveFile0.save"
+            binding.compactFileTitle.text = if (hasUnsavedChanges) {
+                getString(R.string.compact_unsaved_count, label, changedCount)
+            } else label
+            binding.compactFileTitle.setTextColor(color(if (hasUnsavedChanges) R.color.exa_warning else R.color.exa_text_secondary))
+        }
+        updateAccessUi()
+    }
+
+    private fun markDirty() {
+        editGeneration += 1
+        hasUnsavedChanges = true
+        updateDirtyUi()
+        if (automaticSaveChanges()) saveBack()
     }
 
     // ---------------- item editing sheets ----------------
@@ -1159,7 +1273,12 @@ class MainActivity : AppCompatActivity() {
         dialog.setContentView(sheet.root)
 
         sheet.itemName.text = nameOf(id)
+        val alternate = alternateNameOf(id)
+        sheet.itemAlias.text = alternate
+        sheet.itemAlias.visibility = if (alternate.isBlank()) View.GONE else View.VISIBLE
         sheet.itemMeta.text = getString(R.string.item_meta, id, catLabel(catOf(id)))
+        sheet.itemDescription.text = descriptionOf(id)
+        sheet.itemKnowledgeStatus.setText(if (itemVerified(id)) R.string.item_info_verified else R.string.item_info_unverified)
         sheet.itemIcon.setImageResource(itemIconRes(id))
         sheet.quantityInput.setText(current.toString())
         sheet.quantityInput.setSelection(sheet.quantityInput.text?.length ?: 0)
@@ -1186,13 +1305,15 @@ class MainActivity : AppCompatActivity() {
 
         sheet.applyButton.setOnClickListener {
             val value = readAmount()
-            sf.setItems { itemId, _ -> if (itemId == id) value else null }
+            val changed = sf.setItems { itemId, _ -> if (itemId == id) value else null }
             refreshInventory()
+            if (changed > 0) markDirty()
             dialog.dismiss()
         }
         sheet.deleteButton.setOnClickListener {
             sf.removeItems(setOf(id))
             refreshInventory()
+            markDirty()
             dialog.dismiss()
         }
 
@@ -1216,6 +1337,7 @@ class MainActivity : AppCompatActivity() {
             if (plan.isEmpty()) return@setOnClickListener
             val added = sf.addItems(plan)
             refreshInventory()
+            if (added.isNotEmpty()) markDirty()
             toast(getString(R.string.added, added.size))
             dialog.dismiss()
         }
@@ -1223,49 +1345,110 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    private enum class BulkOperation { SET, ADD, SUBTRACT }
+
     private fun showBulkActionsSheet() {
         if (save == null) return toast(getString(R.string.open_first))
         val sheet = BottomSheetBulkActionsBinding.inflate(layoutInflater)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(sheet.root)
 
-        sheet.materialsButton.setOnClickListener {
-            confirmAndBulk("material", 10_000, dialog)
+        when (activeCategory) {
+            "consumable" -> sheet.categoryGroup.check(R.id.consumablesButton)
+            "currency" -> sheet.categoryGroup.check(R.id.currencyButton)
+            "material" -> sheet.categoryGroup.check(R.id.materialsButton)
+            "entropite" -> sheet.categoryGroup.check(R.id.entropiteButton)
+            "other" -> sheet.categoryGroup.check(R.id.otherButton)
+            else -> sheet.categoryGroup.check(R.id.allItemsButton)
         }
-        sheet.consumablesButton.setOnClickListener {
-            confirmAndBulk("consumable", 10_000, dialog)
+        sheet.operationGroup.check(R.id.setOperationButton)
+        sheet.valueInput.setText(prefs.getInt("last_bulk_value", 10_000).toString())
+
+        fun selectedCategory(): String? = when (sheet.categoryGroup.checkedButtonId) {
+            R.id.allItemsButton -> null
+            R.id.consumablesButton -> "consumable"
+            R.id.currencyButton -> "currency"
+            R.id.entropiteButton -> "entropite"
+            R.id.otherButton -> "other"
+            else -> "material"
         }
-        sheet.currencyButton.setOnClickListener {
-            confirmAndBulk("currency", 100_000, dialog)
+        fun selectedOperation(): BulkOperation = when (sheet.operationGroup.checkedButtonId) {
+            R.id.addOperationButton -> BulkOperation.ADD
+            R.id.subtractOperationButton -> BulkOperation.SUBTRACT
+            else -> BulkOperation.SET
+        }
+        fun readValue(): Int {
+            val raw = sheet.valueInput.text?.toString()?.replace(" ", "")?.toLongOrNull() ?: 0L
+            return raw.coerceIn(0L, 999_999_999L).toInt()
+        }
+        fun setValue(value: Int) {
+            sheet.valueInput.setText(value.toString())
+            sheet.valueInput.setSelection(sheet.valueInput.text?.length ?: 0)
+        }
+        fun eligibleIds(): Set<Int> {
+            val category = selectedCategory()
+            val base = currentItems.keys.filter { category == null || catOf(it) == category }
+            if (!sheet.visibleOnlyCheck.isChecked) return base.toSet()
+            return base.filter { id ->
+                (activeCategory == null || catOf(id) == activeCategory) && matchesSearch(id)
+            }.toSet()
+        }
+        fun updatePreview() {
+            sheet.previewText.text = getString(R.string.bulk_preview, eligibleIds().size)
         }
 
+        sheet.preset100Button.setOnClickListener { setValue(100) }
+        sheet.preset999Button.setOnClickListener { setValue(999) }
+        sheet.preset10kButton.setOnClickListener { setValue(10_000) }
+        sheet.preset100kButton.setOnClickListener { setValue(100_000) }
+        sheet.presetMaxButton.setOnClickListener { setValue(999_999) }
+        sheet.categoryGroup.addOnButtonCheckedListener { _, _, checked -> if (checked) updatePreview() }
+        sheet.visibleOnlyCheck.setOnCheckedChangeListener { _, _ -> updatePreview() }
+        updatePreview()
+
+        sheet.applyButton.setOnClickListener {
+            val ids = eligibleIds()
+            if (ids.isEmpty()) return@setOnClickListener toast(getString(R.string.bulk_nothing))
+            val value = readValue()
+            prefs.edit().putInt("last_bulk_value", value).apply()
+            val operation = selectedOperation()
+            val proceed = {
+                performBulk(ids, value, operation)
+                dialog.dismiss()
+            }
+            if (!confirmBulkActions()) {
+                proceed()
+            } else {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.bulk_confirm_title)
+                    .setMessage(getString(
+                        when (operation) {
+                            BulkOperation.SET -> R.string.bulk_confirm_set
+                            BulkOperation.ADD -> R.string.bulk_confirm_add
+                            BulkOperation.SUBTRACT -> R.string.bulk_confirm_subtract
+                        },
+                        ids.size,
+                        value
+                    ))
+                    .setPositiveButton(R.string.apply) { _, _ -> proceed() }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+            }
+        }
         dialog.show()
     }
 
-    private fun confirmAndBulk(category: String, value: Int, sheet: BottomSheetDialog) {
-        if (!confirmBulkActions()) {
-            performBulk(category, value)
-            sheet.dismiss()
-            return
-        }
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.bulk_confirm_title)
-            .setMessage(getString(R.string.bulk_confirm_message, catLabel(category), value))
-            .setPositiveButton(R.string.apply) { _, _ ->
-                performBulk(category, value)
-                sheet.dismiss()
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
-    private fun performBulk(category: String, value: Int) {
+    private fun performBulk(ids: Set<Int>, value: Int, operation: BulkOperation) {
         val sf = save ?: return toast(getString(R.string.open_first))
-        val changed = sf.setItems { id, _ ->
-            if (catOf(id) == category) value else null
+        val changed = sf.setItems { id, current ->
+            if (id !in ids) null else when (operation) {
+                BulkOperation.SET -> value
+                BulkOperation.ADD -> (current.toLong() + value.toLong()).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+                BulkOperation.SUBTRACT -> (current.toLong() - value.toLong()).coerceAtLeast(0L).toInt()
+            }
         }
         refreshInventory()
+        if (changed > 0) markDirty()
         toast(getString(R.string.entries_changed, changed))
     }
 

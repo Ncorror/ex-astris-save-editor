@@ -299,6 +299,16 @@
                             android:textIsSelectable="true"
                             android:textSize="12sp" />
 
+                        <TextView
+                            android:id="@+id/dirtyStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:text="@string/all_changes_saved"
+                            android:textColor="@color/exa_success"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/saveButton"
                             android:layout_width="match_parent"
@@ -693,6 +703,26 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="42dp"
                     android:text="@string/auto_backup_summary"
+                    android:textColor="@color/exa_text_secondary"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/autoSaveSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/auto_save_changes"
+                    android:textColor="@color/exa_text"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="42dp"
+                    android:text="@string/auto_save_changes_summary"
                     android:textColor="@color/exa_text_secondary"
                     android:textSize="12sp" />
 

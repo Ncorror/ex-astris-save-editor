@@ -140,9 +140,24 @@ gh run download -n ex-astris-save-editor-debug
 - Kept the 1.2.1 stable quantity column fix.
 
 
-## v1.3.2
+## v1.4.0
 
 - Root reconnect now refreshes a stale non-root libsu shell after SuperUser is enabled externally.
 - Root service connection is verified to run as UID 0.
 - Settings show only the selected access backend; Auto uses a compact combined diagnostic card.
 - Item quantity rendering fix from v1.3.1 is retained.
+
+
+## Item knowledge base (v1.4)
+
+The editor now stores short per-item descriptions in `assets/items.json`. Entries marked `verified: true` have name/purpose text checked against a public Ex Astris community reference; unknown IDs remain explicitly marked as preliminary instead of being guessed. See `ITEM_RESEARCH.md` for sources and the ID-mapping caveat.
+
+Search now matches IDs, localized names, English/Russian aliases and known descriptions. The edit sheet shows the alternate-language name and a short description when available.
+
+## Editing workflow (v1.4)
+
+- Bulk editing supports **Set / Add / Subtract**, any typed value, optional quick presets, all categories or one category, and an optional current-search/filter limit.
+- Preset buttons are shortcuts only; they are not limits.
+- Unsaved edits are visible in the compact save strip, which turns into a one-tap **Save** action while changes are pending.
+- Optional autosave is available in Settings, but manual save remains the default because Ex Astris should be fully closed before the file is written.
+- The last privileged save path is remembered and `SaveFile0.save` is preferred automatically when appropriate.

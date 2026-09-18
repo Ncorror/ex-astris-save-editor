@@ -27,13 +27,26 @@ open class PrivilegedFileBinder : IShizukuFileService.Stub() {
 
         return candidates
             .distinctBy { safeCanonical(it) }
-            .sortedWith(
-                compareByDescending<File> { it.name.equals(TARGET_SAVE, ignoreCase = true) }
-                    .thenByDescending { it.lastModified() }
-            )
+            .sortedWith(compareBy<File>(
+                { saveSortGroup(it.name) },
+                { saveSortIndex(it.name) },
+                { it.parentFile?.parentFile?.name.orEmpty() },
+                { it.name.lowercase() }
+            ))
             .take(MAX_RESULTS)
             .map { safeCanonical(it) }
             .toTypedArray()
+    }
+
+    private fun saveSortGroup(name: String): Int = when {
+        name.equals(TARGET_SAVE, ignoreCase = true) -> 0
+        name.startsWith("AutoSaveFile", ignoreCase = true) -> 1
+        else -> 2
+    }
+
+    private fun saveSortIndex(name: String): Int {
+        val match = Regex("(?i)AutoSaveFile(\\d+)\\.save").matchEntire(name)
+        return match?.groupValues?.getOrNull(1)?.toIntOrNull() ?: Int.MAX_VALUE
     }
 
     override fun openRead(path: String): ParcelFileDescriptor {

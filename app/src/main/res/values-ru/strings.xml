@@ -47,7 +47,7 @@
     <string name="bulk_subtitle">Применяй готовые значения к целой категории. Подтверждение можно включить или выключить в настройках.</string>
     <string name="bulk_materials">Материалы</string>
     <string name="bulk_consumables">Расходники</string>
-    <string name="bulk_currency">Валюта</string>
+    <string name="bulk_currency">Ресурсы</string>
     <string name="set_10k">Установить 10 000</string>
     <string name="set_100k">Установить 100 000</string>
     <string name="bulk_confirm_title">Подтвердить массовое изменение</string>
@@ -146,10 +146,36 @@ Android/data: %6$s</string>
     <string name="version_label">Версия %1$s</string>
 
     <string name="cat_all">Все</string>
-    <string name="cat_currency">Валюта</string>
+    <string name="cat_currency">Ресурсы</string>
     <string name="cat_consumable">Расходники</string>
     <string name="cat_material">Материалы</string>
     <string name="cat_entropite">Энтропиты</string>
     <string name="cat_other">Прочее</string>
     <string name="item_meta">%2$s · ID %1$d</string>
+    <string name="item_info_verified">✓ Справка сверена с базой сообщества · соответствие ID определено каталогом редактора</string>
+    <string name="item_info_unverified">Предварительная идентификация · точное назначение ещё уточняется</string>
+    <string name="bulk_subtitle_v2">Выбери категорию, операцию и любое значение. Можно менять только позиции, которые сейчас показаны фильтром.</string>
+    <string name="bulk_category_label">Что изменить</string>
+    <string name="bulk_resources">Ресурсы</string>
+    <string name="bulk_set">Установить</string>
+    <string name="bulk_add">Добавить</string>
+    <string name="bulk_value">Значение</string>
+    <string name="bulk_visible_only">Только позиции, показанные текущим поиском/фильтром</string>
+    <string name="bulk_preview">Будет затронуто позиций: %1$d</string>
+    <string name="bulk_confirm_set">Установить для %1$d позиций значение %2$d?</string>
+    <string name="bulk_confirm_add">Добавить %2$d к %1$d позициям?</string>
+    <string name="bulk_nothing">Нет подходящих позиций</string>
+    <string name="unsaved_changes">● Есть несохранённые изменения</string>
+    <string name="all_changes_saved">✓ Все изменения сохранены</string>
+    <string name="auto_save_changes">Автосохранение изменений</string>
+    <string name="auto_save_changes_summary">После «Применить», добавления, удаления или массового действия сразу записывать save. По умолчанию выключено; Ex Astris должна быть полностью закрыта.</string>
+    <string name="autosave_written">Изменения автоматически сохранены</string>
+    <string name="bulk_subtract">Вычесть</string>
+    <string name="bulk_confirm_subtract">Вычесть %2$d из %1$d позиций?</string>
+    <string name="compact_unsaved">%1$s · не сохранено</string>
+    <string name="save_short">Сохранить</string>
+    <string name="quick_values_hint">Это только быстрые значения — в поле можно ввести любое число.</string>
+    <string name="switch_save">Сменить сохранение</string>
+    <string name="unsaved_changes_count">● Несохранённых позиций: %1$d</string>
+    <string name="compact_unsaved_count">%1$s · изменено %2$d</string>
 </resources>
