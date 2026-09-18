@@ -39,8 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
-                android:padding="5dp"
-                android:scaleType="centerInside"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_item_placeholder" />
         </com.google.android.material.card.MaterialCardView>
 
