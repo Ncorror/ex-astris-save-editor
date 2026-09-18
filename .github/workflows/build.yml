@@ -40,40 +40,51 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+          gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
 
-      - name: Prepare APK package
+      - name: Prepare artifacts
+        if: always()
         run: |
-          mkdir -p release-files
+          mkdir -p release-files verification-files
 
-          cp app/build/outputs/apk/debug/*.apk release-files/ex-astris-save-editor.apk || true
+          APK_PATH="$(find app/build/outputs/apk/debug -maxdepth 1 -name '*.apk' -print -quit 2>/dev/null || true)"
+          if [ -n "$APK_PATH" ]; then
+            cp "$APK_PATH" release-files/ex-astris-save-editor.apk
+          fi
 
-          cat > release-files/build-info.txt <<INFO
-Application: Ex Astris Save Editor
-Version: 1.0.0
-Build number: ${{ github.run_number }}
-Commit: ${{ github.sha }}
-Build date: $(date -u)
-Android compile SDK: 34
-Shizuku support: enabled
-Theme: Dark Material 3
-INFO
+          {
+            echo "Application: Ex Astris Save Editor"
+            echo "Version: 1.0.0"
+            echo "Build number: $GITHUB_RUN_NUMBER"
+            echo "Commit: $GITHUB_SHA"
+            echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            echo "Android compile SDK: 34"
+            echo "Shizuku support: enabled"
+            echo "Theme: Dark Material 3"
+          } > release-files/build-info.txt
 
-          cp build.log release-files/build.log || true
+          cp release-files/build-info.txt verification-files/build-info.txt
+          cp build.log release-files/build.log 2>/dev/null || true
+          cp build.log verification-files/build.log 2>/dev/null || true
+          cp -a app/build/reports verification-files/reports 2>/dev/null || true
+          cp -a app/build/test-results verification-files/test-results 2>/dev/null || true
 
       - name: Upload APK artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ex-astris-save-editor-debug
           path: release-files/
           if-no-files-found: warn
 
-      - name: Upload verification logs
-        if: failure()
+      - name: Upload verification artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ex-astris-save-editor-verification
-          path: |
-            build.log
-            app/build/reports/
+          path: verification-files/
           if-no-files-found: warn
+
+      - name: Mark build as failed
+        if: steps.build.outcome != 'success'
+        run: exit 1
