@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="exa_bg">#0A0D12</color>
+    <color name="exa_surface">#111620</color>
+    <color name="exa_surface_variant">#18202C</color>
+    <color name="exa_outline">#2A3545</color>
+    <color name="exa_primary">#78D7FF</color>
+    <color name="exa_primary_container">#163B4C</color>
+    <color name="exa_secondary">#C1B2FF</color>
+    <color name="exa_success">#79E1A5</color>
+    <color name="exa_warning">#FFD37A</color>
+    <color name="exa_error">#FF8D8D</color>
+    <color name="exa_text">#E9EEF7</color>
+    <color name="exa_text_secondary">#AAB6C7</color>
+    <color name="exa_on_primary">#002635</color>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.ExaSave" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/exa_primary</item>
+        <item name="colorOnPrimary">@color/exa_on_primary</item>
+        <item name="colorPrimaryContainer">@color/exa_primary_container</item>
+        <item name="colorSecondary">@color/exa_secondary</item>
+        <item name="colorSurface">@color/exa_surface</item>
+        <item name="colorSurfaceVariant">@color/exa_surface_variant</item>
+        <item name="colorOutline">@color/exa_outline</item>
+        <item name="android:colorBackground">@color/exa_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/exa_bg</item>
+        <item name="android:navigationBarColor">@color/exa_bg</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.ExaSave.Dialog</item>
+    </style>
+
+    <style name="ThemeOverlay.ExaSave.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/exa_surface</item>
+    </style>
+</resources>
