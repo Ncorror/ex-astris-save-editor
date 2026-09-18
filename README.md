@@ -1,10 +1,10 @@
-> Current development build: **1.5.1** — safer bulk editing, compact unsaved-change bar, and name-only search.
+> Current development build: **1.5.2** — v1.5.1 stability plus 13 newly discovered catalog items and matching icons.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.5.1**.
+Current development version: **1.5.2**.
 
 ## Current status
 
@@ -254,6 +254,15 @@ gh run download -n ex-astris-save-editor-debug
 - `V1_4_4_CURRENCY_ICONS.md` — Astrite/Doron icon completion.
 - `WARNING_CLEANUP.md` — build-warning cleanup history.
 - `V1_4_NOTES.md` — v1.4 feature-development notes.
+
+
+## v1.5.2 catalog expansion
+
+The existing 69-item catalog and all previously integrated icons are preserved unchanged. v1.5.2 adds 13 newly discovered IDs from the user-provided catalog dump, bringing the catalog to **82 entries**. Each of the 13 new IDs has a matching 128x128 icon from the accompanying icon archive.
+
+New IDs: `12005`, `12007`, `12008`, `12009`, `210012`, `500001`, `710002`, `710004`, `710005`, `720005`, `730002`, `800006`, `9710017`.
+
+New Entropith/Other entries are explicitly excluded from bulk quantity edits. Existing item metadata and existing image files were intentionally left untouched.
 
 ## v1.5.1 UX and bulk-safety update
 

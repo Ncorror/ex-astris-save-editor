@@ -116,3 +116,13 @@ With autosave ON:
 4. Confirm Undo restores the last editor state.
 5. Confirm Save writes the file and hides the bar/badge.
 6. Confirm the top access card does not show a duplicate Save button while Root/Shizuku is connected.
+
+
+## v1.5.2 catalog regression checks
+
+- Existing 69 item names/icons render exactly as before.
+- New IDs `12005`, `12007`, `12008`, `12009`, `210012`, `500001`, `710002`, `710004`, `710005`, `720005`, `730002`, `800006`, `9710017` resolve to names and icons.
+- Total catalog count is 82.
+- Total `item_*.png` resource count is 82.
+- New Entropith/Other IDs are skipped by bulk editing.
+- Name-only search can find the new Russian names.

@@ -55,6 +55,30 @@
     "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
     "verified": false
   },
+  "12005": {
+    "name": "Жёлто-зелёный свёрток",
+    "cat": "consumable",
+    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
+    "verified": false
+  },
+  "12007": {
+    "name": "Жёлтый свёрток",
+    "cat": "consumable",
+    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
+    "verified": false
+  },
+  "12008": {
+    "name": "Красный свёрток с завитком",
+    "cat": "consumable",
+    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
+    "verified": false
+  },
+  "12009": {
+    "name": "Розовый свёрток",
+    "cat": "consumable",
+    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
+    "verified": false
+  },
   "12999": {
     "name": "Триод энтропита",
     "name_en": "Entropith Triode",
@@ -207,6 +231,12 @@
     "description_en": "Cooking ingredient used in dishes that provide temporary bonuses.",
     "verified": true
   },
+  "210012": {
+    "name": "Янтарная капля",
+    "cat": "material",
+    "description": "Материал из сохранения. Точное назначение этого ID ещё уточняется.",
+    "verified": false
+  },
   "210014": {
     "name": "Галактическая масала",
     "name_en": "Galactic Masala",
@@ -296,6 +326,13 @@
     "verified": false,
     "bulk_editable": false
   },
+  "500001": {
+    "name": "Энтропит, синий кристалл, вариант",
+    "cat": "entropite",
+    "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
+    "verified": false,
+    "bulk_editable": false
+  },
   "500002": {
     "name": "Энтропит, бело-золотой",
     "name_en": "Entropite, white and gold",
@@ -373,6 +410,27 @@
     "verified": false,
     "bulk_editable": false
   },
+  "710002": {
+    "name": "Ящик с бутылями, этикетка с волнами",
+    "cat": "other",
+    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "verified": false,
+    "bulk_editable": false
+  },
+  "710004": {
+    "name": "Ящик с бутылями, этикетка с костром",
+    "cat": "other",
+    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "verified": false,
+    "bulk_editable": false
+  },
+  "710005": {
+    "name": "Ящик с бутылями, этикетка с лапшой",
+    "cat": "other",
+    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "verified": false,
+    "bulk_editable": false
+  },
   "710006": {
     "name": "Ящик с бутылями, красная этикетка",
     "name_en": "Bottle crate, red label",
@@ -418,12 +476,26 @@
     "verified": false,
     "bulk_editable": false
   },
+  "720005": {
+    "name": "Ящик с бутылями, этикетка с лежаком",
+    "cat": "other",
+    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
+    "verified": false,
+    "bulk_editable": false
+  },
   "730001": {
     "name": "Ящик с бутылями, этикетка со змейкой",
     "name_en": "Bottle crate, snake label",
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "verified": false,
+    "bulk_editable": false
+  },
+  "730002": {
+    "name": "Ящик с бутылями, этикетка со змейкой",
+    "cat": "other",
+    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "verified": false,
     "bulk_editable": false
   },
@@ -441,6 +513,12 @@
     "cat": "consumable",
     "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
     "description_en": "Consumable item. The exact purpose of this ID is still being verified.",
+    "verified": false
+  },
+  "800006": {
+    "name": "Маска с розовыми перьями",
+    "cat": "consumable",
+    "description": "Расходуемый предмет. Точное назначение этого ID ещё уточняется.",
     "verified": false
   },
   "800008": {
@@ -535,6 +613,13 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
+    "verified": false,
+    "bulk_editable": false
+  },
+  "9710017": {
+    "name": "Реликвия бирюзовая, метка треугольник",
+    "cat": "other",
+    "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "verified": false,
     "bulk_editable": false
   },

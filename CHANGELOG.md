@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.5.2
+
+- Added 13 newly discovered item IDs from the user-provided catalog snapshot.
+- Added the corresponding 13 128x128 item icons.
+- Preserved all existing 69 catalog entries and their image files unchanged.
+- New Entropith/Other IDs are protected from bulk quantity editing.
+- Catalog now contains 82 entries with 82 matching icons.
+
+
 ## 1.5.1
 - Exclude protected/non-stack-safe items from bulk quantity operations.
 - Add `bulk_editable` catalog metadata; current Entropith and Other/unique entries are protected.

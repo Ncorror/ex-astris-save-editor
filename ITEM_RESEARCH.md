@@ -50,7 +50,7 @@ It also lists fourteen Entropiths, including Impact, Mender, Lightning, Razor Ga
 
 ## Current icon coverage
 
-The current project now contains resource images for all 69 catalog entries, including the Astrite (`10000`) and Doron (`10001`) HUD/resource symbols added in v1.4.4. Icon presence does not by itself prove an item-name mapping; descriptions should still follow the evidence rules above.
+The current project now contains resource images for all 69 pre-v1.5.2 catalog entries, including the Astrite (`10000`) and Doron (`10001`) HUD/resource symbols added in v1.4.4. Icon presence does not by itself prove an item-name mapping; descriptions should still follow the evidence rules above.
 
 ## How to improve the mapping with item icons
 
@@ -69,3 +69,12 @@ item_500000.png
 ```
 
 Comparing those icons with public screenshots/reference lists is the safest next step for resolving the remaining unknown IDs without inventing names.
+
+
+## v1.5.2 additions
+
+The user supplied an updated catalog snapshot and icon archive containing 13 IDs not present in v1.5.1. They are added as **unverified** catalog entries using the supplied Russian names/categories. No official-name claim is made for these new IDs until independently verified.
+
+IDs: `12005`, `12007`, `12008`, `12009`, `210012`, `500001`, `710002`, `710004`, `710005`, `720005`, `730002`, `800006`, `9710017`.
+
+The project now contains 82 catalog entries and matching item images for all 82 IDs.

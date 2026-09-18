@@ -55,7 +55,7 @@ jobs:
           fi
 
           echo "Application: Ex Astris Save Editor" > release-files/build-info.txt
-          echo "Version: 1.5.1" >> release-files/build-info.txt
+          echo "Version: 1.5.2" >> release-files/build-info.txt
           echo "Build number: $GITHUB_RUN_NUMBER" >> release-files/build-info.txt
           echo "Commit: $GITHUB_SHA" >> release-files/build-info.txt
           echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> release-files/build-info.txt
@@ -65,6 +65,8 @@ jobs:
           echo "Theme: Dark Material 3" >> release-files/build-info.txt
           echo "Unsaved-change guard: compact persistent bar" >> release-files/build-info.txt
           echo "Bulk quantity safety: protected unique items" >> release-files/build-info.txt
+          echo "Catalog entries: 82" >> release-files/build-info.txt
+          echo "Item icons: 82" >> release-files/build-info.txt
           echo "Search mode: item names only" >> release-files/build-info.txt
 
           cp release-files/build-info.txt verification-files/build-info.txt
