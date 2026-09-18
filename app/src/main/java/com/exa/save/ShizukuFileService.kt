@@ -10,12 +10,11 @@ import java.io.File
  * Runs inside Shizuku/Sui with shell or root identity.
  * The service is deliberately restricted to Ex Astris' own Android/data directory.
  */
-class ShizukuFileService : IShizukuFileService.Stub() {
-
-    constructor()
+@Keep
+class ShizukuFileService() : IShizukuFileService.Stub() {
 
     @Keep
-    constructor(@Suppress("UNUSED_PARAMETER") context: Context)
+    constructor(@Suppress("UNUSED_PARAMETER") context: Context) : this()
 
     override fun destroy() {
         System.exit(0)
