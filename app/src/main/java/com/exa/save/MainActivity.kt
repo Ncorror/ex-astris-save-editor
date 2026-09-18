@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
     private val names = HashMap<Int, String>()
     private val alternateNames = HashMap<Int, String>()
     private val searchTexts = HashMap<Int, String>()
+    private val bulkEditableOverrides = HashMap<Int, Boolean>()
     private val cats = HashMap<Int, String>()
     private val descriptions = HashMap<Int, String>()
     private val verifiedItems = HashSet<Int>()
@@ -268,9 +269,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupActions() {
-        binding.compactShizukuButton.setOnClickListener {
-            if (hasUnsavedChanges && save != null) saveBack() else connectSelectedAccess()
-        }
+        binding.compactShizukuButton.setOnClickListener { connectSelectedAccess() }
         binding.rootButton.setOnClickListener { requestOrConnectRoot() }
         binding.shizukuButton.setOnClickListener { requestOrConnectShizuku() }
         binding.openGameButton.setOnClickListener {
@@ -608,12 +607,10 @@ class MainActivity : AppCompatActivity() {
         binding.compactShizukuStatus.setTextColor(color(statusColor))
 
         val ready = backend == AccessBackend.ROOT || backend == AccessBackend.SHIZUKU
-        val quickSave = hasUnsavedChanges && save != null
         binding.openGameButton.isEnabled = true
-        binding.compactShizukuButton.visibility = if (quickSave || !ready) View.VISIBLE else View.GONE
-        binding.compactShizukuButton.setText(when {
-            quickSave -> R.string.save_short
-            mode == AccessMode.MANUAL -> R.string.access_choose_file
+        binding.compactShizukuButton.visibility = if (!ready) View.VISIBLE else View.GONE
+        binding.compactShizukuButton.setText(when (mode) {
+            AccessMode.MANUAL -> R.string.access_choose_file
             else -> R.string.connect
         })
 
@@ -784,9 +781,15 @@ class MainActivity : AppCompatActivity() {
                 val ruDesc = v.optString("description", "")
                 val enDesc = v.optString("description_en", ruDesc)
                 descriptions[id] = if (ru) ruDesc else enDesc
-                searchTexts[id] = listOf(
-                    id.toString(), ruName, enName, ruDesc, enDesc, v.optString("cat", "")
-                ).joinToString(" ").lowercase(Locale.ROOT)
+                // Search intentionally uses names only. Numeric IDs, descriptions and
+                // categories remain visible elsewhere but no longer affect search results.
+                searchTexts[id] = listOf(ruName, enName)
+                    .filter { it.isNotBlank() }
+                    .joinToString(" ")
+                    .lowercase(Locale.ROOT)
+                if (v.has("bulk_editable")) {
+                    bulkEditableOverrides[id] = v.optBoolean("bulk_editable", true)
+                }
                 if (v.optBoolean("verified", false)) verifiedItems.add(id)
             }
         } catch (_: Exception) {
@@ -802,8 +805,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun matchesSearch(id: Int): Boolean {
         if (searchQuery.isBlank()) return true
-        val haystack = searchTexts[id] ?: "$id ${nameOf(id)}".lowercase(Locale.ROOT)
-        return haystack.contains(searchQuery)
+        val haystack = searchTexts[id] ?: nameOf(id).lowercase(Locale.ROOT)
+        val terms = searchQuery.split(Regex("\\s+"))
+            .filter { it.isNotBlank() }
+        return terms.all { haystack.contains(it) }
+    }
+
+    private fun isBulkEditable(id: Int): Boolean {
+        bulkEditableOverrides[id]?.let { return it }
+        return when (catOf(id)) {
+            "currency", "consumable", "material" -> true
+            else -> false
+        }
     }
 
     private fun descriptionOf(id: Int): String = descriptions[id].orEmpty().ifBlank {
@@ -1307,11 +1320,10 @@ class MainActivity : AppCompatActivity() {
         binding.saveGuardBar.visibility = if (showGuard) View.VISIBLE else View.GONE
         if (showGuard) {
             binding.saveGuardTitle.text = if (changedCount > 0) {
-                getString(R.string.save_guard_title_count, changedCount)
+                getString(R.string.save_guard_compact_count, changedCount)
             } else {
                 getString(R.string.save_guard_title)
             }
-            binding.saveGuardSubtitle.text = getString(R.string.save_guard_subtitle, label)
         }
         binding.undoChangeButton.isEnabled = showGuard && undoSnapshot != null && !isSaving
         binding.saveNowButton.isEnabled = showGuard && !isSaving
@@ -1319,7 +1331,7 @@ class MainActivity : AppCompatActivity() {
 
         val badge = binding.bottomNavigation.getOrCreateBadge(R.id.nav_save)
         badge.isVisible = showGuard
-        if (showGuard) badge.number = changedCount.coerceAtLeast(1)
+        if (showGuard) badge.clearNumber()
 
         updateAccessUi()
     }
@@ -1517,10 +1529,11 @@ class MainActivity : AppCompatActivity() {
             "consumable" -> sheet.categoryGroup.check(R.id.consumablesButton)
             "currency" -> sheet.categoryGroup.check(R.id.currencyButton)
             "material" -> sheet.categoryGroup.check(R.id.materialsButton)
-            "entropite" -> sheet.categoryGroup.check(R.id.entropiteButton)
-            "other" -> sheet.categoryGroup.check(R.id.otherButton)
             else -> sheet.categoryGroup.check(R.id.allItemsButton)
         }
+        // If the current list is a protected category, keep the sheet scoped to
+        // what the user sees so it clearly reports that those items are skipped.
+        sheet.visibleOnlyCheck.isChecked = activeCategory == "entropite" || activeCategory == "other"
         sheet.operationGroup.check(R.id.setOperationButton)
         sheet.valueInput.setText(prefs.getInt("last_bulk_value", 10_000).toString())
 
@@ -1528,8 +1541,6 @@ class MainActivity : AppCompatActivity() {
             R.id.allItemsButton -> null
             R.id.consumablesButton -> "consumable"
             R.id.currencyButton -> "currency"
-            R.id.entropiteButton -> "entropite"
-            R.id.otherButton -> "other"
             else -> "material"
         }
         fun selectedOperation(): BulkOperation = when (sheet.operationGroup.checkedButtonId) {
@@ -1545,16 +1556,25 @@ class MainActivity : AppCompatActivity() {
             sheet.valueInput.setText(value.toString())
             sheet.valueInput.setSelection(sheet.valueInput.text?.length ?: 0)
         }
-        fun eligibleIds(): Set<Int> {
+        fun candidateIds(): List<Int> {
             val category = selectedCategory()
-            val base = currentItems.keys.filter { category == null || catOf(it) == category }
-            if (!sheet.visibleOnlyCheck.isChecked) return base.toSet()
-            return base.filter { id ->
+            val byCategory = currentItems.keys.filter { category == null || catOf(it) == category }
+            if (!sheet.visibleOnlyCheck.isChecked) return byCategory
+            return byCategory.filter { id ->
                 (activeCategory == null || catOf(id) == activeCategory) && matchesSearch(id)
-            }.toSet()
+            }
         }
+        fun eligibleIds(): Set<Int> = candidateIds().filter(::isBulkEditable).toSet()
         fun updatePreview() {
-            sheet.previewText.text = getString(R.string.bulk_preview, eligibleIds().size)
+            val candidates = candidateIds()
+            val eligible = candidates.count(::isBulkEditable)
+            val protected = candidates.size - eligible
+            sheet.previewText.text = if (protected > 0) {
+                getString(R.string.bulk_preview_with_protected, eligible, protected)
+            } else {
+                getString(R.string.bulk_preview, eligible)
+            }
+            sheet.applyButton.isEnabled = eligible > 0
         }
 
         sheet.preset100Button.setOnClickListener { setValue(100) }

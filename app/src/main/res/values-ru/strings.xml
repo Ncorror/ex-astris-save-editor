@@ -31,7 +31,7 @@
     <string name="open_manual">Выбрать файл</string>
     <string name="save">Сохранить изменения</string>
     <string name="save_as">Экспорт копии</string>
-    <string name="search_hint">Поиск предметов</string>
+    <string name="search_hint">Поиск по названию</string>
     <string name="empty_summary">Инвентарь не загружен</string>
     <string name="inventory_summary_compact">Позиций: %1$d · показано: %2$d</string>
     <string name="save_candidates_title">Выбери файл сохранения</string>
@@ -154,14 +154,17 @@ Android/data: %6$s</string>
     <string name="item_meta">%2$s · ID %1$d</string>
     <string name="item_info_verified">✓ Справка сверена с базой сообщества · соответствие ID определено каталогом редактора</string>
     <string name="item_info_unverified">Предварительная идентификация · точное назначение ещё уточняется</string>
-    <string name="bulk_subtitle_v2">Выбери категорию, операцию и любое значение. Можно менять только позиции, которые сейчас показаны фильтром.</string>
+    <string name="bulk_subtitle_v2">Выбери категорию, операцию и значение. Массовые действия применяются только к предметам, количество которых безопасно менять.</string>
     <string name="bulk_category_label">Что изменить</string>
     <string name="bulk_resources">Ресурсы</string>
     <string name="bulk_set">Установить</string>
     <string name="bulk_add">Добавить</string>
     <string name="bulk_value">Значение</string>
     <string name="bulk_visible_only">Только позиции, показанные текущим поиском/фильтром</string>
-    <string name="bulk_preview">Будет затронуто позиций: %1$d</string>
+    <string name="bulk_preview">Будет изменено: %1$d</string>
+    <string name="bulk_preview_with_protected">Будет изменено: %1$d · защищено и пропущено: %2$d</string>
+    <string name="bulk_protected_note">Энтропиты и уникальные предметы не меняются массово.</string>
+    <string name="bulk_all_stackable">Все доступные</string>
     <string name="bulk_confirm_set">Установить для %1$d позиций значение %2$d?</string>
     <string name="bulk_confirm_add">Добавить %2$d к %1$d позициям?</string>
     <string name="bulk_nothing">Нет подходящих позиций</string>
@@ -180,6 +183,7 @@ Android/data: %6$s</string>
     <string name="compact_unsaved_count">%1$s · изменено %2$d</string>
     <string name="save_guard_title">● Есть несохранённые изменения</string>
     <string name="save_guard_title_count">● Не сохранено: %1$d поз.</string>
+    <string name="save_guard_compact_count">● %1$d изменений</string>
     <string name="save_guard_subtitle">%1$s · файл ещё не записан</string>
     <string name="save_guard_default_subtitle">Файл ещё не записан</string>
     <string name="undo_change">Отменить</string>

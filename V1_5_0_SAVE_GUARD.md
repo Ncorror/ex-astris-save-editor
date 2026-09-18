@@ -68,3 +68,6 @@ Autosave remains optional and disabled by default. When enabled, the same mutati
 - This is not a multi-level undo history.
 - The guard does not attempt to save when Android force-kills the process.
 - The guard does not make it safe to edit while Ex Astris is actively writing its own save.
+
+
+> Superseded by v1.5.1 for bulk-safety/search/save-bar UI details. See `V1_5_1_BULK_SEARCH_UI.md`.

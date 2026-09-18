@@ -31,7 +31,7 @@
     <string name="open_manual">Choose file</string>
     <string name="save">Save changes</string>
     <string name="save_as">Export copy</string>
-    <string name="search_hint">Search items</string>
+    <string name="search_hint">Search by name</string>
     <string name="empty_summary">No inventory loaded</string>
     <string name="inventory_summary_compact">%1$d items · %2$d shown</string>
     <string name="save_candidates_title">Choose save file</string>
@@ -154,14 +154,17 @@ Android/data: %6$s</string>
     <string name="item_meta">%2$s · ID %1$d</string>
     <string name="item_info_verified">✓ Reference text checked against community sources · ID mapping comes from the editor catalog</string>
     <string name="item_info_unverified">Preliminary identification · exact purpose is still being verified</string>
-    <string name="bulk_subtitle_v2">Choose a category, operation and any value. You can limit the action to items currently visible through search/filter.</string>
+    <string name="bulk_subtitle_v2">Choose a category, operation and value. Bulk actions only affect items whose quantity is safe to change.</string>
     <string name="bulk_category_label">What to change</string>
     <string name="bulk_resources">Resources</string>
     <string name="bulk_set">Set</string>
     <string name="bulk_add">Add</string>
     <string name="bulk_value">Value</string>
     <string name="bulk_visible_only">Only items visible in the current search/filter</string>
-    <string name="bulk_preview">Items affected: %1$d</string>
+    <string name="bulk_preview">Items changed: %1$d</string>
+    <string name="bulk_preview_with_protected">Items changed: %1$d · protected and skipped: %2$d</string>
+    <string name="bulk_protected_note">Entropiths and unique items are excluded from bulk quantity changes.</string>
+    <string name="bulk_all_stackable">All editable</string>
     <string name="bulk_confirm_set">Set %1$d items to %2$d?</string>
     <string name="bulk_confirm_add">Add %2$d to %1$d items?</string>
     <string name="bulk_nothing">No matching items</string>
@@ -180,6 +183,7 @@ Android/data: %6$s</string>
     <string name="compact_unsaved_count">%1$s · %2$d changed</string>
     <string name="save_guard_title">● Unsaved changes</string>
     <string name="save_guard_title_count">● Unsaved: %1$d items</string>
+    <string name="save_guard_compact_count">● %1$d changes</string>
     <string name="save_guard_subtitle">%1$s · file has not been written yet</string>
     <string name="save_guard_default_subtitle">File has not been written yet</string>
     <string name="undo_change">Undo</string>

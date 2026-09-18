@@ -92,3 +92,27 @@ With autosave ON:
 - [ ] manual backup works.
 - [ ] backup list sorts newest first.
 - [ ] loaded backup becomes a pending editor change until saved.
+
+## v1.5.1 regression checks
+
+### Bulk safety
+1. Open a save containing normal stackable items plus Entropith/unique items.
+2. Run **Bulk -> All editable -> Set 1000**.
+3. Confirm the preview reports editable items separately from protected/skipped items.
+4. Confirm Entropiths and Other/unique items retain their previous quantities.
+5. Repeat with Add and Subtract.
+6. Filter to Entropiths or Other, open Bulk, and confirm the visible-only preview has zero editable targets and Apply is disabled.
+
+### Search
+1. Search a known item by its Russian name.
+2. Search by its English/alternate name.
+3. Type the numeric ID alone and confirm it does not produce an ID-based match.
+4. Confirm multi-word name searches work regardless of extra spaces.
+
+### Unsaved-change bar
+1. Edit one item and Apply.
+2. Confirm a compact one-line bar appears above navigation.
+3. Confirm the Save tab shows only a small dot badge, not a large count bubble.
+4. Confirm Undo restores the last editor state.
+5. Confirm Save writes the file and hides the bar/badge.
+6. Confirm the top access card does not show a duplicate Save button while Root/Shizuku is connected.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.1
+- Exclude protected/non-stack-safe items from bulk quantity operations.
+- Add `bulk_editable` catalog metadata; current Entropith and Other/unique entries are protected.
+- Show changed vs protected/skipped counts in the bulk preview.
+- Remove Entropith/Other choices from the bulk target selector.
+- Search by item name only; ID/description/category are no longer search keys.
+- Replace the large warning save panel with a compact persistent one-line save guard.
+- Replace the large numeric Save-tab badge with a dot badge.
+- Remove the duplicate top-card Save action while access is connected.
+
 ## 1.5.0
 
 - Added a persistent unsaved-change bar on all pages.

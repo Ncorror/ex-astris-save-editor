@@ -17,3 +17,6 @@ Functional regression expectations:
 - Root / Shizuku file services and `SaveFile` parser/writer were not structurally rewritten by this patch.
 - Existing automatic backup and atomic privileged-write path remain in place.
 - Final Android compilation and device behavior must still be confirmed by GitHub Actions and the real-device checklist in `TESTING.md`.
+
+
+> Superseded by v1.5.1 for bulk-safety/search/save-bar UI details. See `V1_5_1_BULK_SEARCH_UI.md`.

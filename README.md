@@ -1,8 +1,10 @@
+> Current development build: **1.5.1** — safer bulk editing, compact unsaved-change bar, and name-only search.
+
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.5.0**.
+Current development version: **1.5.1**.
 
 ## Current status
 
@@ -252,3 +254,13 @@ gh run download -n ex-astris-save-editor-debug
 - `V1_4_4_CURRENCY_ICONS.md` — Astrite/Doron icon completion.
 - `WARNING_CLEANUP.md` — build-warning cleanup history.
 - `V1_4_NOTES.md` — v1.4 feature-development notes.
+
+## v1.5.1 UX and bulk-safety update
+
+- Bulk actions skip protected catalog entries (`bulk_editable: false`). Entropiths and unique/other items are protected by default.
+- The bulk sheet shows how many items will change and how many protected items were skipped.
+- Bulk categories are limited to editable groups: resources/currency, consumables and materials.
+- Search matches item names only (localized name + alternate RU/EN name). Numeric IDs and descriptions no longer influence search results.
+- The unsaved-change guard is now a compact single-line bar with Undo and a primary Save button.
+- The Save tab uses a small dot badge instead of a large numeric badge; the exact changed count is shown in the persistent guard and save status.
+- The compact access card no longer duplicates the Save action when access is already connected.

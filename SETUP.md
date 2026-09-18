@@ -1,6 +1,6 @@
 # Ex Astris Save Editor — build / update from Termux
 
-Current development version: **1.5.0**.
+Current development version: **1.5.1**.
 
 Repository:
 
@@ -78,11 +78,11 @@ gh repo create ex-astris-save-editor \
 
 ## Release tag
 
-For a v1.5.0 release:
+For a v1.5.1 release:
 
 ```bash
-git tag v1.5.0
-git push origin v1.5.0
+git tag v1.5.1
+git push origin v1.5.1
 ```
 
 The tag workflow attaches the APK, `build.log`, and `build-info.txt` to the GitHub Release.
@@ -157,3 +157,6 @@ getent hosts github.com
 ```
 
 If IP connectivity works but the hostname does not resolve, restore Android network / Private DNS / VPN connectivity and retry the push. Do not re-copy the project and do not make another commit solely for this error.
+
+
+> Superseded by v1.5.1 for bulk-safety/search/save-bar UI details. See `V1_5_1_BULK_SEARCH_UI.md`.

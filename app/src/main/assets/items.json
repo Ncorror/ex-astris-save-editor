@@ -293,7 +293,8 @@
     "cat": "entropite",
     "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
     "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "500002": {
     "name": "Энтропит, бело-золотой",
@@ -301,7 +302,8 @@
     "cat": "entropite",
     "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
     "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "500004": {
     "name": "Энтропит, синий кристалл",
@@ -309,7 +311,8 @@
     "cat": "entropite",
     "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
     "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "500008": {
     "name": "Энтропит, бело-серебристый",
@@ -317,7 +320,8 @@
     "cat": "entropite",
     "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
     "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "500012": {
     "name": "Энтропит, бело-бирюзовый гироскоп",
@@ -325,7 +329,8 @@
     "cat": "entropite",
     "description": "Боевой энтропит. Точное соответствие этого ID официальному названию ещё уточняется.",
     "description_en": "Combat Entropith. The exact official name for this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "600000": {
     "name": "Белёсая костяная раковина",
@@ -365,7 +370,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "710006": {
     "name": "Ящик с бутылями, красная этикетка",
@@ -373,7 +379,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "710007": {
     "name": "Ящик с бутылями, оранжевая этикетка",
@@ -381,7 +388,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "710015": {
     "name": "Ящик с бутылями, розовая этикетка с каплями",
@@ -389,7 +397,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "720001": {
     "name": "Ящик с бутылями, этикетка с ёлками",
@@ -397,7 +406,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "720002": {
     "name": "Ящик с бутылями, этикетка со звёздами",
@@ -405,7 +415,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "730001": {
     "name": "Ящик с бутылями, этикетка со змейкой",
@@ -413,7 +424,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "800002": {
     "name": "Маска серая с синим",
@@ -469,7 +481,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9710001": {
     "name": "Реликвия, тёмно-бирюзовая, метка треугольник",
@@ -477,7 +490,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9710002": {
     "name": "Реликвия, тёмно-зелёная, метка треугольник",
@@ -485,7 +499,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9710003": {
     "name": "Реликвия с бирюзовыми вставками",
@@ -493,7 +508,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9710004": {
     "name": "Золотистый каменный шпиль",
@@ -501,7 +517,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9710005": {
     "name": "Реликвия, коричневый пень, метка треугольник",
@@ -509,7 +526,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9710011": {
     "name": "Реликвия, бирюзово-тёмный осколок, метка треугольник",
@@ -517,7 +535,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9910001": {
     "name": "Бело-золотой свиток-клинок",
@@ -525,7 +544,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9910007": {
     "name": "Ядро Лайлы",
@@ -541,7 +561,8 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   },
   "9910028": {
     "name": "Синяя подарочная коробка с цветком",
@@ -549,6 +570,7 @@
     "cat": "other",
     "description": "Предмет из сохранения. Официальное назначение этого ID ещё уточняется.",
     "description_en": "Save-file item. The exact purpose of this ID is still being verified.",
-    "verified": false
+    "verified": false,
+    "bulk_editable": false
   }
 }
