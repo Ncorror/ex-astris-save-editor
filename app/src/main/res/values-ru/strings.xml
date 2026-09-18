@@ -1,64 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ex Astris Save Editor</string>
-    <string name="subtitle">Редактор сохранений через Shizuku</string>
+    <string name="app_name">Exa Save</string>
     <string name="title">Ex Astris — редактор сумки</string>
-
-    <string name="shizuku_checking">● Проверка Shizuku…</string>
-    <string name="shizuku_ready">● Shizuku подключён</string>
-    <string name="shizuku_shell">Доступ ADB / shell · Android/data доступна</string>
-    <string name="shizuku_root">Root-доступ · Android/data доступна</string>
-    <string name="shizuku_permission_needed">● Нужно разрешение Shizuku</string>
-    <string name="shizuku_not_running">● Shizuku не запущен</string>
-    <string name="shizuku_denied">● Доступ Shizuku запрещён</string>
-    <string name="shizuku_description">Доступ ограничен папкой com.gryphline.exastris.gp в Android/data</string>
-    <string name="connect">Подключить</string>
-    <string name="reconnect">Переподключить</string>
-    <string name="grant">Разрешить</string>
-    <string name="shizuku_missing_message">Сначала запусти Shizuku (через беспроводную отладку или root), затем вернись сюда и нажми «Подключить».</string>
-    <string name="shizuku_old">Эта версия Shizuku слишком старая. Нужна версия 11 или новее.</string>
-    <string name="shizuku_bind_failed">Не удалось запустить файловый сервис Shizuku: %1$s</string>
-
-    <string name="no_file">Сохранение не загружено</string>
-    <string name="no_file_hint">Открой сохранение Ex Astris автоматически через Shizuku или выбери файл вручную.</string>
-    <string name="open_game_save">Открыть сохранение игры</string>
-    <string name="open_manual">Выбрать файл</string>
+    <string name="no_file">Файл не открыт</string>
     <string name="open">Открыть</string>
-    <string name="save">Сохранить изменения</string>
-    <string name="save_as">Экспорт копии</string>
-    <string name="search_hint">Поиск по названию или ID предмета</string>
-    <string name="empty_summary">Инвентарь не загружен</string>
-    <string name="inventory_summary">Позиций: %1$d · показано: %2$d · сохранение: %3$s</string>
-    <string name="save_candidates_title">Выбери файл сохранения</string>
-    <string name="save_not_found">В Android/data Ex Astris не найден файл .save. Запусти игру хотя бы один раз и убедись, что локальное сохранение существует.</string>
-    <string name="save_path_missing">Файл сохранения больше не существует.</string>
-
-    <string name="materials_10k">Материалы ×10к</string>
-    <string name="consumables_10k">Расходники ×10к</string>
-    <string name="add_by_id">Добавить по ID</string>
-    <string name="unnamed">Без названия</string>
-    <string name="open_first">Сначала открой сохранение</string>
-    <string name="cannot_open">Не удалось открыть: %1$s</string>
-    <string name="cannot_write">Не удалось записать: %1$s</string>
-    <string name="written">Успешно сохранено · %1$d байт. Во время редактирования Ex Astris должна быть полностью закрыта.</string>
-    <string name="backup_created">Резервная копия создана в папке приложения.</string>
+    <string name="save">Сохранить</string>
+    <string name="save_as">Сохранить как</string>
+    <string name="materials_10k">Материалы 10к</string>
+    <string name="consumables_10k">Расходники 10к</string>
+    <string name="add_by_id">Добавить id</string>
+    <string name="unnamed">— без названия —</string>
+    <string name="open_first">Сначала открой файл</string>
+    <string name="cannot_open">Не открылось: %1$s</string>
+    <string name="cannot_write">Не записалось: %1$s</string>
+    <string name="written">Записано, %1$d байт. Перед подменой полностью выгрузи игру.</string>
     <string name="header_info">сохранён %1$s · модулей %2$d · позиций %3$d</string>
-    <string name="currently">Текущее значение: %1$d</string>
+    <string name="currently">сейчас %1$d</string>
     <string name="apply">Применить</string>
     <string name="delete">Удалить</string>
     <string name="cancel">Отмена</string>
     <string name="add">Добавить</string>
     <string name="entries_changed">Изменено позиций: %1$d</string>
     <string name="added">Добавлено: %1$d</string>
-    <string name="add_title">Добавить предметы по ID</string>
-    <string name="add_message">Разделяй записи пробелами. Без знака «=» количество будет 500. Неизвестные игре ID просто не появятся.</string>
+    <string name="add_title">Добавить предметы по id</string>
+    <string name="add_message">Через пробел. Без знака равенства ставится 500.\nЕсли id в игре нет, он просто не появится в сумке.</string>
     <string name="add_hint">200010 211007=500 600008=1000</string>
 
-    <string name="cat_all">Все</string>
     <string name="cat_currency">Валюта</string>
     <string name="cat_consumable">Расходники</string>
     <string name="cat_material">Материалы</string>
     <string name="cat_entropite">Энтропиты</string>
     <string name="cat_other">Прочее</string>
-    <string name="item_meta">ID %1$d · %2$s</string>
 </resources>
