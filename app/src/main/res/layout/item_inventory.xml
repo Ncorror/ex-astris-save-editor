@@ -14,24 +14,25 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:minHeight="72dp"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:paddingEnd="14dp"
+        android:paddingEnd="12dp"
         android:paddingBottom="10dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/itemIconContainer"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            android:layout_marginEnd="12dp"
             app:cardBackgroundColor="@color/exa_icon_bg"
             app:cardCornerRadius="13dp"
-            app:cardElevation="0dp">
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/itemIcon"
@@ -44,10 +45,16 @@
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
+            android:id="@+id/itemTextBlock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/itemCount"
+            app:layout_constraintStart_toEndOf="@id/itemIconContainer"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/itemName"
@@ -72,13 +79,25 @@
 
         <TextView
             android:id="@+id/itemCount"
-            android:layout_width="wrap_content"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:gravity="end"
-            android:minWidth="72dp"
+            android:fontFamily="sans-serif-medium"
+            android:fontFeatureSettings="tnum"
+            android:gravity="end|center_vertical"
+            android:includeFontPadding="false"
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:minHeight="24dp"
+            android:textAlignment="viewEnd"
             android:textColor="@color/exa_primary"
             android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

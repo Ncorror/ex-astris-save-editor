@@ -116,3 +116,6 @@ gh run download -n ex-astris-save-editor-debug
 - Keep backups of important progress.
 - Automatic backups are enabled by default and can be disabled in Settings.
 - The Shizuku service refuses paths outside Ex Astris' own `Android/data/com.gryphline.exastris.gp` directory.
+
+## 1.2.1
+- Fixed item quantity rendering for long values: stable right-aligned numeric column, tabular digits, no wrapping, auto-size fallback.
