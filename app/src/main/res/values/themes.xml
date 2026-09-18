@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <style name="Theme.ExaSave" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/exa_primary</item>
         <item name="colorOnPrimary">@color/exa_on_primary</item>

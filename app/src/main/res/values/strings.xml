@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ex Astris Save Editor</string>
-    <string name="subtitle">Shizuku-powered save editor</string>
-    <string name="title">Ex Astris — backpack editor</string>
+    <string name="subtitle">Save editor with Shizuku access</string>
+
+    <string name="nav_inventory">Items</string>
+    <string name="nav_save">Save</string>
+    <string name="nav_settings">Settings</string>
+    <string name="page_save">Save file</string>
+    <string name="page_settings">Settings</string>
 
     <string name="shizuku_checking">● Checking Shizuku…</string>
     <string name="shizuku_ready">● Shizuku connected</string>
@@ -10,8 +15,8 @@
     <string name="shizuku_root">Root access · Android/data available</string>
     <string name="shizuku_permission_needed">● Shizuku permission required</string>
     <string name="shizuku_not_running">● Shizuku is not running</string>
-    <string name="shizuku_denied">● Shizuku permission denied</string>
-    <string name="shizuku_description">Used only for com.gryphline.exastris.gp in Android/data</string>
+    <string name="shizuku_denied">● Shizuku access denied</string>
+    <string name="shizuku_description">Access is restricted to the Ex Astris package inside Android/data.</string>
     <string name="connect">Connect</string>
     <string name="reconnect">Reconnect</string>
     <string name="grant">Grant</string>
@@ -20,30 +25,42 @@
     <string name="shizuku_bind_failed">Could not start Shizuku file service: %1$s</string>
 
     <string name="no_file">No save loaded</string>
-    <string name="no_file_hint">Open Ex Astris save automatically with Shizuku, or choose a file manually.</string>
-    <string name="open_game_save">Open Ex Astris save</string>
+    <string name="no_file_short">No save selected</string>
+    <string name="no_file_hint">Open the Ex Astris save through Shizuku or choose a file manually.</string>
+    <string name="open_game_save">Find game save</string>
     <string name="open_manual">Choose file</string>
-    <string name="open">Open</string>
     <string name="save">Save changes</string>
     <string name="save_as">Export copy</string>
-    <string name="search_hint">Search by item name or ID</string>
+    <string name="search_hint">Search items</string>
     <string name="empty_summary">No inventory loaded</string>
-    <string name="inventory_summary">%1$d items · showing %2$d · saved %3$s</string>
+    <string name="inventory_summary_compact">%1$d items · %2$d shown</string>
     <string name="save_candidates_title">Choose save file</string>
     <string name="save_not_found">No .save file was found in Ex Astris Android/data. Launch the game once and make sure a local save exists.</string>
     <string name="save_path_missing">The save file no longer exists.</string>
+    <string name="save_source_shizuku">Shizuku · Android/data</string>
+    <string name="save_source_manual">Manual file</string>
+    <string name="save_details">Saved %1$s · %2$d modules · %3$d items</string>
+    <string name="file_location">File location</string>
 
-    <string name="materials_10k">Materials ×10k</string>
-    <string name="consumables_10k">Consumables ×10k</string>
-    <string name="add_by_id">Add by ID</string>
+    <string name="bulk_actions">Bulk actions</string>
+    <string name="bulk_title">Bulk actions</string>
+    <string name="bulk_subtitle">Apply a preset to a whole category. You can require confirmation in Settings.</string>
+    <string name="bulk_materials">Materials</string>
+    <string name="bulk_consumables">Consumables</string>
+    <string name="bulk_currency">Currency</string>
+    <string name="set_10k">Set to 10,000</string>
+    <string name="set_100k">Set to 100,000</string>
+    <string name="bulk_confirm_title">Confirm bulk edit</string>
+    <string name="bulk_confirm_message">Set all %1$s entries to %2$d?</string>
+
+    <string name="add_by_id">Add item</string>
     <string name="unnamed">Unnamed item</string>
     <string name="open_first">Open a save first</string>
     <string name="cannot_open">Could not open: %1$s</string>
     <string name="cannot_write">Could not write: %1$s</string>
     <string name="written">Saved successfully · %1$d bytes. Keep Ex Astris fully closed while editing.</string>
-    <string name="backup_created">Backup created in the editor app folder.</string>
-    <string name="header_info">saved %1$s · modules %2$d · entries %3$d</string>
     <string name="currently">Current value: %1$d</string>
+    <string name="quantity">Quantity</string>
     <string name="apply">Apply</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
@@ -51,8 +68,34 @@
     <string name="entries_changed">Changed entries: %1$d</string>
     <string name="added">Added: %1$d</string>
     <string name="add_title">Add items by ID</string>
-    <string name="add_message">Separate entries with spaces. Without “=” the amount defaults to 500. Unknown IDs simply will not appear in-game.</string>
+    <string name="add_message">Separate entries with spaces. Without “=” the amount defaults to 500.</string>
     <string name="add_hint">200010 211007=500 600008=1000</string>
+    <string name="max">MAX</string>
+
+    <string name="backup_title">Backups</string>
+    <string name="backup_none">No local backups yet</string>
+    <string name="backup_info">%1$d backups · latest %2$s</string>
+    <string name="backup_now">Create backup</string>
+    <string name="restore_backup">Restore backup</string>
+    <string name="backup_created">Backup created</string>
+    <string name="backup_loaded">Backup loaded into the editor. Tap Save changes to write it back.</string>
+    <string name="backup_failed">Backup operation failed: %1$s</string>
+    <string name="choose_backup">Choose backup</string>
+
+    <string name="settings_interface">Interface</string>
+    <string name="settings_safety">Editing &amp; safety</string>
+    <string name="show_item_ids">Show item IDs</string>
+    <string name="show_item_ids_summary">Display the numeric ID under each item name.</string>
+    <string name="large_item_icons">Larger item icons</string>
+    <string name="large_item_icons_summary">Use 64 dp icons instead of the compact 52 dp size.</string>
+    <string name="confirm_bulk">Confirm bulk actions</string>
+    <string name="confirm_bulk_summary">Ask before changing an entire category.</string>
+    <string name="auto_backup">Automatic backup</string>
+    <string name="auto_backup_summary">Save a local copy whenever a save file is opened.</string>
+    <string name="item_icons_title">Item icon files</string>
+    <string name="item_icons_summary">Drop icons into res/drawable-nodpi using names like item_10000.webp. The list will pick them up automatically.</string>
+    <string name="about_title">About</string>
+    <string name="version_label">Version %1$s</string>
 
     <string name="cat_all">All</string>
     <string name="cat_currency">Currency</string>
@@ -60,5 +103,5 @@
     <string name="cat_material">Materials</string>
     <string name="cat_entropite">Entropites</string>
     <string name="cat_other">Other</string>
-    <string name="item_meta">ID %1$d · %2$s</string>
+    <string name="item_meta">%2$s · ID %1$d</string>
 </resources>
