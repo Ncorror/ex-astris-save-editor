@@ -1,0 +1,347 @@
+{
+ "10000": {
+  "name": "Орбитали (валюта)",
+  "name_en": "Orbitals (currency)",
+  "cat": "currency"
+ },
+ "10001": {
+  "name": "Вторая валюта, жёлтый треугольник",
+  "name_en": "Second currency, yellow triangle",
+  "cat": "currency"
+ },
+ "11001": {
+  "name": "Сине-зелёный осколок в обёртке",
+  "name_en": "Teal shard in wrapping",
+  "cat": "consumable"
+ },
+ "11002": {
+  "name": "Янтарь витапотока, синий осколок",
+  "name_en": "Vitaflow Amber, blue shard",
+  "cat": "consumable"
+ },
+ "12000": {
+  "name": "Красный кристалл в обёртке, крупный",
+  "name_en": "Red crystal in wrapping, large",
+  "cat": "consumable"
+ },
+ "12003": {
+  "name": "Красный кристалл в обёртке",
+  "name_en": "Red crystal in wrapping",
+  "cat": "consumable"
+ },
+ "12004": {
+  "name": "Красный кристалл в обёртке, вариант",
+  "name_en": "Red crystal in wrapping, variant",
+  "cat": "consumable"
+ },
+ "12999": {
+  "name": "Триод энтропита, фиолетовая батарея",
+  "name_en": "Entropite Triode, purple battery",
+  "cat": "consumable"
+ },
+ "200000": {
+  "name": "Синие треугольные кристаллы",
+  "name_en": "Blue triangular crystals",
+  "cat": "material"
+ },
+ "200001": {
+  "name": "Голубая друза, кристаллы на камне",
+  "name_en": "Pale blue geode on rock",
+  "cat": "material"
+ },
+ "200002": {
+  "name": "Зелёный полупрозрачный сгусток",
+  "name_en": "Green translucent blob",
+  "cat": "material"
+ },
+ "200003": {
+  "name": "Бирюзовый кристалл, гранёный кусок",
+  "name_en": "Turquoise faceted crystal",
+  "cat": "material"
+ },
+ "200004": {
+  "name": "Серебристая раковина-створка",
+  "name_en": "Silvery shell valve",
+  "cat": "material"
+ },
+ "200005": {
+  "name": "Сине-серебристая спиральная ракушка",
+  "name_en": "Blue-silver spiral shell",
+  "cat": "material"
+ },
+ "200008": {
+  "name": "Синяя изогнутая лента",
+  "name_en": "Blue curved ribbon",
+  "cat": "material"
+ },
+ "200009": {
+  "name": "Сине-белое перистое крыло",
+  "name_en": "Blue-white feathered wing",
+  "cat": "material"
+ },
+ "200101": {
+  "name": "Зелёный малахитовый камень",
+  "name_en": "Green malachite stone",
+  "cat": "material"
+ },
+ "200102": {
+  "name": "Золотая проволочная катушка",
+  "name_en": "Gold wire coil",
+  "cat": "material"
+ },
+ "210000": {
+  "name": "Гроздь бежевых орехов",
+  "name_en": "Cluster of beige nuts",
+  "cat": "material"
+ },
+ "210001": {
+  "name": "Орехи с зелёным листом",
+  "name_en": "Nuts with a green leaf",
+  "cat": "material"
+ },
+ "210002": {
+  "name": "Мшистый зелёный кристалл",
+  "name_en": "Mossy green crystal",
+  "cat": "material"
+ },
+ "210003": {
+  "name": "Замшелый камень со светящимися ростками",
+  "name_en": "Mossy rock with glowing shoots",
+  "cat": "material"
+ },
+ "210004": {
+  "name": "Бело-голубые кристаллические осколки",
+  "name_en": "White-blue crystal shards",
+  "cat": "material"
+ },
+ "210005": {
+  "name": "Золотистый шипастый полумесяц",
+  "name_en": "Golden spiked crescent",
+  "cat": "material"
+ },
+ "210008": {
+  "name": "Тёмное перо",
+  "name_en": "Dark feather",
+  "cat": "material"
+ },
+ "210009": {
+  "name": "Радужная ячеистая мембрана",
+  "name_en": "Iridescent honeycomb membrane",
+  "cat": "material"
+ },
+ "210014": {
+  "name": "Банка консервов GODFATHER",
+  "name_en": "GODFATHER canned jar",
+  "cat": "material"
+ },
+ "211000": {
+  "name": "Белая веточка вереска",
+  "name_en": "White heather sprig",
+  "cat": "material"
+ },
+ "211001": {
+  "name": "Розово-голубое пернатое растение",
+  "name_en": "Pink-blue feathered plant",
+  "cat": "material"
+ },
+ "211002": {
+  "name": "Розовый коралловый куст на красной почве",
+  "name_en": "Pink coral bush on red soil",
+  "cat": "material"
+ },
+ "211003": {
+  "name": "Оранжевые трутовики",
+  "name_en": "Orange bracket fungi",
+  "cat": "material"
+ },
+ "211004": {
+  "name": "Оранжевый кокон с шариком",
+  "name_en": "Orange cocoon with an orb",
+  "cat": "material"
+ },
+ "211005": {
+  "name": "Бело-оранжевый срез",
+  "name_en": "White-orange cut",
+  "cat": "material"
+ },
+ "212000": {
+  "name": "Оранжевая луковица со жгутиками",
+  "name_en": "Orange bulb with tendrils",
+  "cat": "material"
+ },
+ "212001": {
+  "name": "Зелёный светящийся ком",
+  "name_en": "Green glowing clump",
+  "cat": "material"
+ },
+ "212002": {
+  "name": "Сине-фиолетовая медуза",
+  "name_en": "Blue-violet jellyfish",
+  "cat": "material"
+ },
+ "500000": {
+  "name": "Энтропит, медно-оранжевое кольцо",
+  "name_en": "Entropite, copper-orange ring",
+  "cat": "entropite"
+ },
+ "500002": {
+  "name": "Энтропит, бело-золотой",
+  "name_en": "Entropite, white and gold",
+  "cat": "entropite"
+ },
+ "500004": {
+  "name": "Энтропит, синий кристалл",
+  "name_en": "Entropite, blue crystal",
+  "cat": "entropite"
+ },
+ "500008": {
+  "name": "Энтропит, бело-серебристый",
+  "name_en": "Entropite, white and silver",
+  "cat": "entropite"
+ },
+ "500012": {
+  "name": "Энтропит, бело-бирюзовый гироскоп",
+  "name_en": "Entropite, white-turquoise gyroscope",
+  "cat": "entropite"
+ },
+ "600000": {
+  "name": "Белёсая костяная раковина",
+  "name_en": "Pale bone shell",
+  "cat": "material"
+ },
+ "600001": {
+  "name": "Бирюзово-красная раковина",
+  "name_en": "Turquoise-red conch",
+  "cat": "material"
+ },
+ "600002": {
+  "name": "Золотой моток",
+  "name_en": "Gold coil",
+  "cat": "material"
+ },
+ "600003": {
+  "name": "Серебристая рыба-креветка",
+  "name_en": "Silvery shrimp-fish",
+  "cat": "material"
+ },
+ "710001": {
+  "name": "Ящик с бутылями, этикетка с лапшой",
+  "name_en": "Bottle crate, noodle label",
+  "cat": "other"
+ },
+ "710006": {
+  "name": "Ящик с бутылями, красная этикетка",
+  "name_en": "Bottle crate, red label",
+  "cat": "other"
+ },
+ "710007": {
+  "name": "Ящик с бутылями, оранжевая этикетка",
+  "name_en": "Bottle crate, orange label",
+  "cat": "other"
+ },
+ "710015": {
+  "name": "Ящик с бутылями, розовая этикетка с каплями",
+  "name_en": "Bottle crate, pink label with droplets",
+  "cat": "other"
+ },
+ "720001": {
+  "name": "Ящик с бутылями, этикетка с ёлками",
+  "name_en": "Bottle crate, fir tree label",
+  "cat": "other"
+ },
+ "720002": {
+  "name": "Ящик с бутылями, этикетка со звёздами",
+  "name_en": "Bottle crate, star label",
+  "cat": "other"
+ },
+ "730001": {
+  "name": "Ящик с бутылями, этикетка со змейкой",
+  "name_en": "Bottle crate, snake label",
+  "cat": "other"
+ },
+ "800002": {
+  "name": "Маска серая с синим",
+  "name_en": "Mask, grey with blue",
+  "cat": "consumable"
+ },
+ "800003": {
+  "name": "Маска тёмная с фиолетовым",
+  "name_en": "Mask, dark with purple",
+  "cat": "consumable"
+ },
+ "800008": {
+  "name": "Маска белая с золотым узором",
+  "name_en": "Mask, white with gold pattern",
+  "cat": "consumable"
+ },
+ "800009": {
+  "name": "Маска белая с синим",
+  "name_en": "Mask, white with blue",
+  "cat": "consumable"
+ },
+ "800010": {
+  "name": "Маска тёмная с розовым",
+  "name_en": "Mask, dark with pink",
+  "cat": "consumable"
+ },
+ "800011": {
+  "name": "Маска тёмная с фиолетовым, вариант",
+  "name_en": "Mask, dark with purple, variant",
+  "cat": "consumable"
+ },
+ "9710000": {
+  "name": "Реликвия, тёмная с бирюзой, метка треугольник",
+  "name_en": "Relic, dark with turquoise, triangle mark",
+  "cat": "other"
+ },
+ "9710001": {
+  "name": "Реликвия, тёмно-бирюзовая, метка треугольник",
+  "name_en": "Relic, dark turquoise, triangle mark",
+  "cat": "other"
+ },
+ "9710002": {
+  "name": "Реликвия, тёмно-зелёная, метка треугольник",
+  "name_en": "Relic, dark green, triangle mark",
+  "cat": "other"
+ },
+ "9710003": {
+  "name": "Реликвия с бирюзовыми вставками",
+  "name_en": "Relic with turquoise inlays",
+  "cat": "other"
+ },
+ "9710004": {
+  "name": "Золотистый каменный шпиль",
+  "name_en": "Golden stone spire",
+  "cat": "other"
+ },
+ "9710005": {
+  "name": "Реликвия, коричневый пень, метка треугольник",
+  "name_en": "Relic, brown stump, triangle mark",
+  "cat": "other"
+ },
+ "9710011": {
+  "name": "Реликвия, бирюзово-тёмный осколок, метка треугольник",
+  "name_en": "Relic, turquoise-dark shard, triangle mark",
+  "cat": "other"
+ },
+ "9910001": {
+  "name": "Бело-золотой свиток-клинок",
+  "name_en": "White and gold scroll blade",
+  "cat": "other"
+ },
+ "9910007": {
+  "name": "Ядро Лайлы, золотой диск",
+  "name_en": "Laylah Core, gold disc",
+  "cat": "material"
+ },
+ "9910024": {
+  "name": "Белый кристаллический парус",
+  "name_en": "White crystalline sail",
+  "cat": "other"
+ },
+ "9910028": {
+  "name": "Синяя подарочная коробка с цветком",
+  "name_en": "Blue gift box with a flower",
+  "cat": "other"
+ }
+}

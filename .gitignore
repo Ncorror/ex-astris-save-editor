@@ -1,0 +1,20 @@
+# Gradle / Android
+.gradle/
+build/
+app/build/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+captures/
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# save files, never commit personal data
+*.save
+*.save.jpg
+*.bak

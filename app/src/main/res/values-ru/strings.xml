@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Exa Save</string>
+    <string name="title">Ex Astris — редактор сумки</string>
+    <string name="no_file">Файл не открыт</string>
+    <string name="open">Открыть</string>
+    <string name="save">Сохранить</string>
+    <string name="save_as">Сохранить как</string>
+    <string name="materials_10k">Материалы 10к</string>
+    <string name="consumables_10k">Расходники 10к</string>
+    <string name="add_by_id">Добавить id</string>
+    <string name="unnamed">— без названия —</string>
+    <string name="open_first">Сначала открой файл</string>
+    <string name="cannot_open">Не открылось: %1$s</string>
+    <string name="cannot_write">Не записалось: %1$s</string>
+    <string name="written">Записано, %1$d байт. Перед подменой полностью выгрузи игру.</string>
+    <string name="header_info">сохранён %1$s · модулей %2$d · позиций %3$d</string>
+    <string name="currently">сейчас %1$d</string>
+    <string name="apply">Применить</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="add">Добавить</string>
+    <string name="entries_changed">Изменено позиций: %1$d</string>
+    <string name="added">Добавлено: %1$d</string>
+    <string name="add_title">Добавить предметы по id</string>
+    <string name="add_message">Через пробел. Без знака равенства ставится 500.\nЕсли id в игре нет, он просто не появится в сумке.</string>
+    <string name="add_hint">200010 211007=500 600008=1000</string>
+
+    <string name="cat_currency">Валюта</string>
+    <string name="cat_consumable">Расходники</string>
+    <string name="cat_material">Материалы</string>
+    <string name="cat_entropite">Энтропиты</string>
+    <string name="cat_other">Прочее</string>
+</resources>
