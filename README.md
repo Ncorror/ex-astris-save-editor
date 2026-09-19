@@ -1,10 +1,10 @@
-> Current development build: **1.5.3** — complete Russian/English item descriptions for the 82-entry catalog.
+> Current development build: **1.6.0** — full 160-entry catalog with the new extracted icon set from `item.ab`.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.5.3**.
+Current development version: **1.6.0**.
 
 ## Current status
 
@@ -204,7 +204,7 @@ See `ITEM_RESEARCH.md`.
 
 ### Languages and evidence
 
-The item catalog presented by the app is intentionally **Russian + English only**. Japanese/Chinese references may be used during research, but their text is translated and is not shipped as an additional UI language. Every one of the 82 catalog entries has both a Russian and an English name/description. Exact effects are shown only when the internal ID mapping is supported; otherwise the editor displays a useful class-level description and clearly marks the mapping as unverified.
+The item catalog presented by the app is intentionally **Russian + English only**. Japanese/Chinese references may be used during research, but their text is translated and is not shipped as an additional UI language. The app now ships a 160-entry catalog with Russian and English names/descriptions. The icon pack has been replaced with the newly extracted `item.ab` sprite set. 158 IDs have exact extracted icons; IDs `500014` and `500015` currently use temporary placeholder icons and provisional text because their exact localized sprite/name pair was not present in the supplied resources.
 
 ## Build
 
@@ -262,7 +262,7 @@ gh run download -n ex-astris-save-editor-debug
 
 ## v1.5.2 catalog expansion
 
-The existing 69-item catalog and all previously integrated icons are preserved unchanged. v1.5.2 adds 13 newly discovered IDs from the user-provided catalog dump, bringing the catalog to **82 entries**. Each of the 13 new IDs has a matching 128x128 icon from the accompanying icon archive.
+The previous icon set has been fully replaced. v1.6.0 upgrades the editor from the older 82-entry catalog to the extracted **160-entry** in-game catalog. All `item_*.png` resources now come from the new `item.ab` atlas export, giving the app a single consistent icon style across the catalog.
 
 New IDs: `12005`, `12007`, `12008`, `12009`, `210012`, `500001`, `710002`, `710004`, `710005`, `720005`, `730002`, `800006`, `9710017`.
 

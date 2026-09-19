@@ -1,3 +1,11 @@
+## 1.6.0
+
+- Replaced the entire item icon set with the newly extracted PNG sprites from `item.ab`.
+- Expanded `assets/items.json` from 82 to 160 catalog entries using the extracted game tables.
+- Added names and descriptions in Russian and English for the expanded catalog.
+- Added 78 new drawable item resources and removed the older mixed icon set.
+- IDs `500014` and `500015` currently use provisional text and a new-style placeholder icon because their exact localized sprite/name pair was not present in the supplied resources.
+
 # Changelog
 
 ## 1.5.3
