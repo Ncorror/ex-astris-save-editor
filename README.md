@@ -1,10 +1,10 @@
-> Current development build: **1.6.0** — full 160-entry catalog with the new extracted icon set from `item.ab`.
+> Current development build: **1.6.1** — dedicated filters for the full 160-entry catalog.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.6.0**.
+Current development version: **1.6.1**.
 
 ## Current status
 
@@ -277,3 +277,7 @@ New Entropith/Other entries are explicitly excluded from bulk quantity edits. Ex
 - The unsaved-change guard is now a compact single-line bar with Undo and a primary Save button.
 - The Save tab uses a small dot badge instead of a large numeric badge; the exact changed count is shown in the persistent guard and save status.
 - The compact access card no longer duplicates the Save action when access is already connected.
+
+## v1.6.1 catalog filters
+
+The 160-entry catalog now keeps its extracted source categories in the UI. In addition to resources, consumables, materials and Entropiths, the inventory can be filtered by Recipes, Tritris, Quest items, Curiosities and Packs. Unknown IDs still fall back to Other. Bulk quantity actions remain limited to resources, consumables and materials.

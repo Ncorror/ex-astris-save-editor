@@ -137,3 +137,13 @@ With autosave ON:
 - [ ] Unverified Amber/Entropith/special-item entries do not claim a specific official effect.
 - [ ] Entropith, relic/special and bottle-crate entries remain excluded from bulk quantity editing.
 - [ ] Known stack-safe materials/consumables remain available for bulk editing.
+
+## v1.6.1 category-filter regression
+
+- [ ] The inventory filter row scrolls horizontally and exposes: All, Resources, Consumables, Materials, Entropiths, Recipes, Tritris, Quest items, Curiosities, Packs, Other.
+- [ ] Selecting each filter only shows items from that category.
+- [ ] Known catalog entries no longer fall into Other solely because the old UI lacked a dedicated category.
+- [ ] Unknown save IDs still appear under Other.
+- [ ] Bulk actions remain available only for Resources, Consumables and Materials.
+- [ ] Entropiths, Recipes, Tritris, Quest items, Curiosities, Packs and Other are never mass-edited.
+- [ ] Search by item name continues to work while a category filter is active.

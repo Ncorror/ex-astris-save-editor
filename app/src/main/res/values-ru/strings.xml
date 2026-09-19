@@ -150,6 +150,11 @@ Android/data: %6$s</string>
     <string name="cat_consumable">Расходники</string>
     <string name="cat_material">Материалы</string>
     <string name="cat_entropite">Энтропиты</string>
+    <string name="cat_recipe">Рецепты</string>
+    <string name="cat_tritris">Тритрис</string>
+    <string name="cat_quest">Задания</string>
+    <string name="cat_curiosity">Коллекционные</string>
+    <string name="cat_pack">Наборы</string>
     <string name="cat_other">Прочее</string>
     <string name="item_meta">%2$s · ID %1$d</string>
     <string name="item_info_verified">✓ Справка сверена с базой сообщества · соответствие ID определено каталогом редактора</string>
@@ -163,7 +168,7 @@ Android/data: %6$s</string>
     <string name="bulk_visible_only">Только позиции, показанные текущим поиском/фильтром</string>
     <string name="bulk_preview">Будет изменено: %1$d</string>
     <string name="bulk_preview_with_protected">Будет изменено: %1$d · защищено и пропущено: %2$d</string>
-    <string name="bulk_protected_note">Энтропиты и уникальные предметы не меняются массово.</string>
+    <string name="bulk_protected_note">Энтропиты, рецепты, Тритрис, предметы заданий и другие уникальные предметы не меняются массово.</string>
     <string name="bulk_all_stackable">Все доступные</string>
     <string name="bulk_confirm_set">Установить для %1$d позиций значение %2$d?</string>
     <string name="bulk_confirm_add">Добавить %2$d к %1$d позициям?</string>

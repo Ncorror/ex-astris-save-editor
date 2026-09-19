@@ -150,6 +150,11 @@ Android/data: %6$s</string>
     <string name="cat_consumable">Consumables</string>
     <string name="cat_material">Materials</string>
     <string name="cat_entropite">Entropites</string>
+    <string name="cat_recipe">Recipes</string>
+    <string name="cat_tritris">Tritris</string>
+    <string name="cat_quest">Quest items</string>
+    <string name="cat_curiosity">Curiosities</string>
+    <string name="cat_pack">Packs</string>
     <string name="cat_other">Other</string>
     <string name="item_meta">%2$s · ID %1$d</string>
     <string name="item_info_verified">✓ Reference text checked against community sources · ID mapping comes from the editor catalog</string>
@@ -163,7 +168,7 @@ Android/data: %6$s</string>
     <string name="bulk_visible_only">Only items visible in the current search/filter</string>
     <string name="bulk_preview">Items changed: %1$d</string>
     <string name="bulk_preview_with_protected">Items changed: %1$d · protected and skipped: %2$d</string>
-    <string name="bulk_protected_note">Entropiths and unique items are excluded from bulk quantity changes.</string>
+    <string name="bulk_protected_note">Entropiths, recipes, Tritris pieces, quest items and other unique items are excluded from bulk quantity changes.</string>
     <string name="bulk_all_stackable">All editable</string>
     <string name="bulk_confirm_set">Set %1$d items to %2$d?</string>
     <string name="bulk_confirm_add">Add %2$d to %1$d items?</string>

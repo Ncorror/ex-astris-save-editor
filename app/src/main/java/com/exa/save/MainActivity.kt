@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         if (selected != null) writeToUri(selected)
     }
 
-    private val categoryOrder = listOf("currency", "consumable", "material", "entropite", "other")
+    private val categoryOrder = listOf("currency", "consumable", "material", "entropite", "recipe", "tritris", "quest", "curiosity", "pack", "other")
 
     private enum class AccessMode { AUTO, ROOT, SHIZUKU, MANUAL }
     private enum class AccessBackend { ROOT, SHIZUKU, MANUAL, NONE }
@@ -265,6 +265,11 @@ class MainActivity : AppCompatActivity() {
         binding.chipConsumable.setOnClickListener { activeCategory = "consumable"; renderRows() }
         binding.chipMaterial.setOnClickListener { activeCategory = "material"; renderRows() }
         binding.chipEntropite.setOnClickListener { activeCategory = "entropite"; renderRows() }
+        binding.chipRecipe.setOnClickListener { activeCategory = "recipe"; renderRows() }
+        binding.chipTritris.setOnClickListener { activeCategory = "tritris"; renderRows() }
+        binding.chipQuest.setOnClickListener { activeCategory = "quest"; renderRows() }
+        binding.chipCuriosity.setOnClickListener { activeCategory = "curiosity"; renderRows() }
+        binding.chipPack.setOnClickListener { activeCategory = "pack"; renderRows() }
         binding.chipOther.setOnClickListener { activeCategory = "other"; renderRows() }
     }
 
@@ -824,6 +829,11 @@ class MainActivity : AppCompatActivity() {
             "material" -> if (preferRussian()) "Материал из сохранения." else "Material from the save file."
             "consumable" -> if (preferRussian()) "Расходуемый предмет из сохранения." else "Consumable item from the save file."
             "entropite" -> if (preferRussian()) "Боевой энтропит." else "Combat Entropith."
+            "recipe" -> if (preferRussian()) "Рецепт из сохранения." else "Recipe from the save file."
+            "tritris" -> if (preferRussian()) "Фрагмент Тритрис из сохранения." else "Tritris piece from the save file."
+            "quest" -> if (preferRussian()) "Предмет задания из сохранения." else "Quest item from the save file."
+            "curiosity" -> if (preferRussian()) "Коллекционный предмет из сохранения." else "Curiosity item from the save file."
+            "pack" -> if (preferRussian()) "Набор из сохранения." else "Pack item from the save file."
             else -> if (preferRussian()) "Предмет из сохранения." else "Item from the save file."
         }
     }
@@ -848,6 +858,11 @@ class MainActivity : AppCompatActivity() {
         "consumable" -> getString(R.string.cat_consumable)
         "material" -> getString(R.string.cat_material)
         "entropite" -> getString(R.string.cat_entropite)
+        "recipe" -> getString(R.string.cat_recipe)
+        "tritris" -> getString(R.string.cat_tritris)
+        "quest" -> getString(R.string.cat_quest)
+        "curiosity" -> getString(R.string.cat_curiosity)
+        "pack" -> getString(R.string.cat_pack)
         else -> getString(R.string.cat_other)
     }
 
@@ -1533,7 +1548,7 @@ class MainActivity : AppCompatActivity() {
         }
         // If the current list is a protected category, keep the sheet scoped to
         // what the user sees so it clearly reports that those items are skipped.
-        sheet.visibleOnlyCheck.isChecked = activeCategory == "entropite" || activeCategory == "other"
+        sheet.visibleOnlyCheck.isChecked = activeCategory != null && activeCategory !in setOf("currency", "consumable", "material")
         sheet.operationGroup.check(R.id.setOperationButton)
         sheet.valueInput.setText(prefs.getInt("last_bulk_value", 10_000).toString())
 

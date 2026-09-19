@@ -1,3 +1,11 @@
+## 1.6.1
+
+- Split the old `Other` bucket into dedicated catalog filters: Recipes, Tritris, Quest items, Curiosities and Packs.
+- Preserved the existing protected bulk-editing policy: only currency, consumables and materials are eligible for mass quantity changes.
+- Restored the extracted source category for all 160 catalog records instead of flattening 101 records into `other`.
+- Updated fallback descriptions and category labels in Russian and English.
+- Bulk-action UI now recognizes every protected category when choosing the visible-only default.
+
 ## 1.6.0
 
 - Replaced the entire item icon set with the newly extracted PNG sprites from `item.ab`.
