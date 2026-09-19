@@ -1,5 +1,7 @@
 # v1.6.4 — category audit
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 This release corrects catalog placement using the extracted item table and in-game terminology.
 
 ## Corrected placement

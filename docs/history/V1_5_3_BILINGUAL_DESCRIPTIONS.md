@@ -1,5 +1,7 @@
 # v1.5.3 — Russian/English item descriptions
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 ## Goal
 
 Complete the 82-item catalog with useful Russian and English text without inventing unsupported numeric-ID mappings.

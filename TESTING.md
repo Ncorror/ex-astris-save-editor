@@ -1,198 +1,202 @@
-# Regression testing checklist
+# Regression and release checklist
 
-Run this checklist before treating a new archive as stable.
+Run the relevant sections before treating a new build as stable. For a public release, complete the **Release gate** at the end as well.
 
-## Build
+Current expected metadata:
 
-- [ ] `assembleDebug` succeeds.
-- [ ] APK artifact exists.
-- [ ] verification artifact contains `build.log` and `build-info.txt`.
-- [ ] no new Kotlin/resource warnings.
-- [ ] version in APK/Gradle/build-info matches.
+```text
+versionName: 1.6.5
+versionCode: 20
+catalog entries: 160
+item icons: 160
+bulk-editable catalog entries: 43
+protected catalog entries: 117
+```
 
-## Root
+## 1. Build / CI
+
+- [ ] `assembleDebug` succeeds for a normal `main` build.
+- [ ] Build artifact contains an APK, `build.log` and `build-info.txt`.
+- [ ] Verification artifact contains `build.log` and `build-info.txt`.
+- [ ] No new Kotlin/resource build errors appear.
+- [ ] Version in Gradle and `build-info.txt` matches.
+- [ ] Catalog count reports `160`.
+- [ ] Item-icon count reports `160`.
+
+## 2. Root backend
 
 - [ ] Root permission can be requested.
 - [ ] Root service reports UID 0.
-- [ ] `Android/data/com.gryphline.exastris.gp` save discovery works.
-- [ ] main save opens.
-- [ ] write succeeds with game closed.
-- [ ] game sees the edited value.
+- [ ] Save discovery under `Android/data/com.gryphline.exastris.gp` works.
+- [ ] `SaveFile0.save` opens.
+- [ ] A write succeeds with Ex Astris fully closed.
+- [ ] The game sees the edited value after reopening.
 
 Current real-device verification: APatch / KernelPatch.
 
-## Shizuku
+## 3. Shizuku backend
 
 - [ ] Shizuku permission is granted.
 - [ ] Shizuku service connects.
-- [ ] save discovery works.
+- [ ] Save discovery works.
 - [ ] `SaveFile0.save` opens.
-- [ ] backup works.
-- [ ] write succeeds with game closed.
-- [ ] game sees the edited value.
+- [ ] Backup creation works.
+- [ ] A write succeeds with Ex Astris fully closed.
+- [ ] The game sees the edited value after reopening.
 
 Shizuku has been verified on a real device.
 
-## Manual file mode
+## 4. Manual file mode
 
-- [ ] document picker opens.
-- [ ] selected save parses.
-- [ ] export copy works.
-- [ ] manual write does not crash.
+- [ ] Android document picker opens.
+- [ ] Selected save parses.
+- [ ] Export copy works.
+- [ ] Manual write path does not crash.
 
-## Unsaved-change protection
+## 5. Inventory list and search
 
-With autosave OFF:
+- [ ] Search matches Russian item names.
+- [ ] Search also matches the alternate English name.
+- [ ] Numeric ID alone does **not** act as a search key.
+- [ ] Category filters work and the selected chip remains visible while scrolling.
+- [ ] Search clear icon restores the current category result set.
+- [ ] `item_<ID>.png` icons load correctly.
+- [ ] Long names do not overlap count/icon UI.
+- [ ] Quantity digits are not clipped.
+- [ ] Protected items show the lock indicator.
+- [ ] Descriptions do not expose raw `<i>`, `<color>` or `[keyword=...]` markup.
 
-- [ ] Apply an item change -> global guard bar appears.
-- [ ] compact save strip shows changed count.
-- [ ] Save tab badge appears.
-- [ ] Snackbar says the file is not written yet.
-- [ ] Undo restores the previous value.
-- [ ] Save clears the bar and badge.
-- [ ] Back with pending edits shows 3-choice dialog.
-- [ ] Switch save with pending edits shows 3-choice dialog.
-- [ ] Manual file selection with pending edits shows 3-choice dialog.
-- [ ] Access backend switch with pending edits shows 3-choice dialog.
-- [ ] Backup restore with pending edits shows 3-choice dialog.
-- [ ] Continue without saving actually restores the last saved baseline.
-- [ ] failed write keeps the pending-change indicators visible.
+Current filter labels:
 
-With autosave ON:
+```text
+All
+Resources
+Consumables
+Materials
+Entropites
+Recipes
+Laylah-Keys
+Quest items
+Valuables
+Other (fallback for unknown IDs)
+```
 
-- [ ] Apply triggers a write.
-- [ ] successful autosave clears pending state.
-- [ ] failure leaves pending state visible.
+Russian UI uses the corresponding localized labels.
 
-## Inventory editor
+## 6. Add-item catalog
 
-- [ ] search works by name and ID.
-- [ ] category filters work.
-- [ ] item icons load by `item_<ID>`.
-- [ ] quantity digits are not clipped.
-- [ ] plus/minus work.
-- [ ] arbitrary typed quantity works.
-- [ ] Add-by-ID works.
-- [ ] Delete works.
+- [ ] Tap the floating `+` button; no raw-ID input is requested.
+- [ ] Catalog shows only known entries not already present in the save.
+- [ ] Search works by Russian and English/alternate name.
+- [ ] Visible result count updates with search.
+- [ ] Each row shows icon, category and short description.
+- [ ] Protected entries show a lock but remain individually addable.
+- [ ] Selecting an entry opens quantity confirmation.
+- [ ] Quantity cannot be zero.
+- [ ] `+` / `-` and quick quantity presets work.
+- [ ] Adding an item marks the editor state dirty.
+- [ ] The newly added item appears in the inventory.
+- [ ] The same catalog ID cannot be inserted twice.
 
-## Bulk actions
+## 7. Individual edit / delete
+
+- [ ] `+` and `-` work in the item editor.
+- [ ] Arbitrary typed quantity works.
+- [ ] Quick values fit on a narrow phone screen.
+- [ ] Protected status is shown in the edit sheet where applicable.
+- [ ] Individual editing remains available for protected items.
+- [ ] Delete works and marks the state dirty.
+
+## 8. Bulk actions
 
 - [ ] Set works.
 - [ ] Add works.
 - [ ] Subtract clamps at 0.
-- [ ] arbitrary value works.
-- [ ] quick presets only set the input; they are not hard limits.
-- [ ] current-filter-only works.
-- [ ] affected-entry preview is correct.
-- [ ] confirmation toggle works.
+- [ ] Arbitrary typed value works.
+- [ ] Quick presets set the input; they are not hard limits.
+- [ ] Current-search/filter-only works.
+- [ ] Preview reports the affected count correctly.
+- [ ] Protected/skipped count is correct.
+- [ ] Confirmation preference works.
+- [ ] Bulk action is disabled when the visible result set has no eligible items.
+- [ ] Protected entries never change during a bulk operation.
 
-## Backups
+Current catalog safety totals:
 
-- [ ] automatic backup on open works when enabled.
-- [ ] manual backup works.
-- [ ] backup list sorts newest first.
-- [ ] loaded backup becomes a pending editor change until saved.
+```text
+43 editable
+117 protected
+```
 
-## v1.5.1 regression checks
+Special regression points:
 
-### Bulk safety
-1. Open a save containing normal stackable items plus Entropith/unique items.
-2. Run **Bulk -> All editable -> Set 1000**.
-3. Confirm the preview reports editable items separately from protected/skipped items.
-4. Confirm Entropiths and Other/unique items retain their previous quantities.
-5. Repeat with Add and Subtract.
-6. Filter to Entropiths or Other, open Bulk, and confirm the visible-only preview has zero editable targets and Apply is disabled.
+- [ ] `800000–800011` are shown under Consumables but remain protected.
+- [ ] `9910007` Laylah Kernel is shown under Materials but remains protected.
+- [ ] `600000–600003` are shown under Valuables.
+- [ ] `970xxxx/971xxxx` are shown under Laylah-Keys.
+- [ ] `500014` and `500015` remain protected internal records.
 
-### Search
-1. Search a known item by its Russian name.
-2. Search by its English/alternate name.
-3. Type the numeric ID alone and confirm it does not produce an ID-based match.
-4. Confirm multi-word name searches work regardless of extra spaces.
+## 9. Unsaved-change protection
 
-### Unsaved-change bar
-1. Edit one item and Apply.
-2. Confirm a compact one-line bar appears above navigation.
-3. Confirm the Save tab shows only a small dot badge, not a large count bubble.
-4. Confirm Undo restores the last editor state.
-5. Confirm Save writes the file and hides the bar/badge.
-6. Confirm the top access card does not show a duplicate Save button while Root/Shizuku is connected.
+With autosave **OFF**:
 
+- [ ] Apply/add/delete/bulk edit shows the global unsaved-change bar.
+- [ ] Compact save strip reports pending changes.
+- [ ] Save-tab badge appears.
+- [ ] Snackbar explains that the file has not been written yet.
+- [ ] Undo restores the previous in-memory state.
+- [ ] Save clears pending indicators.
+- [ ] Back with pending edits offers Save / continue without saving / cancel.
+- [ ] Save switch with pending edits shows the same protection.
+- [ ] Manual file selection with pending edits is protected.
+- [ ] Backend switch with pending edits is protected.
+- [ ] Backup restore with pending edits is protected.
+- [ ] Continue without saving restores the last saved baseline.
+- [ ] Failed write keeps pending indicators visible.
 
-## v1.5.2 catalog regression checks
+With autosave **ON**:
 
-- Existing 69 item names/icons render exactly as before.
-- New IDs `12005`, `12007`, `12008`, `12009`, `210012`, `500001`, `710002`, `710004`, `710005`, `720005`, `730002`, `800006`, `9710017` resolve to names and icons.
-- Total catalog count is 82.
-- Total `item_*.png` resource count is 82.
-- New Entropith/Other IDs are skipped by bulk editing.
-- Name-only search can find the new Russian names.
+- [ ] A change triggers a write.
+- [ ] Successful autosave clears pending state.
+- [ ] Failure leaves pending state visible.
 
+## 10. Backups
 
-## v1.5.3 bilingual catalog regression
+- [ ] Automatic backup on open works when enabled.
+- [ ] Manual backup works.
+- [ ] Backup list is newest-first.
+- [ ] Loading a backup creates a pending editor state until saved.
 
-- [ ] Russian locale shows Russian item names and descriptions.
-- [ ] English/non-Russian locale shows English item names and descriptions.
-- [ ] Search finds items by both Russian and English names.
-- [ ] All 82 catalog entries open without blank description text.
-- [ ] Unverified Amber/Entropith/special-item entries do not claim a specific official effect.
-- [ ] Entropith, relic/special and bottle-crate entries remain excluded from bulk quantity editing.
-- [ ] Known stack-safe materials/consumables remain available for bulk editing.
+## 11. Catalog integrity
 
-## v1.6.1 category-filter regression
+- [ ] `items.json` contains exactly 160 entries.
+- [ ] `drawable-nodpi` contains exactly 160 `item_*.png` files.
+- [ ] Russian locale shows Russian display names/descriptions.
+- [ ] Non-Russian locale shows English display names/descriptions.
+- [ ] No blank display name exists in the catalog.
+- [ ] No blank description exists in the catalog.
+- [ ] IDs `500014` and `500015` remain clearly marked as provisional/internal rather than presented as confirmed normal obtainable Entropiths.
 
-- [ ] The inventory filter row scrolls horizontally and exposes: All, Resources, Consumables, Materials, Entropiths, Recipes, Tritris, Quest items, Curiosities, Packs, Other.
-- [ ] Selecting each filter only shows items from that category.
-- [ ] Known catalog entries no longer fall into Other solely because the old UI lacked a dedicated category.
-- [ ] Unknown save IDs still appear under Other.
-- [ ] Bulk actions remain available only for Resources, Consumables and Materials.
-- [ ] Entropiths, Recipes, Tritris, Quest items, Curiosities, Packs and Other are never mass-edited.
-- [ ] Search by item name continues to work while a category filter is active.
+## 12. Release gate
 
-## v1.6.2 catalog terminology regression
+Before tagging:
 
-- [ ] Catalog still reports 160 entries and 160 `item_*.png` resources.
-- [ ] Russian UI shows meaningful English alternate names (for example `Flux Amber`, not visual guesses such as `Red crystal in wrapping, variant`).
-- [ ] Amber IDs 12000/12003/12004/12005/12007/12008/12009 show the corrected English names.
-- [ ] Entropith IDs 500000–500013 use the cross-checked English EP names.
-- [ ] Recipe, Laylah-Key, sellable and quest records no longer show technical sprite/file labels as English names.
-- [ ] IDs 500014 and 500015 remain protected, unverified internal records.
-- [ ] Bulk editing behavior is unchanged: only currency, consumables and materials are eligible by default.
+- [ ] `main` CI is green.
+- [ ] Phone smoke test passes on a known-good backup/save.
+- [ ] `app/build.gradle` contains the intended `versionName` and `versionCode`.
+- [ ] Release keystore is backed up privately.
+- [ ] Required GitHub Actions signing secrets exist.
 
-## v1.6.3 mobile UI regression
+For tag `v1.6.5`:
 
-- [ ] Search clear icon empties the query and restores the current category results.
-- [ ] Selecting a category auto-scrolls the category strip so the selected chip remains visible.
-- [ ] Protected items show the lock indicator in the inventory list.
-- [ ] Opening a protected item shows “protected from bulk edits”; individual editing remains available.
-- [ ] Selecting/searching a protected-only result set disables the Bulk button.
-- [ ] Resources / consumables / materials still enable Bulk when eligible rows are visible.
-- [ ] 100 / 999 / 10 000 / 999 999 quick values fit on one row on a narrow phone screen.
-- [ ] Long item names and alternate names remain readable without overlapping the count or icon.
-- [ ] Item descriptions do not show raw `<i>`, `<color>` or `[keyword=...]` markup.
+- [ ] Tag exactly matches `versionName`.
+- [ ] Workflow reports `Build variant: release`.
+- [ ] Workflow reports `Signing: yes`.
+- [ ] `assembleRelease` succeeds.
+- [ ] `release-signature.log` exists.
+- [ ] `apksigner verify` reports `Verifies`.
+- [ ] APK has a valid v2 signature.
+- [ ] GitHub Release is published only after signature verification succeeds.
+- [ ] Release contains versioned APK, build log, build info and signature log.
 
-
-## v1.6.4 category audit regression
-
-- [ ] IDs 600000-600003 appear under Valuables / Ценности.
-- [ ] IDs 800000-800011 appear under Consumables / Расходники and still show the protected lock.
-- [ ] ID 9910007 Laylah Kernel appears under Materials / Материалы and remains bulk-protected.
-- [ ] IDs 970xxxx/971xxxx appear under Laylah-Keys / Ключи Лайлы.
-- [ ] The old Packs, Curiosities and Tritris filter labels are absent.
-- [ ] Bulk-editable count remains 43 and protected count remains 117.
-
-
-## v1.6.5 add-item catalog regression
-
-- [ ] Open a save and tap the floating `+` button.
-- [ ] The add sheet shows only catalog items not already present in the save.
-- [ ] Search matches Russian/English item names and updates the visible count.
-- [ ] Each row shows icon, category and a short description.
-- [ ] Protected entries show a lock icon but remain individually addable.
-- [ ] Selecting an item opens the quantity sheet.
-- [ ] Quantity cannot be zero.
-- [ ] Adding an item marks the save dirty and the new item appears in the inventory.
-- [ ] The same item cannot be inserted twice.
-- [ ] Existing edit/delete/bulk/save operations still behave as before.
-- [ ] A normal `main` CI run produces the debug APK and verification artifact.
-- [ ] A `v1.6.5` tag fails if signing secrets are missing.
-- [ ] With signing secrets configured, `v1.6.5` creates a signed release APK and `apksigner` verification log.
+The first release-signed install cannot update an older debug-signed installation in place. Preserve any editor-local backups you need before uninstalling the debug build.

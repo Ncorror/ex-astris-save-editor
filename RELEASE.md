@@ -1,13 +1,27 @@
-# Release process
+# Signed release process
 
-The repository builds debug APKs on `main`. A tag matching `v<versionName>` builds a signed release APK and publishes a GitHub Release.
+Normal pushes to `main` build a **debug** APK. A Git tag matching `v<versionName>` builds a **signed release** APK, verifies it with Android `apksigner`, and publishes a GitHub Release only after both build and signature verification succeed.
+
+Current application version:
+
+```text
+versionName 1.6.5
+versionCode 20
+```
 
 ## 1. Create the signing key once
 
-Run in Termux (keep this file backed up somewhere private). If `keytool` is missing, install Java first with `pkg install openjdk-17`:
+If Java is not installed in Termux:
+
+```bash
+pkg install openjdk-17 coreutils
+```
+
+Create the release keystore:
 
 ```bash
 mkdir -p ~/.keystores
+
 keytool -genkeypair -v \
   -keystore ~/.keystores/ex-astris-save-editor-release.jks \
   -alias exastris \
@@ -16,22 +30,26 @@ keytool -genkeypair -v \
   -validity 10000
 ```
 
-Do not add the `.jks` file to Git. If the signing key is lost, future APK updates cannot be signed with the same identity.
+The certificate identity fields are descriptive; they do not have to match a company registration. Keep the keystore password private.
 
-## 2. Add GitHub Actions secrets once
+**Never commit the `.jks` file.** Keep at least one offline backup. Losing this key prevents future APKs from being signed with the same app identity.
 
-From the repository directory in Termux:
+## 2. Configure GitHub Actions secrets once
+
+From the repository directory:
 
 ```bash
-base64 -w 0 ~/.keystores/ex-astris-save-editor-release.jks | gh secret set ANDROID_KEYSTORE_BASE64
+cd ~/ex-astris-save-editor/apk
+
+base64 -w 0 ~/.keystores/ex-astris-save-editor-release.jks \
+  | gh secret set ANDROID_KEYSTORE_BASE64
+
 gh secret set ANDROID_KEYSTORE_PASSWORD
 gh secret set ANDROID_KEY_ALIAS --body "exastris"
 gh secret set ANDROID_KEY_PASSWORD
 
 gh secret list
 ```
-
-The two password commands prompt securely. Use the same key password you entered when creating the keystore unless you intentionally configured a different key password.
 
 Required secrets:
 
@@ -40,25 +58,35 @@ Required secrets:
 - `ANDROID_KEY_ALIAS`
 - `ANDROID_KEY_PASSWORD`
 
-## 3. Validate the release candidate
+The password commands prompt without storing the values in shell history. If the key password is the same as the keystore password, enter the same value for both secrets.
 
-Before tagging, push `main`, wait for the debug CI build, install that APK, and verify the release checklist in `V1_6_5_VALIDATION.md`.
+## 3. Validate `main` before tagging
 
+Push the final commit and wait for CI:
 
-## Important: debug APK vs release APK
+```bash
+git push origin main
+gh run watch
+```
 
-Existing CI/debug APKs are signed with Android's debug key. The public release is signed with your new private release key, so Android will not install it as an update over the old debug-signed app with the same package name. Before the first public release install:
+Download/check the verification artifact and complete [`TESTING.md`](TESTING.md), especially the add-item flow, save write and bulk-safety checks.
 
-1. copy any editor-local backups you want to keep out of the app-specific `Android/data/com.exa.save` folder;
-2. make sure the real Ex Astris save itself is backed up;
-3. uninstall the old debug build of Ex Astris Save Editor;
+## 4. First release-signed install
+
+Android treats the old CI/debug APK and the new release APK as different signers even though the package name is the same. The first release-signed APK therefore cannot be installed over an older debug-signed installation.
+
+Before uninstalling the debug build:
+
+1. preserve any editor-local backups you need;
+2. keep a separate backup of the real Ex Astris save;
+3. uninstall only **Ex Astris Save Editor**, not the Ex Astris game;
 4. install the signed GitHub Release APK.
 
-This affects only the editor app signature. It does not change the Ex Astris game package or its save path.
+Future releases signed with the same `.jks` can update this release-signed installation normally.
 
-## 4. Publish v1.6.5
+## 5. Create the release tag
 
-The tag must exactly match `versionName` from `app/build.gradle`.
+Read the version directly from Gradle so the tag cannot drift from the project version:
 
 ```bash
 cd ~/ex-astris-save-editor/apk
@@ -66,31 +94,69 @@ cd ~/ex-astris-save-editor/apk
 git pull --ff-only
 git status
 
-git tag -a v1.6.5 -m "Ex Astris Save Editor v1.6.5"
-git push origin v1.6.5
+VERSION="$(sed -n 's/.*versionName[[:space:]]*"\([^"]*\)".*/\1/p' app/build.gradle | head -n 1)"
+TAG="v${VERSION}"
+
+echo "$TAG"
+git tag -a "$TAG" -m "Ex Astris Save Editor $TAG"
+git push origin "$TAG"
 
 gh run watch
 ```
 
-The tag workflow will:
+The workflow rejects a tag that does not exactly match `versionName`.
 
-1. reject a tag that does not match `versionName`;
-2. decode the signing key only inside the GitHub Actions runner;
-3. run `assembleRelease`;
-4. verify the APK signature with `apksigner`;
-5. publish `ex-astris-save-editor-v1.6.5.apk` to GitHub Releases;
-6. attach `build-info.txt`, `build.log`, and `release-signature.log`.
-
-Inspect the release:
+If a tag must be recreated because the workflow file itself was fixed **before the public release is considered final**, delete and recreate only that tag intentionally:
 
 ```bash
-gh release view v1.6.5
-gh release download v1.6.5
+git tag -d "$TAG"
+git push origin ":refs/tags/$TAG"
+git tag -a "$TAG" -m "Ex Astris Save Editor $TAG"
+git push origin "$TAG"
 ```
 
-## Security notes
+Do not routinely rewrite already published release tags.
 
-- Never commit the keystore or passwords.
-- Keep an offline backup of the `.jks` file and remember its passwords.
-- Do not publish an unsigned release APK.
-- A normal `main` build continues to use the Android debug signing key and is only for testing.
+## 6. What the tag workflow verifies
+
+The tagged build:
+
+1. validates `v<versionName>`;
+2. requires all four signing secrets;
+3. decodes the keystore only inside the GitHub runner;
+4. runs `assembleRelease`;
+5. locates Android SDK `apksigner` explicitly;
+6. runs `apksigner verify --verbose --print-certs`;
+7. prepares build metadata and signature log;
+8. publishes a GitHub Release only if build **and** signature verification succeeded.
+
+A valid APK Signature Scheme **v2** result is sufficient for the current Android target. The workflow does not require v1/v3/v4 to be true.
+
+## 7. Inspect/download the release
+
+```bash
+VERSION="$(sed -n 's/.*versionName[[:space:]]*"\([^"]*\)".*/\1/p' app/build.gradle | head -n 1)"
+TAG="v${VERSION}"
+
+gh release view "$TAG"
+gh release view "$TAG" --web
+gh release download "$TAG"
+```
+
+Expected release assets:
+
+```text
+ex-astris-save-editor-v<version>.apk
+build.log
+build-info.txt
+release-signature.log
+```
+
+## Security rules
+
+- Never commit or upload the keystore anywhere public.
+- Never paste signing passwords into issue/commit/release text.
+- Keep an offline keystore backup.
+- Do not publish an unsigned APK as an official release.
+- Do not bypass a failed `apksigner` verification.
+- A `main` debug APK is for testing, not the public signed release.

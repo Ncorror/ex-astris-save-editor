@@ -1,5 +1,7 @@
 # v1.5.2 — new items and icons
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 This release intentionally does **not** modify any of the 69 previously working item entries or their icons.
 
 ## Added IDs

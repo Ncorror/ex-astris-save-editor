@@ -1,5 +1,7 @@
 # v1.6.5 validation
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 Expected metadata:
 
 - Version name: 1.6.5

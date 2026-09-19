@@ -1,5 +1,7 @@
 # v1.4.3 — icon crop polish
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 > Historical icon-polish notes. v1.4.4 later added the two currency icons; v1.5.0 keeps this icon set unchanged.
 
 

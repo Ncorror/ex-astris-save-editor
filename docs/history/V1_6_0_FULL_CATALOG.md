@@ -1,5 +1,7 @@
 # v1.6.0 — full catalog + new icon set
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 ## Included in this update
 
 - Full 160-entry item catalog generated from the extracted stage1 tables.

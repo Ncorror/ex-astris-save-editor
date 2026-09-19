@@ -1,5 +1,7 @@
 # v1.6.5 — Add catalog + release candidate
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 ## Add-item UX
 
 The old free-form `ID=quantity` text field has been removed from the normal UI. The `+` action now opens a searchable catalog generated from the same 160-entry data used by the inventory screen.

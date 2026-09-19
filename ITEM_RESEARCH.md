@@ -1,60 +1,104 @@
-# Ex Astris item research notes
+# Item metadata and evidence policy
 
-This file documents the evidence policy behind `app/src/main/assets/items.json`. The app itself ships item metadata in **Russian and English only**. Japanese/Chinese text may be consulted as a research source but is translated before it reaches the catalog.
+`app/src/main/assets/items.json` is the editor's runtime catalog. The UI ships **Russian and English** item metadata only.
 
-## Public terminology reference
+This document explains which sources are trusted for ID mapping, names, icons, categories and edit-safety decisions.
 
-Primary community reference (global v1.1.0 terminology table):
+## Evidence priority
 
-- https://drmone.hatenablog.com/entry/exAstrisJpCn
+### 1. Extracted game tables — numeric ID mapping
 
-It provides the game's English terminology and effects for many items, including:
+The strongest source for `numeric ID -> localization key -> icon key` is the extracted Ex Astris item data used for the 160-entry catalog.
 
-- Astrite — Orbitals/character-upgrade resource.
-- Doron — general merchant currency.
-- Vitality Amber — restores 60% Vitality to one ally; further Vitality Amber healing is reduced by 70% for 3 turns.
-- Vitaflow Amber — restores 25% Vitality to the party; further Vitaflow Amber healing is reduced by 70% for 3 turns.
-- Attack Amber, Burst Amber, Flux Amber, Overload Amber, Hardening Amber, Stimulant Amber and Frenzy Amber — additional combat consumables with documented effects.
-- Entropith Triode — battery that restores one Ionix gauge.
-- Laylah Kernel — Entropith upgrade item.
-- Crafting materials: Bio-debris, Bio-deposit, Jel, Molding Jel, Carboid Shell, Alloid Shell, Fibrous Fur, Matted Fur, Fluorite and Solid Doronite.
-- Cooking ingredients: Fibrous Seed/Fruit, Shellwort/Mass, Silver/Gold Mirrormoon, Carbonized Fascia/Hyaline, Galactic Masala, Floweed, Craver's Puff, Smoothcap, Stacker Caps, Licosphere, Titami Meat, Honeypot, Sourpot and Bitterpot.
-- Fourteen named Entropiths, including EP: Impact, Mender, Lightning, Razor Gale, Triple Bolt, Blaze, Tempest, Barrier, Concussion, Arc Field, Igneous, Gust, Smite and Cluster.
+The stage1 extraction contained:
 
-## Important limitation: numeric save IDs
+- `itemTable_decoded_records.csv`
+- `ex_astris_catalog_160_game_ru.csv`
+- `LocalizationTable_Item.csv`
+- `LocalizationTable_Magic.csv`
+- `item_sprite_map.csv`
 
-The public reference does **not** publish a table pairing those public names with the numeric IDs used by the save file. Therefore the editor does not guess exact mappings merely because a visual shape or ID range looks plausible.
+These data are preferred over visual guessing because they preserve the game's internal record relationships.
 
-For example, the catalog contains seven currently-unmapped `120xx` combat-consumable IDs and the public reference lists seven additional Amber types. The counts line up, but that alone is not sufficient evidence to assign Attack/Burst/Flux/etc. to particular numeric IDs. Those entries therefore receive a bilingual Amber-family description while remaining `verified: false`.
+### 2. `item.ab` — icon/sprite evidence
 
-The same rule applies to the six observed `500xxx` Entropith IDs: the general Entropith mechanics are known, but their exact public names/effects remain unassigned until stronger icon/game-data evidence is found.
+The supplied Unity `item.ab` bundle contains the item icon atlases used for the current icon pack. The atlas/map extraction produced 210 sprite records and two texture atlases.
 
-## Live-game edit safety
+For the 160 catalog IDs:
 
-The supplied `safety.md` records tests on the 82-item catalog. The editor uses those findings conservatively:
+- `158` have exact extracted sprite matches;
+- `500014` and `500015` do not have dedicated matching sprites in the supplied bundle and remain special/provisional internal records.
 
-- quantities for currencies, `11xxx/12xxx` consumables, `800xxx` masks, common materials/cooking items, `600xxx` entries and Laylah Kernel were tested successfully;
-- Entropiths are equipment-like single-copy items and stay protected from bulk editing;
-- `971xxxx` relic-like entries and the special `9910001/9910024/9910028` items stay protected;
-- bottle-crate/pack IDs (`710xxx/720xxx/730xxx`) were observed as single-copy vendor items with unclear purpose and stay protected;
-- zero is not used as a substitute for deletion;
-- the game should be fully closed before overwriting its save.
+### 3. Public/global terminology references
 
-## v1.5.3 bilingual catalog policy
+Public terminology sources are used to cross-check readable English names/effects, but they are **not** used alone to invent numeric save-ID mappings.
 
-All 82 records now contain:
+The main supplementary terminology reference used during the catalog polish is listed in [`RESEARCH_SOURCES.md`](RESEARCH_SOURCES.md).
+
+## Current catalog state
+
+Current catalog size:
 
 ```text
-name             Russian display name
-name_en          English display name
-description      Russian description
-description_en   English description
-verified         whether the name/purpose mapping has external support
-bulk_editable    optional conservative bulk-edit override
+160 entries
+160 item image resources
+43 bulk-editable entries
+117 protected entries
 ```
 
-When a mapping is unverified, the description still explains the item's known class, observed behavior and edit-safety status without inventing an official name/effect.
+Current source categories after the v1.6.4 audit:
 
-## v1.6.2 terminology pass
+```text
+2  currency
+23 consumable
+31 material
+16 entropite
+25 recipe
+34 laylah_key
+25 quest
+4  valuable
+```
 
-The 160-entry catalog was rechecked after the icon/catalog expansion. English names that had previously been inferred from sprite appearance or internal filenames were replaced with game terminology where a global-English cross-reference was available. The two table-only hybrid Entropith IDs (`500014`, `500015`) remain explicitly unverified because the supplied `item.ab` has no matching dedicated sprites and the normal global list contains 14 obtainable Entropiths.
+Unknown IDs present in a save use the `other` fallback at runtime.
+
+See [`docs/CATALOG.md`](docs/CATALOG.md) for schema/category details.
+
+## Bulk-edit safety
+
+Bulk editing is intentionally more conservative than individual editing.
+
+`bulk_editable` in `items.json` is the authority for known catalog entries. Current totals are 43 editable and 117 protected.
+
+Important examples:
+
+- Entropiths are protected from bulk operations.
+- Recipes, Laylah-Keys, Quest items and Valuables are protected.
+- Loot packs are displayed under Consumables but remain explicitly protected.
+- Laylah Kernel (`9910007`) is displayed under Materials but remains explicitly protected.
+- Internal hybrid records `500014` and `500015` remain protected.
+
+A category label must never be treated as proof that mass-editing every item in that category is safe; explicit per-ID metadata wins.
+
+## Historical live-save safety evidence
+
+An earlier `safety.md` test set covered the older 82-entry catalog. Those results were useful for establishing the conservative safety model, but they do not automatically prove the behavior of every later-discovered ID.
+
+Later UI/catalog work therefore kept uncertain/unique items protected unless stronger evidence was available.
+
+## Special internal records: 500014 and 500015
+
+The extracted item table contains IDs `500014` and `500015`, but the supplied icon bundle does not expose dedicated matching sprites for the expected hybrid keys, and the normal public/global Entropith list covers 14 ordinary obtainable variants.
+
+For this reason the editor:
+
+- keeps both records visible in the known catalog;
+- marks their metadata as provisional/internal;
+- protects them from bulk editing;
+- does not present the temporary icon/name handling as fully verified normal gameplay data.
+
+## Translation policy
+
+- Russian and English are the only catalog display languages shipped by the editor.
+- Chinese/Japanese/Korean source strings may be used only as research input.
+- Existing official/global English terminology is preferred where available.
+- When no authoritative English prose was available, descriptions were written conservatively from known item class/purpose rather than inventing exact effects.

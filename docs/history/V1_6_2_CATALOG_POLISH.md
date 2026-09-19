@@ -1,5 +1,7 @@
 # v1.6.2 — catalog terminology polish
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 ## Scope
 
 This release cleans up the bilingual catalog after the 160-ID expansion. The Russian game-derived text remains the primary source for item descriptions, while English names were cross-checked against terminology from the global game where available.

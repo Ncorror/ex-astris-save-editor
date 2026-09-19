@@ -1,5 +1,7 @@
 # v1.6.3 — mobile catalog UI polish
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 ## Scope
 
 This release is UI-only. It keeps the v1.6.2 catalog, item icons, save parser/writer, Root/Shizuku access and bulk-edit safety rules intact.

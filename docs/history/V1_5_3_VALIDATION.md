@@ -1,5 +1,7 @@
 # v1.5.3 validation
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 - Catalog entries: 82
 - Records missing required bilingual fields: 0
 - Verified/reference-supported mappings: 34

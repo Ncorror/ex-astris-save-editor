@@ -1,5 +1,7 @@
 # v1.5.2 validation notes
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 Static packaging checks completed before delivery:
 
 - `assets/items.json` parses successfully: **82 entries**.

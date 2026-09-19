@@ -1,5 +1,7 @@
 # v1.4.0 development notes
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 > Historical v1.4 development notes. Current behavior is documented in `README.md` and `V1_5_0_SAVE_GUARD.md`.
 
 

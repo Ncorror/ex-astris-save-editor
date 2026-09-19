@@ -1,32 +1,64 @@
-# Research sources for item descriptions
+# Item research sources
 
-The app UI/catalog is Russian + English only. Other languages below are research inputs only.
+This file records the sources used to build and audit the 160-entry item catalog.
 
-## Public game terminology/effect reference
+## Extracted game data (primary for numeric IDs)
+
+The current catalog was built from the user-supplied Ex Astris game-data extraction, including:
+
+```text
+itemTable_decoded_records.csv
+ex_astris_catalog_160_game_ru.csv
+LocalizationTable_Item.csv
+LocalizationTable_Magic.csv
+item_sprite_map.csv
+```
+
+These files provide the strongest available evidence for numeric ID relationships, localization keys, internal categories and icon keys.
+
+## Game icon bundle (primary for icons)
+
+The user supplied `item.ab`, a UnityFS bundle from the game resources. It was decoded to recover the item icon atlases and individual sprites.
+
+The resulting catalog mapping has exact sprite matches for 158/160 known IDs. IDs `500014` and `500015` remain special cases because dedicated expected hybrid sprites were not present in the supplied bundle.
+
+## Global terminology / effect cross-check
+
+Supplementary terminology reference:
 
 - https://drmone.hatenablog.com/entry/exAstrisJpCn
 
-Used for English terminology and effects for Astrite, Doron, Amber consumables, Entropith Triode, Laylah Kernel, crafting materials, cooking ingredients and the public Entropith list.
+Used to cross-check readable English terminology/effects for currencies, Ambers, Entropiths, Laylah Kernel, materials, ingredients and other named items.
 
-Important limitation: the page does **not** expose the save editor's numeric item IDs, so it cannot by itself prove that a public item name belongs to a particular internal ID.
+Limitation: this page does not itself provide the editor's numeric save-ID table, so public terminology is paired to IDs only when the extracted game data supplies the mapping evidence.
 
-## Official product / language confirmation
+## Official English-language availability
 
 - https://apps.apple.com/us/app/ex-astris/id6470642337
 
-Confirms Ex Astris ships an official English localization. Russian text in this editor is our own translation/localization layer.
+Used only to confirm that Ex Astris has an official English localization. Russian editor text is maintained as the project's Russian localization layer.
 
-## Live-save editing evidence
+## Live-device evidence
 
-The project also uses the user's `safety.md` test notes as empirical editing-safety evidence for the 82 currently discovered save IDs. These tests are separate from public name/effect research: they tell us what quantities were safe to edit, not the official public name of an unknown numeric ID.
+Real-device testing has been used for:
 
-## v1.6.4 category audit
+- opening/discovering the live Ex Astris save;
+- successful item quantity writes;
+- Root/APatch access;
+- Shizuku access;
+- backup/restore behavior;
+- UI/category checks;
+- conservative bulk-edit behavior.
 
-The same terminology table was used to correct top-level placement:
+The earlier `safety.md` test set applied to the older 82-entry catalog. It remains historical evidence, not blanket proof for every ID added later.
 
-- packs are listed under consumables;
-- Laylah Kernel is listed under materials as an Entropith upgrade item;
-- Fossil Chip, Fossil, Dense Doronite and Potbug Shell are sell-items for Doron;
-- Laylah-Key diagrams and passage keys belong to the key/other item group rather than a standalone public "Tritris" category.
+## Category audit (v1.6.4)
 
-The extracted `itemTable` remains the authoritative source for the numeric ID -> localization/icon mapping.
+The extracted tables plus terminology cross-check were used to correct the UI taxonomy:
+
+- loot packs are displayed under Consumables;
+- Laylah Kernel is displayed under Materials;
+- Fossil Chip, Fossil, Dense Doronite and Potbug Shell are Valuables/sell-items;
+- internal Tritris records are presented as Laylah-Keys / passage-key diagrams rather than a public-facing Tritris category.
+
+The extracted game table remains the authority for numeric ID mapping.

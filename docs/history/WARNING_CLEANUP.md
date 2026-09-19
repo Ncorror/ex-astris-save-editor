@@ -1,5 +1,7 @@
 # Warning cleanup — v1.4.2
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 > Historical build-cleanup note. The cleaned warning state is retained in v1.5.0.
 
 

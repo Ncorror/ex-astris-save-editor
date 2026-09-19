@@ -1,5 +1,7 @@
 # v1.5.1 — bulk safety, search and save-bar polish
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 This patch responds to real-device testing of v1.5.0.
 
 ## Bulk safety

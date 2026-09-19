@@ -1,6 +1,6 @@
-# Ex Astris Save Editor — build / update from Termux
+# Setup and update workflow (Termux)
 
-Current development version: **1.5.3**.
+This file describes the **current** repository workflow for Ex Astris Save Editor `1.6.5`.
 
 Repository:
 
@@ -8,7 +8,42 @@ Repository:
 https://github.com/Ncorror/ex-astris-save-editor.git
 ```
 
-## Apply a project archive to the existing checkout
+Expected checkout used by the project workflow:
+
+```text
+~/ex-astris-save-editor/apk
+```
+
+## Requirements
+
+Typical Termux packages:
+
+```bash
+pkg update
+pkg install git gh unzip openjdk-17 coreutils
+```
+
+Authenticate GitHub CLI once if needed:
+
+```bash
+gh auth status || gh auth login
+```
+
+## Clone the repository
+
+For a fresh checkout:
+
+```bash
+cd ~
+git clone https://github.com/Ncorror/ex-astris-save-editor.git
+cd ~/ex-astris-save-editor/apk
+```
+
+If the repository layout on GitHub changes, use the actual directory that contains `app/`, `build.gradle`, `settings.gradle` and `.github/`.
+
+## Apply an update archive
+
+Project update archives are prepared without an extra top-level folder so they can be copied directly over the checkout.
 
 Example:
 
@@ -17,56 +52,115 @@ cd ~
 rm -rf ~/exa-update
 mkdir -p ~/exa-update
 
-unzip -o /storage/emulated/0/Download/ex_astris_save_editor_v150_save_guard.zip \
+unzip -o /storage/emulated/0/Download/<update-archive>.zip \
   -d ~/exa-update
 
 cd ~/ex-astris-save-editor/apk
 cp -a ~/exa-update/. ./
 
 git status
+git diff --stat
+```
+
+Before committing, verify the version when the update is supposed to change it:
+
+```bash
+grep -E 'versionCode|versionName' app/build.gradle
+```
+
+Then commit and push:
+
+```bash
 git add -A
-git commit -m "Add persistent unsaved change protection"
+git commit -m "Describe the change"
 git push origin main
 
 gh run watch
 ```
 
-Do not create a second commit if `git push` fails only because DNS/network is unavailable. The local commit already exists; restore connectivity and run:
+If `git status` reports `working tree clean`, the same files are already present in the checkout. Do not create an empty commit just to trigger CI; use `gh workflow run` only when a manual run is actually needed.
+
+## CI artifacts
+
+List/watch recent runs:
 
 ```bash
-git push origin main
+gh run list --limit 10
+gh run watch
 ```
 
-## Download CI artifacts
+Download the normal build artifact:
 
 ```bash
-gh run list
-gh run watch
+gh run download -n ex-astris-save-editor-build
+```
 
-gh run download -n ex-astris-save-editor-debug
+Download verification data:
+
+```bash
 gh run download -n ex-astris-save-editor-verification
 ```
 
-The debug artifact contains:
+Expected metadata for the current version:
 
 ```text
-ex-astris-save-editor.apk
-build.log
-build-info.txt
+Version: 1.6.5
+Version code: 20
+Catalog entries: 160
+Item icons: 160
+Add item flow: searchable catalog
 ```
 
-The verification artifact contains build diagnostics and reports when available.
+A `main` build is a **debug** build. Public release tags use the private release signing key; see [`RELEASE.md`](RELEASE.md).
 
-## First publication only
+## Access testing on a phone
+
+### Root
+
+1. Grant root permission to the editor.
+2. Select Root or Auto.
+3. Confirm the service reports UID 0.
+4. Open the discovered Ex Astris save.
+5. Fully close Ex Astris before writing.
+6. Edit one obvious value, Save, then verify it in game.
+
+Current real-device verification: APatch / KernelPatch. The libsu implementation is intended to be provider-agnostic, but Magisk, KernelSU and KernelSU Next should be treated as unverified until tested on-device.
+
+### Shizuku
+
+1. Start Shizuku.
+2. Grant permission to the editor.
+3. Select Shizuku or Auto.
+4. Open the discovered save.
+5. Confirm the source indicates Shizuku / `Android/data`.
+6. Fully close Ex Astris.
+7. Make a small edit, Save, then verify it in game.
+
+### Manual file mode
+
+Use File mode when privileged access is unavailable. The Android document picker can open a save and export a copy, but direct automatic `Android/data` discovery is provided by Root/Shizuku.
+
+## Troubleshooting GitHub connectivity
+
+If GitHub commands return `Could not resolve host: github.com`:
+
+```bash
+ping -c 1 1.1.1.1
+getent hosts github.com
+```
+
+If IP connectivity works but DNS lookup fails, restore Android network / Private DNS / VPN connectivity and retry the **same** push. A network error does not mean the local commit must be recreated.
+
+## First repository publication (historical/optional)
+
+Only use this section for a repository that has not yet been created on GitHub:
 
 ```bash
 cd ~/ex-astris-save-editor/apk
 
 git init -b main
 git add -A
-git commit -m "Ex Astris save editor"
-
-gh auth status || gh auth login
+git commit -m "Initial Ex Astris Save Editor import"
 
 gh repo create ex-astris-save-editor \
   --public \
@@ -76,96 +170,6 @@ gh repo create ex-astris-save-editor \
   --description "Save file editor for Ex Astris with Root and Shizuku Android/data access"
 ```
 
-## Release tag
+## Release publication
 
-For a v1.5.3 release:
-
-```bash
-git tag v1.5.3
-git push origin v1.5.3
-```
-
-The tag workflow attaches the APK, `build.log`, and `build-info.txt` to the GitHub Release.
-
-## Access testing on phone
-
-### Root
-
-Root is implemented with libsu and is intended to work with normal `su` providers. APatch / KernelPatch is already verified on a real device. Magisk, KernelSU and KernelSU Next should be tested separately before being documented as verified.
-
-Expected state:
-
-```text
-Root connected
-UID 0
-Android/data available
-```
-
-### Shizuku
-
-1. Start Shizuku.
-2. Grant the app permission.
-3. Select Shizuku or Auto.
-4. Open the game save.
-5. Verify file source says `Shizuku · Android/data`.
-6. Edit one obvious value.
-7. Fully close Ex Astris before writing.
-8. Save and verify the changed value inside the game.
-
-## Unsaved-change guard test
-
-With autosave disabled:
-
-1. Edit one item and tap Apply.
-2. Confirm the persistent warning bar appears above the bottom navigation.
-3. Confirm the Save tab gets a numeric badge.
-4. Tap Undo and verify the value returns.
-5. Edit again.
-6. Try to switch save files; verify the Save / Continue without saving / Cancel dialog appears.
-7. Repeat for backend switching and app Back.
-8. Save and confirm the bar + badge disappear.
-
-## Item icons
-
-Place images in:
-
-```text
-app/src/main/res/drawable-nodpi/
-```
-
-Use:
-
-```text
-item_<ID>.png
-```
-
-or:
-
-```text
-item_<ID>.webp
-```
-
-No Kotlin edit is required; the adapter resolves resources by item ID.
-
-## Network/DNS troubleshooting
-
-If GitHub commands return `Could not resolve host: github.com`:
-
-```bash
-ping -c 1 1.1.1.1
-getent hosts github.com
-```
-
-If IP connectivity works but the hostname does not resolve, restore Android network / Private DNS / VPN connectivity and retry the push. Do not re-copy the project and do not make another commit solely for this error.
-
-
-> Superseded by v1.5.1 for bulk-safety/search/save-bar UI details. See `V1_5_1_BULK_SEARCH_UI.md`.
-
-
-### v1.5.3 catalog check
-
-After installing v1.5.3, verify that the new save-file IDs appear when present and that the 13 new icons render without replacing any older icon. Expected catalog metadata count: **82**.
-
-## Public release
-
-Development pushes to `main` produce debug APKs. Public releases use a signed `v<versionName>` tag build. Complete the one-time signing setup and release steps in `RELEASE.md`; never commit a keystore to the repository.
+Do not create release tags from this file. The complete, current signing/tag procedure is maintained in [`RELEASE.md`](RELEASE.md).

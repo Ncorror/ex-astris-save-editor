@@ -1,5 +1,7 @@
 # v1.6.3 validation
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 - Version name: 1.6.3
 - Version code: 18
 - Catalog entries: 160

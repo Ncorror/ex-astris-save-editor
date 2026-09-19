@@ -1,5 +1,7 @@
 # v1.5.0 — persistent unsaved-change protection
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 ## Problem
 
 Before v1.5, manual editing had a valid but easy-to-forget two-step flow:

@@ -1,5 +1,7 @@
 # v1.5.1 validation notes
 
+> **Historical snapshot.** This file describes an earlier project state. For current behavior and instructions, see [`README.md`](../../README.md), [`SETUP.md`](../../SETUP.md), [`TESTING.md`](../../TESTING.md) and [`RELEASE.md`](../../RELEASE.md).
+
 Static validation performed before packaging:
 
 - `items.json` parses successfully: 69 catalog entries.
