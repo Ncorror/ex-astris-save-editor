@@ -1,6 +1,7 @@
 package com.exa.save
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,8 @@ class InventoryAdapter(
         val id: Int,
         val name: String,
         val category: String,
-        val count: Int
+        val count: Int,
+        val bulkEditable: Boolean
     )
 
     private val rows = ArrayList<Row>()
@@ -61,6 +63,7 @@ class InventoryAdapter(
                 row.category
             }
             binding.itemCount.text = NumberFormat.getIntegerInstance().format(row.count)
+            binding.itemProtectionIcon.visibility = if (row.bulkEditable) View.GONE else View.VISIBLE
 
             val iconRes = context.resources.getIdentifier(
                 "item_${row.id}",

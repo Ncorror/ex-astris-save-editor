@@ -157,3 +157,15 @@ With autosave ON:
 - [ ] Recipe, Laylah-Key, sellable and quest records no longer show technical sprite/file labels as English names.
 - [ ] IDs 500014 and 500015 remain protected, unverified internal records.
 - [ ] Bulk editing behavior is unchanged: only currency, consumables and materials are eligible by default.
+
+## v1.6.3 mobile UI regression
+
+- [ ] Search clear icon empties the query and restores the current category results.
+- [ ] Selecting a category auto-scrolls the category strip so the selected chip remains visible.
+- [ ] Protected items show the lock indicator in the inventory list.
+- [ ] Opening a protected item shows “protected from bulk edits”; individual editing remains available.
+- [ ] Selecting/searching a protected-only result set disables the Bulk button.
+- [ ] Resources / consumables / materials still enable Bulk when eligible rows are visible.
+- [ ] 100 / 999 / 10 000 / 999 999 quick values fit on one row on a narrow phone screen.
+- [ ] Long item names and alternate names remain readable without overlapping the count or icon.
+- [ ] Item descriptions do not show raw `<i>`, `<color>` or `[keyword=...]` markup.

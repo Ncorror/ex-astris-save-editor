@@ -16,6 +16,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.exa.save.databinding.ActivityMainBinding
 import com.exa.save.databinding.BottomSheetAddItemBinding
@@ -260,17 +261,26 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) = Unit
         })
 
-        binding.chipAll.setOnClickListener { activeCategory = null; renderRows() }
-        binding.chipCurrency.setOnClickListener { activeCategory = "currency"; renderRows() }
-        binding.chipConsumable.setOnClickListener { activeCategory = "consumable"; renderRows() }
-        binding.chipMaterial.setOnClickListener { activeCategory = "material"; renderRows() }
-        binding.chipEntropite.setOnClickListener { activeCategory = "entropite"; renderRows() }
-        binding.chipRecipe.setOnClickListener { activeCategory = "recipe"; renderRows() }
-        binding.chipTritris.setOnClickListener { activeCategory = "tritris"; renderRows() }
-        binding.chipQuest.setOnClickListener { activeCategory = "quest"; renderRows() }
-        binding.chipCuriosity.setOnClickListener { activeCategory = "curiosity"; renderRows() }
-        binding.chipPack.setOnClickListener { activeCategory = "pack"; renderRows() }
-        binding.chipOther.setOnClickListener { activeCategory = "other"; renderRows() }
+        binding.chipAll.setOnClickListener { selectCategory(null, binding.chipAll) }
+        binding.chipCurrency.setOnClickListener { selectCategory("currency", binding.chipCurrency) }
+        binding.chipConsumable.setOnClickListener { selectCategory("consumable", binding.chipConsumable) }
+        binding.chipMaterial.setOnClickListener { selectCategory("material", binding.chipMaterial) }
+        binding.chipEntropite.setOnClickListener { selectCategory("entropite", binding.chipEntropite) }
+        binding.chipRecipe.setOnClickListener { selectCategory("recipe", binding.chipRecipe) }
+        binding.chipTritris.setOnClickListener { selectCategory("tritris", binding.chipTritris) }
+        binding.chipQuest.setOnClickListener { selectCategory("quest", binding.chipQuest) }
+        binding.chipCuriosity.setOnClickListener { selectCategory("curiosity", binding.chipCuriosity) }
+        binding.chipPack.setOnClickListener { selectCategory("pack", binding.chipPack) }
+        binding.chipOther.setOnClickListener { selectCategory("other", binding.chipOther) }
+    }
+
+    private fun selectCategory(category: String?, chip: View) {
+        activeCategory = category
+        renderRows()
+        binding.categoryScroll.post {
+            val centered = chip.left - (binding.categoryScroll.width - chip.width) / 2
+            binding.categoryScroll.smoothScrollTo(centered.coerceAtLeast(0), 0)
+        }
     }
 
     private fun setupActions() {
@@ -770,6 +780,17 @@ class MainActivity : AppCompatActivity() {
     private fun preferRussian(): Boolean =
         Locale.getDefault().language.equals("ru", ignoreCase = true)
 
+    private fun cleanCatalogText(raw: String): String {
+        if (raw.isBlank()) return ""
+        val withoutKeywordTags = raw
+            .replace(Regex("\\[keyword=[^\\]]*?text=([^\\]]+)\\]"), "$1")
+            .replace(Regex("\\[keyword=[^\\]]+\\]"), "")
+        return HtmlCompat.fromHtml(
+            withoutKeywordTags,
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        ).toString().trim()
+    }
+
     private fun loadCatalog() {
         try {
             val text = assets.open("items.json").bufferedReader().use { it.readText() }
@@ -778,13 +799,13 @@ class MainActivity : AppCompatActivity() {
             for (key in obj.keys()) {
                 val id = key.toIntOrNull() ?: continue
                 val v = obj.getJSONObject(key)
-                val ruName = v.optString("name", "")
-                val enName = v.optString("name_en", ruName)
+                val ruName = cleanCatalogText(v.optString("name", ""))
+                val enName = cleanCatalogText(v.optString("name_en", ruName))
                 names[id] = if (ru) ruName else enName
                 alternateNames[id] = (if (ru) enName else ruName).takeIf { it.isNotBlank() && it != names[id] }.orEmpty()
                 cats[id] = v.optString("cat", "")
-                val ruDesc = v.optString("description", "")
-                val enDesc = v.optString("description_en", ruDesc)
+                val ruDesc = cleanCatalogText(v.optString("description", ""))
+                val enDesc = cleanCatalogText(v.optString("description_en", ruDesc))
                 descriptions[id] = if (ru) ruDesc else enDesc
                 // Search intentionally uses names only. Numeric IDs, descriptions and
                 // categories remain visible elsewhere but no longer affect search results.
@@ -1221,6 +1242,7 @@ class MainActivity : AppCompatActivity() {
         if (sf == null) {
             adapter.submit(emptyList(), showItemIds(), largeItemIcons())
             binding.summaryText.setText(R.string.empty_summary)
+            binding.bulkButton.isEnabled = false
             return
         }
 
@@ -1237,7 +1259,8 @@ class MainActivity : AppCompatActivity() {
                     id = id,
                     name = nameOf(id),
                     category = catLabel(catOf(id)),
-                    count = count
+                    count = count,
+                    bulkEditable = isBulkEditable(id)
                 )
             }
             .toList()
@@ -1248,6 +1271,7 @@ class MainActivity : AppCompatActivity() {
             currentItems.size,
             rows.size
         )
+        binding.bulkButton.isEnabled = rows.any { it.bulkEditable }
     }
 
     private fun updateFileUi() {
@@ -1461,6 +1485,7 @@ class MainActivity : AppCompatActivity() {
         sheet.itemAlias.text = alternate
         sheet.itemAlias.visibility = if (alternate.isBlank()) View.GONE else View.VISIBLE
         sheet.itemMeta.text = getString(R.string.item_meta, id, catLabel(catOf(id)))
+        sheet.itemProtectionCard.visibility = if (isBulkEditable(id)) View.GONE else View.VISIBLE
         sheet.itemDescription.text = descriptionOf(id)
         sheet.itemKnowledgeStatus.setText(if (itemVerified(id)) R.string.item_info_verified else R.string.item_info_unverified)
         sheet.itemIcon.setImageResource(itemIconRes(id))

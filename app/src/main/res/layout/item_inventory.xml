@@ -12,7 +12,9 @@
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/exa_surface"
     app:cardCornerRadius="16dp"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    app:strokeColor="@color/exa_outline"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,6 +44,19 @@
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_item_placeholder" />
+
+            <ImageView
+                android:id="@+id/itemProtectionIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="3dp"
+                android:background="@drawable/bg_protected_badge"
+                android:contentDescription="@string/item_bulk_protected_short"
+                android:padding="4dp"
+                android:src="@drawable/ic_lock"
+                android:visibility="gone"
+                android:tint="@color/exa_warning" />
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
@@ -64,7 +79,11 @@
                 android:maxLines="2"
                 android:textColor="@color/exa_text"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="13sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/itemMeta"

@@ -157,8 +157,8 @@ Android/data: %6$s</string>
     <string name="cat_pack">Наборы</string>
     <string name="cat_other">Прочее</string>
     <string name="item_meta">%2$s · ID %1$d</string>
-    <string name="item_info_verified">✓ Справка сверена с базой сообщества · соответствие ID определено каталогом редактора</string>
-    <string name="item_info_unverified">Предварительная идентификация · точное назначение ещё уточняется</string>
+    <string name="item_info_verified">✓ Данные сверены с ресурсами игры · ID сопоставлен каталогом редактора</string>
+    <string name="item_info_unverified">Внутренняя/предварительная запись · точных данных в доступных ресурсах игры нет</string>
     <string name="bulk_subtitle_v2">Выбери категорию, операцию и значение. Массовые действия применяются только к предметам, количество которых безопасно менять.</string>
     <string name="bulk_category_label">Что изменить</string>
     <string name="bulk_resources">Ресурсы</string>
@@ -200,4 +200,6 @@ Android/data: %6$s</string>
     <string name="unsaved_dialog_message">Изменено позиций: %1$d в %2$s. Сохранить изменения перед продолжением?</string>
     <string name="save_and_continue">Сохранить и продолжить</string>
     <string name="continue_without_saving">Без сохранения</string>
+    <string name="item_bulk_protected">Защищено от массовых изменений</string>
+    <string name="item_bulk_protected_short">Защищённый предмет</string>
 </resources>

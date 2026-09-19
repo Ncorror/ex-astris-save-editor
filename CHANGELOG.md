@@ -1,3 +1,15 @@
+## 1.6.3
+
+- Polished the inventory UI for the expanded 160-item catalog without changing save parsing/writing.
+- Added automatic centering and edge fading to the horizontally scrollable category filters.
+- Added the built-in clear action to name search.
+- Added a lock indicator for items protected from bulk edits, both in the list and the edit sheet.
+- Disable the Bulk action when the currently visible result set contains no bulk-editable items.
+- Reworked quick quantity presets into four equal-width buttons so `999 999` no longer clips on narrow screens.
+- Improved long-name handling and description readability in item cards/sheets.
+- Strip residual lightweight HTML/keyword markup before catalog text is displayed.
+- Updated item knowledge wording to reflect the game-resource-derived catalog.
+
 ## 1.6.2
 
 - Replaced old visual-guess English item names with proper game terminology across the 160-entry catalog.

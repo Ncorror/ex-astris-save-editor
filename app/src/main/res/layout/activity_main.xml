@@ -99,7 +99,8 @@
                 app:boxCornerRadiusBottomEnd="14dp"
                 app:boxCornerRadiusBottomStart="14dp"
                 app:boxCornerRadiusTopEnd="14dp"
-                app:boxCornerRadiusTopStart="14dp">
+                app:boxCornerRadiusTopStart="14dp"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/searchInput"
@@ -111,10 +112,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <HorizontalScrollView
+                android:id="@+id/categoryScroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:clipToPadding="false"
+                android:fadingEdge="horizontal"
+                android:fadingEdgeLength="24dp"
+                android:overScrollMode="never"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
                 android:scrollbars="none">

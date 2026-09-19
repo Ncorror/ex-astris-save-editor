@@ -11,6 +11,7 @@
     <color name="exa_secondary">#BEB5D6</color>
     <color name="exa_success">#77DEA1</color>
     <color name="exa_warning">#F4C96F</color>
+    <color name="exa_warning_container">#302817</color>
     <color name="exa_error">#FF898E</color>
     <color name="exa_text">#EDF2FA</color>
     <color name="exa_text_secondary">#A7B4C5</color>

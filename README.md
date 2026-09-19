@@ -1,10 +1,10 @@
-> Current development build: **1.6.2** — catalog terminology cleanup across all 160 IDs.
+> Current development build: **1.6.3** — mobile UI polish for the 160-item catalog.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.6.2**.
+Current development version: **1.6.3**.
 
 ## Current status
 

@@ -157,8 +157,8 @@ Android/data: %6$s</string>
     <string name="cat_pack">Packs</string>
     <string name="cat_other">Other</string>
     <string name="item_meta">%2$s · ID %1$d</string>
-    <string name="item_info_verified">✓ Reference text checked against community sources · ID mapping comes from the editor catalog</string>
-    <string name="item_info_unverified">Preliminary identification · exact purpose is still being verified</string>
+    <string name="item_info_verified">✓ Data checked against game resources · ID mapped by the editor catalog</string>
+    <string name="item_info_unverified">Internal/preliminary record · exact game data is not available in the supplied resources</string>
     <string name="bulk_subtitle_v2">Choose a category, operation and value. Bulk actions only affect items whose quantity is safe to change.</string>
     <string name="bulk_category_label">What to change</string>
     <string name="bulk_resources">Resources</string>
@@ -200,4 +200,6 @@ Android/data: %6$s</string>
     <string name="unsaved_dialog_message">%1$d item changes in %2$s are not saved. Save them before continuing?</string>
     <string name="save_and_continue">Save and continue</string>
     <string name="continue_without_saving">Continue without saving</string>
+    <string name="item_bulk_protected">Protected from bulk edits</string>
+    <string name="item_bulk_protected_short">Protected item</string>
 </resources>
