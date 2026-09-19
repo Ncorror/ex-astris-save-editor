@@ -169,3 +169,13 @@ With autosave ON:
 - [ ] 100 / 999 / 10 000 / 999 999 quick values fit on one row on a narrow phone screen.
 - [ ] Long item names and alternate names remain readable without overlapping the count or icon.
 - [ ] Item descriptions do not show raw `<i>`, `<color>` or `[keyword=...]` markup.
+
+
+## v1.6.4 category audit regression
+
+- [ ] IDs 600000-600003 appear under Valuables / Ценности.
+- [ ] IDs 800000-800011 appear under Consumables / Расходники and still show the protected lock.
+- [ ] ID 9910007 Laylah Kernel appears under Materials / Материалы and remains bulk-protected.
+- [ ] IDs 970xxxx/971xxxx appear under Laylah-Keys / Ключи Лайлы.
+- [ ] The old Packs, Curiosities and Tritris filter labels are absent.
+- [ ] Bulk-editable count remains 43 and protected count remains 117.

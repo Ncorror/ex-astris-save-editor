@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         if (selected != null) writeToUri(selected)
     }
 
-    private val categoryOrder = listOf("currency", "consumable", "material", "entropite", "recipe", "tritris", "quest", "curiosity", "pack", "other")
+    private val categoryOrder = listOf("currency", "consumable", "material", "entropite", "recipe", "laylah_key", "quest", "valuable", "other")
 
     private enum class AccessMode { AUTO, ROOT, SHIZUKU, MANUAL }
     private enum class AccessBackend { ROOT, SHIZUKU, MANUAL, NONE }
@@ -267,10 +267,9 @@ class MainActivity : AppCompatActivity() {
         binding.chipMaterial.setOnClickListener { selectCategory("material", binding.chipMaterial) }
         binding.chipEntropite.setOnClickListener { selectCategory("entropite", binding.chipEntropite) }
         binding.chipRecipe.setOnClickListener { selectCategory("recipe", binding.chipRecipe) }
-        binding.chipTritris.setOnClickListener { selectCategory("tritris", binding.chipTritris) }
+        binding.chipLaylahKey.setOnClickListener { selectCategory("laylah_key", binding.chipLaylahKey) }
         binding.chipQuest.setOnClickListener { selectCategory("quest", binding.chipQuest) }
-        binding.chipCuriosity.setOnClickListener { selectCategory("curiosity", binding.chipCuriosity) }
-        binding.chipPack.setOnClickListener { selectCategory("pack", binding.chipPack) }
+        binding.chipValuable.setOnClickListener { selectCategory("valuable", binding.chipValuable) }
         binding.chipOther.setOnClickListener { selectCategory("other", binding.chipOther) }
     }
 
@@ -851,10 +850,9 @@ class MainActivity : AppCompatActivity() {
             "consumable" -> if (preferRussian()) "Расходуемый предмет из сохранения." else "Consumable item from the save file."
             "entropite" -> if (preferRussian()) "Боевой энтропит." else "Combat Entropith."
             "recipe" -> if (preferRussian()) "Рецепт из сохранения." else "Recipe from the save file."
-            "tritris" -> if (preferRussian()) "Фрагмент Тритрис из сохранения." else "Tritris piece from the save file."
+            "laylah_key" -> if (preferRussian()) "Узор или проходной ключ Лайлы." else "Laylah-Key diagram or passage key."
             "quest" -> if (preferRussian()) "Предмет задания из сохранения." else "Quest item from the save file."
-            "curiosity" -> if (preferRussian()) "Коллекционный предмет из сохранения." else "Curiosity item from the save file."
-            "pack" -> if (preferRussian()) "Набор из сохранения." else "Pack item from the save file."
+            "valuable" -> if (preferRussian()) "Ценность, которую можно продать за Дороны." else "Valuable that can be sold for Doron."
             else -> if (preferRussian()) "Предмет из сохранения." else "Item from the save file."
         }
     }
@@ -868,8 +866,11 @@ class MainActivity : AppCompatActivity() {
             in 11000..12999 -> "consumable"
             in 800000..899999 -> "consumable"
             in 200000..299999 -> "material"
-            in 600000..699999 -> "material"
+            in 600000..699999 -> "valuable"
             in 500000..599999 -> "entropite"
+            in 710000..739999 -> "recipe"
+            in 9700000..9719999 -> "laylah_key"
+            in 9900000..9999999 -> "quest"
             else -> "other"
         }
     }
@@ -880,10 +881,9 @@ class MainActivity : AppCompatActivity() {
         "material" -> getString(R.string.cat_material)
         "entropite" -> getString(R.string.cat_entropite)
         "recipe" -> getString(R.string.cat_recipe)
-        "tritris" -> getString(R.string.cat_tritris)
+        "laylah_key" -> getString(R.string.cat_laylah_key)
         "quest" -> getString(R.string.cat_quest)
-        "curiosity" -> getString(R.string.cat_curiosity)
-        "pack" -> getString(R.string.cat_pack)
+        "valuable" -> getString(R.string.cat_valuable)
         else -> getString(R.string.cat_other)
     }
 

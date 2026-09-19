@@ -151,10 +151,9 @@ Android/data: %6$s</string>
     <string name="cat_material">Материалы</string>
     <string name="cat_entropite">Энтропиты</string>
     <string name="cat_recipe">Рецепты</string>
-    <string name="cat_tritris">Тритрис</string>
+    <string name="cat_laylah_key">Ключи Лайлы</string>
     <string name="cat_quest">Задания</string>
-    <string name="cat_curiosity">Коллекционные</string>
-    <string name="cat_pack">Наборы</string>
+    <string name="cat_valuable">Ценности</string>
     <string name="cat_other">Прочее</string>
     <string name="item_meta">%2$s · ID %1$d</string>
     <string name="item_info_verified">✓ Данные сверены с ресурсами игры · ID сопоставлен каталогом редактора</string>

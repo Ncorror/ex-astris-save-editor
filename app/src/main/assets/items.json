@@ -533,7 +533,7 @@
   "600000": {
     "name": "Осколок ископаемого",
     "name_en": "Fossil Chip",
-    "cat": "curiosity",
+    "cat": "valuable",
     "description": "Вид окаменевшего материала, часто встречающийся на Аллиндо.\nОсколки ископаемых — это остаточный астрит коллапсировавших астраморфов, который ещё не успел полностью разложиться. Хотя они и содержат разнообразные материалы, пригодные для переработки, продать их можно лишь за гроши.",
     "description_en": "Residual Astrite from a collapsed Astramorph that has not fully decomposed. It contains recyclable material but sells for very little.",
     "verified": true,
@@ -542,7 +542,7 @@
   "600001": {
     "name": "Ископаемое",
     "name_en": "Fossil",
-    "cat": "curiosity",
+    "cat": "valuable",
     "description": "Вид ископаемых, часто встречающийся на Аллиндо.\nИскопаемые — это остаточный астрит коллапсировавших астраморфов, который ещё не успел полностью разложиться. Они содержат самые разные материалы, пригодные для переработки, и могут быть проданы за неплохую цену.",
     "description_en": "Residual Astrite from a collapsed Astramorph that has not fully decomposed. It contains useful recyclable materials and can be sold for a fair price.",
     "verified": true,
@@ -551,7 +551,7 @@
   "600002": {
     "name": "Плотный доронит",
     "name_en": "Dense Doronite",
-    "cat": "curiosity",
+    "cat": "valuable",
     "description": "Руда, содержащая аллиндийский металл дороний.\nПлотный доронит — руда, содержащая не менее 80% дорония, и после переработки из неё можно получить 100% чистый дороний. Из-за своей высокой ценности после очистки плотный доронит может использоваться как валюта. Из плотного доронита также куют некоторые виды оружия, подчёркивающие статус их владельцев.",
     "description_en": "Ore containing at least 80% Doronium. Once refined, it yields pure Doronium and is valuable enough to serve as currency or prestige weapon material.",
     "verified": true,
@@ -560,7 +560,7 @@
   "600003": {
     "name": "Панцирь горшкожука",
     "name_en": "Potbug Shell",
-    "cat": "curiosity",
+    "cat": "valuable",
     "description": "Останки мёртвого горшкожука.\nЕго питательные внутренности разложились, оставив лишь пустую оболочку с почти нулевой пищевой ценностью. Годится только на корм для животных.",
     "description_en": "The empty shell of a dead Potbug. Its nutritious insides have decomposed, leaving little value beyond animal feed.",
     "verified": true,
@@ -794,7 +794,7 @@
   "800000": {
     "name": "Бледные пайки",
     "name_en": "Pale Rations",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над светлоробными матросами может выпасть этот набор пайков, приготовленный ими для долгого плавания. Сытно, но не особенно вкусно.",
     "description_en": "A ration pack dropped by pale-armored sailors and prepared for long voyages. Filling, though not especially tasty.",
     "verified": true,
@@ -803,7 +803,7 @@
   "800001": {
     "name": "Бледные материалы",
     "name_en": "Pale Materials",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над светлоробными матросами могут выпасть эти материалы для изготовления. Это их трофеи? Похоже, к плаванию они подготовились основательно.",
     "description_en": "Crafting materials carried by pale-armored sailors for long voyages, likely collected as supplies or trophies.",
     "verified": true,
@@ -812,7 +812,7 @@
   "800002": {
     "name": "Тёмные пайки",
     "name_en": "Dark Rations",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над тёмноробными матросами может выпасть этот набор пайков, приготовленный ими для долгого плавания. Сытно, но не особенно вкусно.",
     "description_en": "A ration pack dropped by dark-armored sailors and prepared for long voyages. Filling, though not especially tasty.",
     "verified": true,
@@ -821,7 +821,7 @@
   "800003": {
     "name": "Тёмные материалы",
     "name_en": "Dark Materials",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над тёмноробными матросами могут выпасть эти материалы для изготовления. Это их трофеи? Похоже, к плаванию они подготовились основательно.",
     "description_en": "Crafting materials carried by dark-armored sailors for long voyages, likely collected as supplies or trophies.",
     "verified": true,
@@ -830,7 +830,7 @@
   "800004": {
     "name": "Пайки рулевого",
     "name_en": "Helmsman's Rations",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над рулевым Лама могут выпасть качественные ингредиенты. Достаточно добавить простые приправы, чтобы приготовить для аллиндийцев добротную еду.",
     "description_en": "High-quality ingredients that can drop from Lam's helmsman. With simple seasoning, they make solid food for Allindish travelers.",
     "verified": true,
@@ -839,7 +839,7 @@
   "800005": {
     "name": "Материалы рулевого",
     "name_en": "Helmsman's Materials",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над рулевым Лама могут выпасть эти качественные материалы для изготовления. Похоже, нам просто повезло с добычей.",
     "description_en": "High-quality crafting materials that can drop from Lam's helmsman.",
     "verified": true,
@@ -848,7 +848,7 @@
   "800006": {
     "name": "Пайки призывателя",
     "name_en": "Summoner's Rations",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над дозорными Лама можно получить редкие ингредиенты. Они не слишком вкусные, но действительно укрепляют тело.",
     "description_en": "Rare ingredients carried by Lam's sentries. They are not especially tasty, but are said to strengthen the body.",
     "verified": true,
@@ -857,7 +857,7 @@
   "800007": {
     "name": "Материалы призывателя",
     "name_en": "Summoner's Materials",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "За победу над дозорными могут выпасть эти качественные материалы для изготовления. Похоже, нам просто повезло с добычей.",
     "description_en": "High-quality crafting materials carried by Lam's sentries.",
     "verified": true,
@@ -866,7 +866,7 @@
   "800008": {
     "name": "Пайки рейверов",
     "name_en": "Reaver Rations",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "Рейверы часто носят с собой переносные пайки, чтобы выживать во Флишаке с его нищенской средой.",
     "description_en": "Portable rations carried by Reavers to survive the harsh and impoverished environment of Flishak.",
     "verified": true,
@@ -875,7 +875,7 @@
   "800009": {
     "name": "Материалы рейверов",
     "name_en": "Reaver Materials",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "Чтобы защищаться от нападений животных во Флишаке, рейверы часто носят с собой кое-какие материалы для изготовления.",
     "description_en": "Crafting supplies carried by Reavers to protect themselves from animal attacks in Flishak.",
     "verified": true,
@@ -884,7 +884,7 @@
   "800010": {
     "name": "Пайки рейверов",
     "name_en": "Reaver Rations",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "Рейверы часто носят с собой переносные пайки, чтобы выживать во Флишаке с его нищенской средой.",
     "description_en": "Portable rations carried by Reavers to survive the harsh and impoverished environment of Flishak.",
     "verified": true,
@@ -893,7 +893,7 @@
   "800011": {
     "name": "Материалы рейверов",
     "name_en": "Reaver Materials",
-    "cat": "pack",
+    "cat": "consumable",
     "description": "Чтобы защищаться от нападений животных во Флишаке, рейверы часто носят с собой кое-какие материалы для изготовления.",
     "description_en": "Crafting supplies carried by Reavers to protect themselves from animal attacks in Flishak.",
     "verified": true,
@@ -902,7 +902,7 @@
   "9700001": {
     "name": "Проходной ключ: Ситаб",
     "name_en": "Passage Key: Sitab",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Базовый ключ Лайлы и первый найденный ключ этой системы.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "The first basic Laylah-Key discovered. Insert it into an Obscura as a Passage Key to activate linked door mechanisms.",
     "verified": true,
@@ -911,7 +911,7 @@
   "9700004": {
     "name": "Проходной ключ: Фет",
     "name_en": "Passage Key: Fet",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Базовый ключ Лайлы, символизирующий незавершённость Астрома.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "A basic Laylah-Key symbolizing incomplete Astrom. Insert it into an Obscura as a Passage Key to activate linked door mechanisms.",
     "verified": true,
@@ -920,7 +920,7 @@
   "9700005": {
     "name": "Проходной ключ: Пафазан",
     "name_en": "Passage Key: Pafazan",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Базовый ключ Лайлы, символизирующий завершённость Астрома.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "A basic Laylah-Key symbolizing complete Astrom. Insert it into an Obscura as a Passage Key to activate linked door mechanisms.",
     "verified": true,
@@ -929,7 +929,7 @@
   "9700006": {
     "name": "Проходной ключ: Уболфаз",
     "name_en": "Passage Key: Ubolfaz",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Базовый ключ Лайлы, символизирующий состояние переливающегося через край Астрома.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "A basic Laylah-Key symbolizing Astrom overflowing beyond its limit. Insert it into an Obscura as a Passage Key to activate linked door mechanisms.",
     "verified": true,
@@ -938,7 +938,7 @@
   "9700007": {
     "name": "Проходной ключ: Йин-Ситаб-Сик",
     "name_en": "Passage Key: Yin-Sitab-Sik",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Вариант ключа Лайлы Ситаб. Поскольку у него на 2 рога больше, чем у Ситаб, он считается отклонением от устойчивости и потому символизирует саму нестабильность.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "A Sitab variant with two additional horns, symbolizing instability. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -947,7 +947,7 @@
   "9700008": {
     "name": "Проходной ключ: Так-Ситахин",
     "name_en": "Passage Key: Tak-Sitahyn",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Зивва-Ситахин — другое название этого варианта ключа Лайлы Зивва-Сатт; Так-Ситахин является левосторонней формой зеркальной пары.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "The left-hand form of the mirrored Zivva-Sitahyn Laylah-Key pair. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -956,7 +956,7 @@
   "9700010": {
     "name": "Проходной ключ: Так-Ханна",
     "name_en": "Passage Key: Tak-Hanna",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Вариант ключа Лайлы Сибикрон. Зивва-Ханна может существовать как в виде одиночного ключа, так и в виде зеркальной пары. Левосторонний вариант — Так-Ханна.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "The left-hand form of the Zivva-Hanna Laylah-Key pair, a Sibikron variant. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -965,7 +965,7 @@
   "9700013": {
     "name": "Проходной ключ: Нак-Аман",
     "name_en": "Passage Key: Nak-Aman",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аман-Ситаб — другое название этого варианта ключа Лайлы Сибикрон; он также считается наиболее устойчивой формой, а Нак-Аман — её правосторонний вариант.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "The right-hand form of Aman-Sitab, regarded as a highly stable Sibikron variant. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -974,7 +974,7 @@
   "9700020": {
     "name": "Проходной ключ: Так-Эк",
     "name_en": "Passage Key: Tak-Ek",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Ферон-Эк — другое название этого варианта ключа Лайлы Зивва-Ханна; Так-Эк является левосторонней формой зеркальной пары.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "The left-hand form of the mirrored Feron-Ek Laylah-Key pair. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -983,7 +983,7 @@
   "9700021": {
     "name": "Проходной ключ: Нак-Эк",
     "name_en": "Passage Key: Nak-Ek",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Ферон-Эк — другое название этого варианта ключа Лайлы Зивва-Ханна; Нак-Эк является правосторонней формой зеркальной пары.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "The right-hand form of the mirrored Feron-Ek Laylah-Key pair. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -992,7 +992,7 @@
   "9700022": {
     "name": "Проходной ключ: Ферон-Сик",
     "name_en": "Passage Key: Feron-Sik",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Вариант ключа Лайлы Йин-Ситаб-Сик. Его также называют «зазубренным ключом» из-за отсутствующего треугольника.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "A Yin-Sitab-Sik variant also known as the jagged key because one triangle is missing. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -1001,7 +1001,7 @@
   "9700023": {
     "name": "Проходной ключ: Во-Табиль",
     "name_en": "Passage Key: Vo-Tabil",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Вариант ключа Лайлы Ситаб. Во-Табиль символизирует вечно изменчивую природу Астрома.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "A Sitab variant symbolizing the constantly changing nature of Astrom. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -1010,7 +1010,7 @@
   "9700024": {
     "name": "Проходной ключ: Зурк",
     "name_en": "Passage Key: Zurq",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Вариант ключа Лайлы Уболфаз. Зурк символизирует процесс, при котором переливающийся через край Астром возвращается к покою.\nИспользуйте его как проходной ключ, помещая в Обскурасы для активации дверных механизмов.",
     "description_en": "An Ubolfaz variant symbolizing overflowing Astrom returning to a calm state. Used as a Passage Key in Obscuras.",
     "verified": true,
@@ -1019,7 +1019,7 @@
   "9700025": {
     "name": "Набор Vvoden",
     "name_en": "Vvoden Set",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Уникальный узор набора ключа Лайлы, используемого как проходной ключ. Впервые найден на борту «Донтлесс» из Порта Виндвард.",
     "description_en": "A unique Laylah-Key set pattern used as a Passage Key, first found aboard the Dauntless from Windward Port.",
     "verified": true,
@@ -1028,7 +1028,7 @@
   "9700026": {
     "name": "Якорный набор",
     "name_en": "Anchor Set",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Уникальный узор набора ключа Лайлы, используемого как проходной ключ. Впервые найден на борту «Донтлесс» из Порта Виндвард.",
     "description_en": "A unique Laylah-Key set pattern used as a Passage Key, first found aboard the Dauntless from Windward Port.",
     "verified": true,
@@ -1037,7 +1037,7 @@
   "9710000": {
     "name": "Узор: Ситаб",
     "name_en": "Pattern: Sitab",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nБазовый ключ I. Это первый ключ Лайлы, обнаруженный на Аллиндо, и он символизирует устойчивые и вечные свойства Астрома. Использование этого ключа Лайлы ускоряет циркуляцию Астрома.",
     "description_en": "An Allindish Laylah-Key pattern. Sitab is Basic Key I, symbolizing stable and enduring Astrom and accelerating its circulation.",
     "verified": true,
@@ -1046,7 +1046,7 @@
   "9710001": {
     "name": "Узор: Так-Крон",
     "name_en": "Pattern: Tak-Kron",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nБазовый ключ II. Так-Крон, по сути, является Сибикрон, который может существовать как одиночный ключ или как зеркальная пара и символизирует отражение ключа Лайлы. Если по одну сторону зеркала находится жизнь, то по другую её отражением будет смерть. Так-Крон — правосторонний вариант Сибикрон, использующий различия в активности астроспекта для усиления атакующих эффектов.",
     "description_en": "An Allindish Laylah-Key pattern. Tak-Kron is one half of the mirrored Sibikron pair and uses differences in Astrospect activity to strengthen attacks.",
     "verified": true,
@@ -1055,7 +1055,7 @@
   "9710002": {
     "name": "Узор: Нак-Крон",
     "name_en": "Pattern: Nak-Kron",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nБазовый ключ II. Нак-Крон, по сути, является Сибикрон, который может существовать как одиночный ключ или как зеркальная пара и символизирует отражение ключа Лайлы. Если по одну сторону зеркала находится жизнь, то по другую её отражением будет смерть. Нак-Крон — левосторонний вариант Сибикрон, и он усиливает связь между различными сущностями, использующими Астром, нарушая попытки врага сгущать Астром.",
     "description_en": "An Allindish Laylah-Key pattern. Nak-Kron is the other half of the mirrored Sibikron pair and interferes with an enemy's ability to condense Astrom.",
     "verified": true,
@@ -1064,7 +1064,7 @@
   "9710003": {
     "name": "Узор: Фет",
     "name_en": "Pattern: Fet",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nБазовый ключ III. Фет олицетворяет незавершённость Астрома и считается символом слабости. Однако он также может означать упрямое сопротивление перед лицом невзгод. При использовании в состоянии неполного Астрома Фет рассеивает существующее состояние Астрома. В особенности, когда жизненная сила получает тяжёлый удар, этот ключ способен восстановить выносливость пользователя.",
     "description_en": "An Allindish Laylah-Key pattern. Fet symbolizes incomplete Astrom and can help the user recover when their Vitality is heavily damaged.",
     "verified": true,
@@ -1073,7 +1073,7 @@
   "9710004": {
     "name": "Узор: Пафазан",
     "name_en": "Pattern: Pafazan",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nБазовый ключ IV. Пафазан олицетворяет завершённость Астрома и является символом благословения. Пафазан оказывает эффект, сходный с Ситаб, но эти два ключа действуют на разных принципах. Пафазан воздействует на сцепление Астрома, помогая ему сгущаться в более насыщенное ядро.",
     "description_en": "An Allindish Laylah-Key pattern. Pafazan symbolizes complete Astrom and improves the way Astrom condenses into a denser core.",
     "verified": true,
@@ -1082,7 +1082,7 @@
   "9710005": {
     "name": "Узор: Уболфаз",
     "name_en": "Pattern: Ubolfaz",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nБазовый ключ V. Уболфаз олицетворяет переполняющий Астром, активное Кольцо Лайлы и полностью заряженный астроспект. Уболфаз способен взаимодействовать с Астромом, высвобождаемым Кольцом Лайлы, и восполнять любой Астром, израсходованный в бою.",
     "description_en": "An Allindish Laylah-Key pattern. Ubolfaz symbolizes overflowing Astrom and can replenish Astrom spent during combat.",
     "verified": true,
@@ -1091,7 +1091,7 @@
   "9710006": {
     "name": "Узор: Йин-Ситаб-Сик",
     "name_en": "Pattern: Yin-Sitab-Sik",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Ситаб. Йин-Ситаб-Сик повышает эффективность использования окружающего Астрома Кольцом Лайлы в бою. Любой израсходованный Астром восполняется в соответствующем процессе.",
     "description_en": "A Sitab variant that improves the Laylah-Ring's use of ambient Astrom in battle, replenishing Astrom consumed by the process.",
     "verified": true,
@@ -1100,7 +1100,7 @@
   "9710007": {
     "name": "Узор: Так-Ситахин",
     "name_en": "Pattern: Tak-Sitahyn",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Зивва-Сатт. Так-Ситахин, по сути, является Зивва-Ситахин, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Левосторонний вариант и есть Так-Ситахин. Этот ключ ускоряет как сгущение, так и течение Астрома и особенно эффективен против воздушных целей.",
     "description_en": "The left-hand form of Zivva-Sitahyn. It accelerates Astrom condensation and flow and is especially effective against airborne targets.",
     "verified": true,
@@ -1109,7 +1109,7 @@
   "9710008": {
     "name": "Узор: Нак-Ситахин",
     "name_en": "Pattern: Nak-Sitahyn",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Зивва-Сатт. Нак-Ситахин, по сути, является Зивва-Ситахин, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Правосторонний вариант и есть Нак-Ситахин. Этот ключ ускоряет вертикальное смещение окружающего Астрома и особенно эффективен против сбитых с ног целей.",
     "description_en": "The right-hand form of Zivva-Sitahyn. It accelerates vertical Astrom movement and is especially effective against knocked-down targets.",
     "verified": true,
@@ -1118,7 +1118,7 @@
   "9710009": {
     "name": "Узор: Так-Ханна",
     "name_en": "Pattern: Tak-Hanna",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Так-Ханна, по сути, является Зивва-Ханна, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Левосторонний вариант — это Так-Ханна. Ключ может сгущать рассеянный в окружающей среде Астром, а затем снова рассеивать его для использования.",
     "description_en": "The left-hand form of Zivva-Hanna. It condenses dispersed ambient Astrom and then releases it again for use.",
     "verified": true,
@@ -1127,7 +1127,7 @@
   "9710010": {
     "name": "Узор: Нак-Ханна",
     "name_en": "Pattern: Nak-Hanna",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Нак-Ханна, по сути, является Зивва-Ханна, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Правосторонний вариант — это Нак-Ханна. Ключ может сгущать рассеянный в окружающей среде Астром, а затем рассеивать его, восполняя потерянный пользователем астроспект.",
     "description_en": "The right-hand form of Zivva-Hanna. It condenses dispersed Astrom and releases it to restore Astrospect spent by the user.",
     "verified": true,
@@ -1136,7 +1136,7 @@
   "9710011": {
     "name": "Узор: Так-Аман",
     "name_en": "Pattern: Tak-Aman",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Так-Аман, по сути, является Аман-Ситаб, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. У Так-Аман треугольник расположен справа от трапеции. Ключ усиливает защитные приёмы и накладывает на врагов дополнительные эффекты при успешном «Оберегающем свете» / «Теневом сдвиге».",
     "description_en": "The right-triangle form of Aman-Sitab. It strengthens defensive techniques and adds effects after successful Guarding Light or Shadow Shift actions.",
     "verified": true,
@@ -1145,7 +1145,7 @@
   "9710012": {
     "name": "Узор: Нак-Аман",
     "name_en": "Pattern: Nak-Aman",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Нак-Аман, по сути, является Аман-Ситаб, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. У Нак-Аман треугольник расположен слева от трапеции. Ключ усиливает защитные приёмы и накладывает на врагов дополнительные эффекты при успешном «Оберегающем свете» / «Теневом сдвиге».",
     "description_en": "The left-triangle form of Aman-Sitab. It strengthens defensive techniques and adds effects after successful Guarding Light or Shadow Shift actions.",
     "verified": true,
@@ -1154,7 +1154,7 @@
   "9710013": {
     "name": "Узор: Так-Сатт",
     "name_en": "Pattern: Tak-Satt",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Так-Сатт, по сути, является Зивва-Сатт, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Левосторонний вариант — это Так-Сатт. Ключ ускоряет как сгущение, так и течение Астрома и особенно эффективен против воздушных целей.",
     "description_en": "The left-hand form of Zivva-Satt. It accelerates Astrom condensation and flow and is especially effective against airborne targets.",
     "verified": true,
@@ -1163,7 +1163,7 @@
   "9710014": {
     "name": "Узор: Нак-Сатт",
     "name_en": "Pattern: Nak-Satt",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Вариант ключа Лайлы Сибикрон.\nНак-Сатт, по сути, является Зивва-Сатт, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Правосторонний вариант — это Нак-Сатт. Ключ ускоряет вертикальное смещение окружающего Астрома и особенно эффективен против сбитых с ног целей.",
     "description_en": "The right-hand form of Zivva-Satt. It accelerates vertical Astrom movement and is especially effective against knocked-down targets.",
     "verified": true,
@@ -1172,7 +1172,7 @@
   "9710015": {
     "name": "Узор: Так-Уболсо",
     "name_en": "Pattern: Tak-Ubolso",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Так-Уболсо, по сути, является Уболсо-Зикзак, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Левосторонний вариант — это Так-Уболсо. Ключ усиливает связь между различными сущностями, использующими Астром, и использует различия в активности астроспекта для усиления атакующих эффектов.",
     "description_en": "The left-hand form of Ubolso-Zikzak. It strengthens links between Astrom-using entities and turns Astrospect activity differences into stronger attacks.",
     "verified": true,
@@ -1181,7 +1181,7 @@
   "9710016": {
     "name": "Узор: Нак-Уболсо",
     "name_en": "Pattern: Nak-Ubolso",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Нак-Уболсо, по сути, является Уболсо-Зикзак, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. Правосторонний вариант — это Нак-Уболсо. Ключ усиливает связь между различными сущностями, использующими Астром, чтобы мешать врагу сгущать Астром.",
     "description_en": "The right-hand form of Ubolso-Zikzak. It strengthens links between Astrom-using entities and interferes with enemy Astrom condensation.",
     "verified": true,
@@ -1190,7 +1190,7 @@
   "9710017": {
     "name": "Узор: Так-Онгахе",
     "name_en": "Pattern: Tak-Ongahe",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Так-Онгахе, по сути, является Кант-Онгахе, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. У Так-Онгахе треугольник расположен сверху. Ключ может сгущать рассеянный в окружающей среде Астром, а затем снова рассеивать его для использования.",
     "description_en": "The upper-triangle form of Kant-Ongahe. It condenses dispersed ambient Astrom and then releases it again for use.",
     "verified": true,
@@ -1199,7 +1199,7 @@
   "9710018": {
     "name": "Узор: Нак-Онгахе",
     "name_en": "Pattern: Nak-Ongahe",
-    "cat": "tritris",
+    "cat": "laylah_key",
     "description": "Аллиндийский ключ Лайлы.\nВариант ключа Лайлы Сибикрон. Нак-Онгахе, по сути, является Кант-Онгахе, поскольку последняя форма может появляться как одиночный ключ или как зеркальная пара. У Нак-Онгахе треугольник расположен снизу. Ключ может сгущать рассеянный в окружающей среде Астром, а затем рассеивать его, восполняя израсходованный пользователем астроспект.",
     "description_en": "The lower-triangle form of Kant-Ongahe. It condenses dispersed Astrom and releases it to restore Astrospect spent by the user.",
     "verified": true,
@@ -1262,7 +1262,7 @@
   "9910007": {
     "name": "Ядро Лайлы",
     "name_en": "Laylah Kernel",
-    "cat": "quest",
+    "cat": "material",
     "description": "Особый предмет, способный повысить эффективность энтропита.\nПосле внедрения в энтропит ядро Лайлы проникает глубоко внутрь, разлагая и заново собирая как высокоплотный Астром внутри энтропита, так и само себя. В итоге общая производительность энтропита повышается.",
     "description_en": "Upgrade material for Entropiths. Only a limited number of Laylah Kernels are obtainable in normal progression.",
     "verified": true,

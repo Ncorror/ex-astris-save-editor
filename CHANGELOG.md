@@ -1,3 +1,12 @@
+## 1.6.4
+
+- Audited item categories against the extracted game tables and in-game terminology.
+- Moved all 12 loot packs into Consumables; they remain protected from bulk edits.
+- Replaced the misleading Curiosities category with Valuables for the four Doron sell-items.
+- Moved Laylah Kernel (9910007) from Quest items to Materials while keeping it bulk-protected.
+- Renamed the technical Tritris category to Laylah-Keys for diagrams and passage keys.
+- Preserved all 160 item icons and the existing 43 editable / 117 protected bulk-safety split.
+
 ## 1.6.3
 
 - Polished the inventory UI for the expanded 160-item catalog without changing save parsing/writing.

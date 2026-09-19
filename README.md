@@ -1,10 +1,10 @@
-> Current development build: **1.6.3** — mobile UI polish for the 160-item catalog.
+> Current development build: **1.6.4** — mobile UI polish for the 160-item catalog.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.6.3**.
+Current development version: **1.6.4**.
 
 ## Current status
 
@@ -281,3 +281,8 @@ New Entropith/Other entries are explicitly excluded from bulk quantity edits. Ex
 ## v1.6.1 catalog filters
 
 The 160-entry catalog now keeps its extracted source categories in the UI. In addition to resources, consumables, materials and Entropiths, the inventory can be filtered by Recipes, Tritris, Quest items, Curiosities and Packs. Unknown IDs still fall back to Other. Bulk quantity actions remain limited to resources, consumables and materials.
+
+
+## v1.6.4 category audit
+
+The catalog filters now follow the game's own item hierarchy more closely. Loot packs are shown under Consumables, the four Doron sell-items are shown as Valuables, Laylah Kernel is shown under Materials, and the old internal `Tritris` label is presented as Laylah-Keys. Bulk-edit protection is unchanged: packs and Laylah Kernel remain protected until their quantity behavior is explicitly verified.

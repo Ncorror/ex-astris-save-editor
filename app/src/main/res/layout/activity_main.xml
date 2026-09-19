@@ -176,11 +176,11 @@
                         android:text="@string/cat_recipe" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chipTritris"
+                        android:id="@+id/chipLaylahKey"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cat_tritris" />
+                        android:text="@string/cat_laylah_key" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipQuest"
@@ -190,18 +190,11 @@
                         android:text="@string/cat_quest" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chipCuriosity"
+                        android:id="@+id/chipValuable"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cat_curiosity" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipPack"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cat_pack" />
+                        android:text="@string/cat_valuable" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipOther"
