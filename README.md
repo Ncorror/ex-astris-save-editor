@@ -1,10 +1,10 @@
-> Current development build: **1.6.1** — dedicated filters for the full 160-entry catalog.
+> Current development build: **1.6.2** — catalog terminology cleanup across all 160 IDs.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.6.1**.
+Current development version: **1.6.2**.
 
 ## Current status
 

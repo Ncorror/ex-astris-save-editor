@@ -1,3 +1,11 @@
+## 1.6.2
+
+- Replaced old visual-guess English item names with proper game terminology across the 160-entry catalog.
+- Added polished English descriptions for previously generic catalog records.
+- Corrected Amber, Entropith, recipe, sellable-item, Laylah-Key and quest-item terminology.
+- Marked IDs `500014` and `500015` as protected internal hybrid records: they are present in the table dump but are not among the 14 normally obtainable Entropiths and have no dedicated sprite in the supplied `item.ab`.
+- Removed simple `<i>` markup from plain-text item descriptions.
+
 ## 1.6.1
 
 - Split the old `Other` bucket into dedicated catalog filters: Recipes, Tritris, Quest items, Curiosities and Packs.

@@ -54,3 +54,7 @@ bulk_editable    optional conservative bulk-edit override
 ```
 
 When a mapping is unverified, the description still explains the item's known class, observed behavior and edit-safety status without inventing an official name/effect.
+
+## v1.6.2 terminology pass
+
+The 160-entry catalog was rechecked after the icon/catalog expansion. English names that had previously been inferred from sprite appearance or internal filenames were replaced with game terminology where a global-English cross-reference was available. The two table-only hybrid Entropith IDs (`500014`, `500015`) remain explicitly unverified because the supplied `item.ab` has no matching dedicated sprites and the normal global list contains 14 obtainable Entropiths.

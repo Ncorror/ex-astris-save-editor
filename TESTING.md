@@ -147,3 +147,13 @@ With autosave ON:
 - [ ] Bulk actions remain available only for Resources, Consumables and Materials.
 - [ ] Entropiths, Recipes, Tritris, Quest items, Curiosities, Packs and Other are never mass-edited.
 - [ ] Search by item name continues to work while a category filter is active.
+
+## v1.6.2 catalog terminology regression
+
+- [ ] Catalog still reports 160 entries and 160 `item_*.png` resources.
+- [ ] Russian UI shows meaningful English alternate names (for example `Flux Amber`, not visual guesses such as `Red crystal in wrapping, variant`).
+- [ ] Amber IDs 12000/12003/12004/12005/12007/12008/12009 show the corrected English names.
+- [ ] Entropith IDs 500000–500013 use the cross-checked English EP names.
+- [ ] Recipe, Laylah-Key, sellable and quest records no longer show technical sprite/file labels as English names.
+- [ ] IDs 500014 and 500015 remain protected, unverified internal records.
+- [ ] Bulk editing behavior is unchanged: only currency, consumables and materials are eligible by default.
