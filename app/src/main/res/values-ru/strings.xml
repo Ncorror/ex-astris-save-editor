@@ -70,6 +70,16 @@
     <string name="add_title">Добавить предметы по ID</string>
     <string name="add_message">Разделяй записи пробелами. Без знака «=» количество будет 500.</string>
     <string name="add_hint">200010 211007=500 600008=1000</string>
+    <string name="add_catalog_title">Добавить предмет</string>
+    <string name="add_catalog_message">Выбери предмет из каталога. Уже добавленные в сохранение позиции скрыты.</string>
+    <string name="add_catalog_search">Поиск по названию предмета</string>
+    <string name="add_catalog_count">Показано: %1$d · доступно для добавления: %2$d</string>
+    <string name="add_catalog_empty">По этому запросу доступных предметов нет.</string>
+    <string name="add_quantity_title">Выбери количество</string>
+    <string name="add_to_save">Добавить в сохранение</string>
+    <string name="add_quantity_invalid">Укажи количество больше нуля</string>
+    <string name="item_already_present">Этот предмет уже есть в сохранении</string>
+    <string name="added_item">Добавлено: %1$s × %2$d</string>
     <string name="max">MAX</string>
 
     <string name="backup_title">Резервные копии</string>

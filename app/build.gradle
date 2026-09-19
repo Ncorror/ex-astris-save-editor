@@ -3,6 +3,11 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def releaseKeystorePath = System.getenv('ANDROID_KEYSTORE_PATH')
+def releaseKeystorePassword = System.getenv('ANDROID_KEYSTORE_PASSWORD')
+def releaseKeyAlias = System.getenv('ANDROID_KEY_ALIAS')
+def releaseKeyPassword = System.getenv('ANDROID_KEY_PASSWORD')
+
 android {
     namespace 'com.exa.save'
     compileSdk 34
@@ -11,8 +16,8 @@ android {
         applicationId "com.exa.save"
         minSdk 26
         targetSdk 34
-        versionCode 19
-        versionName "1.6.4"
+        versionCode 20
+        versionName "1.6.5"
     }
 
     buildFeatures {
@@ -29,9 +34,23 @@ android {
         jvmTarget = '17'
     }
 
+    signingConfigs {
+        if (releaseKeystorePath) {
+            release {
+                storeFile file(releaseKeystorePath)
+                storePassword releaseKeystorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            if (releaseKeystorePath) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 

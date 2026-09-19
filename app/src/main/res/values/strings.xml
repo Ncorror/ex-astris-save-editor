@@ -70,6 +70,16 @@
     <string name="add_title">Add items by ID</string>
     <string name="add_message">Separate entries with spaces. Without “=” the amount defaults to 500.</string>
     <string name="add_hint">200010 211007=500 600008=1000</string>
+    <string name="add_catalog_title">Add item</string>
+    <string name="add_catalog_message">Choose an item from the catalog. Items already present in the save are hidden.</string>
+    <string name="add_catalog_search">Search by item name</string>
+    <string name="add_catalog_count">Shown: %1$d · available to add: %2$d</string>
+    <string name="add_catalog_empty">No available items match this search.</string>
+    <string name="add_quantity_title">Choose quantity</string>
+    <string name="add_to_save">Add to save</string>
+    <string name="add_quantity_invalid">Enter a quantity greater than zero</string>
+    <string name="item_already_present">This item is already present in the save</string>
+    <string name="added_item">Added: %1$s × %2$d</string>
     <string name="max">MAX</string>
 
     <string name="backup_title">Backups</string>

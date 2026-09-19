@@ -1,10 +1,10 @@
-> Current development build: **1.6.4** — mobile UI polish for the 160-item catalog.
+> Current development build: **1.6.5** — searchable add-item catalog and signed-release preparation.
 
 # Ex Astris Save Editor
 
 Android save editor for **Ex Astris** with direct `Android/data` access through Root or Shizuku and a manual SAF fallback.
 
-Current development version: **1.6.4**.
+Current development version: **1.6.5**.
 
 ## Current status
 
@@ -27,7 +27,7 @@ The Root implementation is intentionally provider-agnostic at the app level: it 
 - Automatic discovery of `SaveFile0.save` and `AutoSaveFile*.save`.
 - zstd module parsing and backpack item editing.
 - Per-item quantity editing.
-- Add-by-ID.
+- Searchable add-item catalog with icons, categories, descriptions and quantity confirmation.
 - Bulk **Set / Add / Subtract** with arbitrary values and quick presets.
 - Name search across Russian and English item names.
 - Category filters.
@@ -234,7 +234,7 @@ ex-astris-save-editor-verification/
 Download the APK artifact:
 
 ```bash
-gh run download -n ex-astris-save-editor-debug
+gh run download -n ex-astris-save-editor-build
 ```
 
 ## Safety notes
@@ -286,3 +286,10 @@ The 160-entry catalog now keeps its extracted source categories in the UI. In ad
 ## v1.6.4 category audit
 
 The catalog filters now follow the game's own item hierarchy more closely. Loot packs are shown under Consumables, the four Doron sell-items are shown as Valuables, Laylah Kernel is shown under Materials, and the old internal `Tritris` label is presented as Laylah-Keys. Bulk-edit protection is unchanged: packs and Laylah Kernel remain protected until their quantity behavior is explicitly verified.
+
+
+## v1.6.5 add-item catalog and release flow
+
+The add button now opens the 160-entry game catalog instead of asking for raw IDs. Entries already present in the save are hidden. Search uses localized item names and each row shows the game icon, category, description, alternate language name, and bulk-protection lock state. After choosing an item, the editor asks for the quantity before modifying the in-memory save.
+
+Release tags are now treated differently from ordinary development builds. `main` still builds a debug APK for verification, while a `v<versionName>` tag requires the configured signing secrets, builds `assembleRelease`, validates the APK with `apksigner`, and publishes a versioned APK to GitHub Releases. See `RELEASE.md`.

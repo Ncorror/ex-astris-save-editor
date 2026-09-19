@@ -20,8 +20,10 @@ import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.exa.save.databinding.ActivityMainBinding
 import com.exa.save.databinding.BottomSheetAddItemBinding
+import com.exa.save.databinding.BottomSheetAddQuantityBinding
 import com.exa.save.databinding.BottomSheetBulkActionsBinding
 import com.exa.save.databinding.BottomSheetEditItemBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -1532,28 +1534,160 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAddItemSheet() {
-        val sf = save ?: return toast(getString(R.string.open_first))
+        if (save == null) return toast(getString(R.string.open_first))
         val sheet = BottomSheetAddItemBinding.inflate(layoutInflater)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(sheet.root)
 
-        sheet.addButton.setOnClickListener {
-            val plan = HashMap<Int, Int>()
-            for (token in sheet.input.text?.toString().orEmpty().trim().split(Regex("\\s+"))) {
-                if (token.isBlank()) continue
-                val parts = token.split("=")
-                val id = parts[0].toIntOrNull() ?: continue
-                plan[id] = parts.getOrNull(1)?.toIntOrNull() ?: 500
-            }
-            if (plan.isEmpty()) return@setOnClickListener
-            val before = snapshotForUndo()
-            val added = sf.addItems(plan)
-            refreshInventory()
-            if (added.isNotEmpty()) markDirty(before)
-            toast(getString(R.string.added, added.size))
-            dialog.dismiss()
+        val catalogAdapter = AddItemCatalogAdapter { id ->
+            showAddQuantitySheet(id, dialog)
+        }
+        sheet.catalogList.layoutManager = LinearLayoutManager(this)
+        sheet.catalogList.adapter = catalogAdapter
+
+        var query = ""
+
+        fun matchesCatalogSearch(id: Int): Boolean {
+            if (query.isBlank()) return true
+            val haystack = searchTexts[id] ?: listOf(nameOf(id), alternateNameOf(id))
+                .filter { it.isNotBlank() }
+                .joinToString(" ")
+                .lowercase(Locale.ROOT)
+            val terms = query.split(Regex("\\s+"))
+                .filter { it.isNotBlank() }
+            return terms.all { haystack.contains(it) }
         }
 
+        fun renderCatalog() {
+            val availableIds = names.keys
+                .asSequence()
+                .filterNot { currentItems.containsKey(it) }
+                .toList()
+            val rows = availableIds
+                .asSequence()
+                .filter(::matchesCatalogSearch)
+                .sortedWith(compareBy<Int>(
+                    { categoryOrder.indexOf(catOf(it)).let { idx -> if (idx < 0) categoryOrder.size else idx } },
+                    { nameOf(it).lowercase(Locale.ROOT) },
+                    { it }
+                ))
+                .map { id ->
+                    AddItemCatalogAdapter.Row(
+                        id = id,
+                        name = nameOf(id),
+                        alternateName = alternateNameOf(id),
+                        category = catLabel(catOf(id)),
+                        description = descriptionOf(id),
+                        protectedFromBulk = !isBulkEditable(id)
+                    )
+                }
+                .toList()
+
+            catalogAdapter.submit(rows)
+            sheet.availableCount.text = getString(
+                R.string.add_catalog_count,
+                rows.size,
+                availableIds.size
+            )
+            sheet.emptyState.visibility = if (rows.isEmpty()) View.VISIBLE else View.GONE
+            sheet.catalogList.visibility = if (rows.isEmpty()) View.GONE else View.VISIBLE
+        }
+
+        sheet.searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                query = s?.toString()?.trim()?.lowercase(Locale.ROOT).orEmpty()
+                renderCatalog()
+            }
+
+            override fun afterTextChanged(s: Editable?) = Unit
+        })
+
+        dialog.setOnShowListener {
+            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            dialog.behavior.skipCollapsed = true
+        }
+
+        renderCatalog()
+        dialog.show()
+    }
+
+    private fun showAddQuantitySheet(id: Int, catalogDialog: BottomSheetDialog) {
+        val sf = save ?: return toast(getString(R.string.open_first))
+        if (currentItems.containsKey(id)) {
+            toast(getString(R.string.item_already_present))
+            return
+        }
+
+        val sheet = BottomSheetAddQuantityBinding.inflate(layoutInflater)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(sheet.root)
+
+        sheet.itemName.text = nameOf(id)
+        val alternate = alternateNameOf(id)
+        sheet.itemAlias.text = alternate
+        sheet.itemAlias.visibility = if (alternate.isBlank()) View.GONE else View.VISIBLE
+        sheet.itemMeta.text = getString(R.string.item_meta, id, catLabel(catOf(id)))
+        sheet.itemProtectionCard.visibility = if (isBulkEditable(id)) View.GONE else View.VISIBLE
+        sheet.itemDescription.text = descriptionOf(id)
+        sheet.itemKnowledgeStatus.setText(if (itemVerified(id)) R.string.item_info_verified else R.string.item_info_unverified)
+        sheet.itemIcon.setImageResource(itemIconRes(id))
+
+        fun readAmount(): Int {
+            val raw = sheet.quantityInput.text?.toString()?.replace(" ", "")?.toLongOrNull() ?: 0L
+            return raw.coerceIn(0L, Int.MAX_VALUE.toLong()).toInt()
+        }
+
+        fun setAmount(value: Int) {
+            sheet.quantityLayout.error = null
+            sheet.quantityInput.setText(value.coerceAtLeast(1).toString())
+            sheet.quantityInput.setSelection(sheet.quantityInput.text?.length ?: 0)
+        }
+
+        setAmount(prefs.getInt("last_add_value", 1).coerceAtLeast(1))
+        sheet.minusButton.setOnClickListener { setAmount((readAmount() - 1).coerceAtLeast(1)) }
+        sheet.plusButton.setOnClickListener {
+            val value = readAmount().coerceAtLeast(1)
+            setAmount(if (value == Int.MAX_VALUE) value else value + 1)
+        }
+        sheet.amount100Button.setOnClickListener { setAmount(100) }
+        sheet.amount999Button.setOnClickListener { setAmount(999) }
+        sheet.amount10kButton.setOnClickListener { setAmount(10_000) }
+        sheet.amountMaxButton.setOnClickListener { setAmount(999_999) }
+        sheet.cancelButton.setOnClickListener { dialog.dismiss() }
+
+        sheet.addButton.setOnClickListener {
+            if (currentItems.containsKey(id)) {
+                toast(getString(R.string.item_already_present))
+                dialog.dismiss()
+                catalogDialog.dismiss()
+                return@setOnClickListener
+            }
+            val amount = readAmount()
+            if (amount <= 0) {
+                sheet.quantityLayout.error = getString(R.string.add_quantity_invalid)
+                return@setOnClickListener
+            }
+
+            val before = snapshotForUndo()
+            val added = sf.addItems(mapOf(id to amount))
+            if (added.isEmpty()) {
+                toast(getString(R.string.item_already_present))
+                return@setOnClickListener
+            }
+
+            prefs.edit().putInt("last_add_value", amount).apply()
+            refreshInventory()
+            markDirty(before)
+            toast(getString(R.string.added_item, nameOf(id), amount))
+            dialog.dismiss()
+            catalogDialog.dismiss()
+        }
+
+        dialog.setOnShowListener {
+            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
         dialog.show()
     }
 

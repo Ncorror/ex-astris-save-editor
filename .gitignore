@@ -18,3 +18,8 @@ captures/
 *.save
 *.save.jpg
 *.bak
+
+# Release signing keys (never commit)
+*.jks
+*.keystore
+release-key.properties

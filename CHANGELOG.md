@@ -1,3 +1,12 @@
+## 1.6.5
+
+- Replaced manual ID entry in the add-item flow with a searchable catalog.
+- Catalog rows show icon, localized name, alternate name, category, short description and protected-item lock state.
+- Items already present in the opened save are hidden from the add catalog.
+- Selecting an item opens a quantity sheet with +/- controls and quick values before insertion.
+- Added release signing support through GitHub Actions secrets.
+- Tagged builds now create a signed release APK, verify it with `apksigner`, and publish a GitHub Release.
+
 ## 1.6.4
 
 - Audited item categories against the extracted game tables and in-game terminology.

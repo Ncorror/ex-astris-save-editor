@@ -179,3 +179,20 @@ With autosave ON:
 - [ ] IDs 970xxxx/971xxxx appear under Laylah-Keys / Ключи Лайлы.
 - [ ] The old Packs, Curiosities and Tritris filter labels are absent.
 - [ ] Bulk-editable count remains 43 and protected count remains 117.
+
+
+## v1.6.5 add-item catalog regression
+
+- [ ] Open a save and tap the floating `+` button.
+- [ ] The add sheet shows only catalog items not already present in the save.
+- [ ] Search matches Russian/English item names and updates the visible count.
+- [ ] Each row shows icon, category and a short description.
+- [ ] Protected entries show a lock icon but remain individually addable.
+- [ ] Selecting an item opens the quantity sheet.
+- [ ] Quantity cannot be zero.
+- [ ] Adding an item marks the save dirty and the new item appears in the inventory.
+- [ ] The same item cannot be inserted twice.
+- [ ] Existing edit/delete/bulk/save operations still behave as before.
+- [ ] A normal `main` CI run produces the debug APK and verification artifact.
+- [ ] A `v1.6.5` tag fails if signing secrets are missing.
+- [ ] With signing secrets configured, `v1.6.5` creates a signed release APK and `apksigner` verification log.

@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/exa_surface"
     android:orientation="vertical"
-    android:paddingStart="22dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="22dp"
-    android:paddingBottom="28dp">
+    android:paddingStart="18dp"
+    android:paddingTop="18dp"
+    android:paddingEnd="18dp"
+    android:paddingBottom="18dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_title"
+        android:text="@string/add_catalog_title"
         android:textColor="@color/exa_text"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -22,31 +22,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="@string/add_message"
+        android:text="@string/add_catalog_message"
         android:textColor="@color/exa_text_secondary"
         android:textSize="13sp" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout"
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/add_hint"
-        app:boxBackgroundColor="@color/exa_surface_variant">
+        android:layout_marginTop="14dp"
+        android:hint="@string/add_catalog_search"
+        app:boxBackgroundColor="@color/exa_surface_variant"
+        app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input"
+            android:id="@+id/searchInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="text"
-            android:maxLines="4"
-            android:minLines="2" />
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addButton"
+    <TextView
+        android:id="@+id/availableCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/add" />
+        android:layout_marginTop="9dp"
+        android:textColor="@color/exa_text_muted"
+        android:textSize="11sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/catalogList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="10dp"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/emptyState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="@string/add_catalog_empty"
+        android:textColor="@color/exa_text_muted"
+        android:textSize="13sp"
+        android:visibility="gone" />
 </LinearLayout>

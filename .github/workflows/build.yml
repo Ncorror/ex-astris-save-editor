@@ -35,13 +35,65 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Build debug APK
+      - name: Validate release tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: |
+          VERSION_NAME="$(sed -n 's/.*versionName[[:space:]]*"\([^"]*\)".*/\1/p' app/build.gradle | head -n 1)"
+          EXPECTED_TAG="v${VERSION_NAME}"
+          if [ "$GITHUB_REF_NAME" != "$EXPECTED_TAG" ]; then
+            echo "Release tag mismatch: got '$GITHUB_REF_NAME', expected '$EXPECTED_TAG'."
+            exit 1
+          fi
+
+      - name: Prepare release signing
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$RELEASE_KEYSTORE_BASE64" ] || \
+             [ -z "$RELEASE_KEYSTORE_PASSWORD" ] || \
+             [ -z "$RELEASE_KEY_ALIAS" ] || \
+             [ -z "$RELEASE_KEY_PASSWORD" ]; then
+            echo "Release signing secrets are missing. See RELEASE.md."
+            exit 1
+          fi
+
+          KEYSTORE_PATH="$RUNNER_TEMP/ex-astris-release.jks"
+          printf '%s' "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
+          chmod 600 "$KEYSTORE_PATH"
+
+          echo "ANDROID_KEYSTORE_PATH=$KEYSTORE_PATH" >> "$GITHUB_ENV"
+          echo "ANDROID_KEYSTORE_PASSWORD=$RELEASE_KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_ALIAS=$RELEASE_KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_PASSWORD=$RELEASE_KEY_PASSWORD" >> "$GITHUB_ENV"
+
+      - name: Build APK
         id: build
         continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
-          gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            gradle assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log
+          else
+            gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+          fi
+
+      - name: Verify signed release APK
+        if: steps.build.outcome == 'success' && startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: |
+          APK_PATH="$(find app/build/outputs/apk/release -maxdepth 1 -name '*.apk' -print -quit)"
+          if [ -z "$APK_PATH" ]; then
+            echo "Release APK was not produced."
+            exit 1
+          fi
+          apksigner verify --verbose --print-certs "$APK_PATH" | tee release-signature.log
 
       - name: Prepare artifacts
         if: always()
@@ -49,15 +101,26 @@ jobs:
         run: |
           mkdir -p release-files verification-files
 
-          APK_PATH="$(find app/build/outputs/apk/debug -maxdepth 1 -name '*.apk' -print -quit 2>/dev/null || true)"
-          if [ -n "$APK_PATH" ]; then
-            cp "$APK_PATH" release-files/ex-astris-save-editor.apk
-          fi
-
           VERSION_NAME="$(sed -n 's/.*versionName[[:space:]]*"\([^"]*\)".*/\1/p' app/build.gradle | head -n 1)"
           VERSION_CODE="$(sed -n 's/.*versionCode[[:space:]]*\([0-9][0-9]*\).*/\1/p' app/build.gradle | head -n 1)"
           CATALOG_COUNT="$(python3 -c 'import json; print(len(json.load(open("app/src/main/assets/items.json", encoding="utf-8"))))')"
           ICON_COUNT="$(find app/src/main/res/drawable-nodpi -maxdepth 1 -type f -name 'item_*.png' | wc -l | tr -d ' ')"
+
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VARIANT="release"
+            SIGNED="yes"
+            APK_PATH="$(find app/build/outputs/apk/release -maxdepth 1 -name '*.apk' -print -quit 2>/dev/null || true)"
+            APK_NAME="ex-astris-save-editor-v${VERSION_NAME}.apk"
+          else
+            VARIANT="debug"
+            SIGNED="debug-key"
+            APK_PATH="$(find app/build/outputs/apk/debug -maxdepth 1 -name '*.apk' -print -quit 2>/dev/null || true)"
+            APK_NAME="ex-astris-save-editor-v${VERSION_NAME}-debug.apk"
+          fi
+
+          if [ -n "$APK_PATH" ]; then
+            cp "$APK_PATH" "release-files/$APK_NAME"
+          fi
 
           echo "Application: Ex Astris Save Editor" > release-files/build-info.txt
           echo "Version: $VERSION_NAME" >> release-files/build-info.txt
@@ -65,6 +128,8 @@ jobs:
           echo "Build number: $GITHUB_RUN_NUMBER" >> release-files/build-info.txt
           echo "Commit: $GITHUB_SHA" >> release-files/build-info.txt
           echo "Build date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> release-files/build-info.txt
+          echo "Build variant: $VARIANT" >> release-files/build-info.txt
+          echo "Signing: $SIGNED" >> release-files/build-info.txt
           echo "Android compile SDK: 34" >> release-files/build-info.txt
           echo "Root support: libsu 6.0.0" >> release-files/build-info.txt
           echo "Shizuku support: 13.1.5" >> release-files/build-info.txt
@@ -74,10 +139,13 @@ jobs:
           echo "Catalog entries: $CATALOG_COUNT" >> release-files/build-info.txt
           echo "Item icons: $ICON_COUNT" >> release-files/build-info.txt
           echo "Search mode: item names only" >> release-files/build-info.txt
+          echo "Add item flow: searchable catalog" >> release-files/build-info.txt
 
           cp release-files/build-info.txt verification-files/build-info.txt
           cp build.log release-files/build.log 2>/dev/null || true
           cp build.log verification-files/build.log 2>/dev/null || true
+          cp release-signature.log release-files/release-signature.log 2>/dev/null || true
+          cp release-signature.log verification-files/release-signature.log 2>/dev/null || true
           cp -a app/build/reports verification-files/reports 2>/dev/null || true
           cp -a app/build/test-results verification-files/test-results 2>/dev/null || true
 
@@ -85,7 +153,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ex-astris-save-editor-debug
+          name: ex-astris-save-editor-build
           path: release-files/
           if-no-files-found: warn
 
@@ -102,10 +170,12 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           files: |
-            release-files/ex-astris-save-editor.apk
+            release-files/ex-astris-save-editor-v*.apk
             release-files/build.log
             release-files/build-info.txt
+            release-files/release-signature.log
           generate_release_notes: true
+          fail_on_unmatched_files: true
 
       - name: Mark build as failed
         if: steps.build.outcome != 'success'

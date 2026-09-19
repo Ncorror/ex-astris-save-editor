@@ -165,3 +165,7 @@ If IP connectivity works but the hostname does not resolve, restore Android netw
 ### v1.5.3 catalog check
 
 After installing v1.5.3, verify that the new save-file IDs appear when present and that the 13 new icons render without replacing any older icon. Expected catalog metadata count: **82**.
+
+## Public release
+
+Development pushes to `main` produce debug APKs. Public releases use a signed `v<versionName>` tag build. Complete the one-time signing setup and release steps in `RELEASE.md`; never commit a keystore to the repository.
