@@ -33,7 +33,14 @@ For the 160 catalog IDs:
 
 Public terminology sources are used to cross-check readable English names/effects, but they are **not** used alone to invent numeric save-ID mappings.
 
-The main supplementary terminology reference used during the catalog polish is listed in [`RESEARCH_SOURCES.md`](RESEARCH_SOURCES.md).
+Sources:
+
+- https://drmone.hatenablog.com/entry/exAstrisJpCn — main cross-check for English terminology and effects of currencies, Ambers, Entropiths, Laylah Kernel, materials, ingredients and other named items. It does not provide numeric save IDs, so its names are paired with IDs only through the extracted game data.
+- https://apps.apple.com/us/app/ex-astris/id6470642337 — confirms that Ex Astris has an official English localization. The Russian editor text is the project's own localization layer.
+
+### 4. Real-device testing
+
+Live-device tests covered opening and discovering the live save, item quantity writes, Root (APatch) and Shizuku access, backup/restore, category display and conservative bulk editing.
 
 ## Current catalog state
 
@@ -81,7 +88,7 @@ A category label must never be treated as proof that mass-editing every item in 
 
 ## Historical live-save safety evidence
 
-An earlier `safety.md` test set covered the older 82-entry catalog. Those results were useful for establishing the conservative safety model, but they do not automatically prove the behavior of every later-discovered ID.
+An earlier live-save test set covered the older 82-entry catalog. Those results were useful for establishing the conservative safety model, but they do not automatically prove the behavior of every later-discovered ID.
 
 Later UI/catalog work therefore kept uncertain/unique items protected unless stronger evidence was available.
 

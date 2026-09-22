@@ -14,13 +14,13 @@
 - Fully close Ex Astris before switching skins. A game update may replace the modified bundles.
 - The skin switches are independent of save-file `style` or notification flags.
 - The signed release was checked on a device: the Skins tab, both switches (including MsBlack in game) and save writes work.
-- See [`docs/PATCH_METHOD_HIME_MSBLACK.md`](docs/PATCH_METHOD_HIME_MSBLACK.md) and [`docs/COLLAB_SKIN_AUDIT.md`](docs/COLLAB_SKIN_AUDIT.md) for details.
+- See [`docs/PATCH_METHOD_HIME_MSBLACK.md`](https://github.com/Ncorror/ex-astris-save-editor/blob/main/docs/PATCH_METHOD_HIME_MSBLACK.md) and [`docs/COLLAB_SKIN_AUDIT.md`](https://github.com/Ncorror/ex-astris-save-editor/blob/main/docs/COLLAB_SKIN_AUDIT.md) for details.
 
 ## Updating
 
 `v1.7.0` is signed with the same release key as `v1.6.5`, so it installs over a release-signed `v1.6.5` as a normal update.
 
-Installations of older debug-signed CI builds must be uninstalled first; see [`RELEASE.md`](RELEASE.md#4-first-release-signed-install).
+Installations of older debug-signed CI builds must be uninstalled first; see [`RELEASE.md`](https://github.com/Ncorror/ex-astris-save-editor/blob/main/RELEASE.md#upgrading-from-a-debug-build).
 
 ## Release metadata
 

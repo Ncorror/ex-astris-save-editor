@@ -1,18 +1,18 @@
 # Setup and update workflow (Termux)
 
-This file describes the repository workflow for Ex Astris Save Editor `1.7.0`.
-
 Repository:
 
 ```text
 https://github.com/Ncorror/ex-astris-save-editor.git
 ```
 
-Expected checkout used by the project workflow:
+Local checkout used by the project workflow:
 
 ```text
-~/ex-astris-save-editor
+~/ex-astris-save-editor/apk
 ```
+
+All `git` and `gh` commands below must be run inside this directory; outside it they fail with `not a git repository`.
 
 ## Requirements
 
@@ -34,33 +34,42 @@ gh auth status || gh auth login
 For a fresh checkout:
 
 ```bash
-cd ~
-git clone https://github.com/Ncorror/ex-astris-save-editor.git
-cd ~/ex-astris-save-editor
+mkdir -p ~/ex-astris-save-editor
+git clone https://github.com/Ncorror/ex-astris-save-editor.git ~/ex-astris-save-editor/apk
+cd ~/ex-astris-save-editor/apk
 ```
 
-Use the repository root, which contains `app/`, `build.gradle`, `settings.gradle` and `.github/`.
+The checkout root contains `app/`, `build.gradle`, `settings.gradle` and `.github/`.
+
+## Update the checkout
+
+Get the latest `main`:
+
+```bash
+cd ~/ex-astris-save-editor/apk
+git checkout main
+git pull --ff-only
+```
 
 ## Apply an update archive
 
 The `ex-astris-save-editor-main.zip` update archive has one top-level `ex-astris-save-editor-main/` directory.
 
-Example:
-
 ```bash
-cd ~
 rm -rf ~/exa-update
 mkdir -p ~/exa-update
 
 unzip -o /storage/emulated/0/Download/<update-archive>.zip \
   -d ~/exa-update
 
-cd ~/ex-astris-save-editor
+cd ~/ex-astris-save-editor/apk
 cp -a ~/exa-update/ex-astris-save-editor-main/. ./
 
 git status
 git diff --stat
 ```
+
+Copying an archive does not remove files that the update deleted; check `git status` and remove them with `git rm` if needed.
 
 Before committing, verify the version when the update is supposed to change it:
 
@@ -89,27 +98,19 @@ gh run list --limit 10
 gh run watch
 ```
 
-Download the normal build artifact:
+Download the normal build artifact (APK, `build.log`, `build-info.txt`):
 
 ```bash
 gh run download -n ex-astris-save-editor-build
 ```
 
-Download verification data:
+Download verification data (build log, test results and reports):
 
 ```bash
 gh run download -n ex-astris-save-editor-verification
 ```
 
-Expected metadata for the current version:
-
-```text
-Version: 1.7.0
-Version code: 24
-Catalog entries: 160
-Item icons: 160
-Add item flow: searchable catalog
-```
+`build-info.txt` must match the expected metadata in [`TESTING.md`](TESTING.md).
 
 A `main` build is a **debug** build. Public release tags use the private release signing key; see [`RELEASE.md`](RELEASE.md).
 
@@ -138,7 +139,7 @@ Current real-device verification: APatch / KernelPatch. The libsu implementation
 
 ### Manual file mode
 
-Use File mode when privileged access is unavailable. The Android document picker can open a save and export a copy, but direct automatic `Android/data` discovery is provided by Root/Shizuku.
+Use File mode when privileged access is unavailable. The Android document picker can open a save and export a copy, but automatic `Android/data` discovery and the skin switches require Root or Shizuku.
 
 ## Troubleshooting GitHub connectivity
 
@@ -151,25 +152,6 @@ getent hosts github.com
 
 If IP connectivity works but DNS lookup fails, restore Android network / Private DNS / VPN connectivity and retry the **same** push. A network error does not mean the local commit must be recreated.
 
-## First repository publication (historical/optional)
-
-Only use this section for a repository that has not yet been created on GitHub:
-
-```bash
-cd ~/ex-astris-save-editor
-
-git init -b main
-git add -A
-git commit -m "Initial Ex Astris Save Editor import"
-
-gh repo create ex-astris-save-editor \
-  --public \
-  --source=. \
-  --remote=origin \
-  --push \
-  --description "Save file editor for Ex Astris with Root and Shizuku Android/data access"
-```
-
 ## Release publication
 
-Do not create release tags from this file. The complete, current signing/tag procedure is maintained in [`RELEASE.md`](RELEASE.md).
+The signing and tag procedure is maintained in [`RELEASE.md`](RELEASE.md).

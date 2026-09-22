@@ -2,12 +2,7 @@
 
 Normal pushes to `main` build a **debug** APK. A Git tag matching `v<versionName>` builds a **signed release** APK, verifies it with Android `apksigner`, and publishes a GitHub Release only after both build and signature verification succeed.
 
-Current release version:
-
-```text
-versionName 1.7.0
-versionCode 24
-```
+Run all commands from the local checkout (`~/ex-astris-save-editor/apk`, see [`SETUP.md`](SETUP.md)).
 
 ## 1. Create the signing key once
 
@@ -36,8 +31,6 @@ The certificate identity fields are descriptive; they do not have to match a com
 
 ## 2. Configure GitHub Actions secrets once
 
-From the repository directory:
-
 ```bash
 cd ~/ex-astris-save-editor/apk
 
@@ -60,29 +53,23 @@ Required secrets:
 
 The password commands prompt without storing the values in shell history. If the key password is the same as the keystore password, enter the same value for both secrets.
 
-## 3. Validate `main` before tagging
+## 3. Prepare the release commit
 
-Push the final commit and wait for CI:
+1. In `app/build.gradle`, set the final `versionName` (no `-dev` suffix) and increase `versionCode`.
+2. In [`CHANGELOG.md`](CHANGELOG.md), collect the development entries under a `## <versionName>` heading.
+3. Add `RELEASE_NOTES_v<versionName>.md` at the repository root. It becomes the GitHub Release description, so use full `https://github.com/...` URLs for links; relative links do not work there. Remove the previous version's notes file.
+4. Update the version in [`README.md`](README.md) and the expected metadata in [`TESTING.md`](TESTING.md).
+
+## 4. Validate `main` before tagging
+
+Push the release commit and wait for CI:
 
 ```bash
 git push origin main
 gh run watch
 ```
 
-Download/check the verification artifact and complete [`TESTING.md`](TESTING.md), especially the add-item flow, save write and bulk-safety checks.
-
-## 4. First release-signed install
-
-Android treats the old CI/debug APK and the new release APK as different signers even though the package name is the same. The first release-signed APK therefore cannot be installed over an older debug-signed installation.
-
-Before uninstalling the debug build:
-
-1. preserve any editor-local backups you need;
-2. keep a separate backup of the real Ex Astris save;
-3. uninstall only **Ex Astris Save Editor**, not the Ex Astris game;
-4. install the signed GitHub Release APK.
-
-Future releases signed with the same `.jks` can update this release-signed installation normally.
+Download/check the verification artifact and complete [`TESTING.md`](TESTING.md), especially the add-item flow, save write, bulk-safety and skin checks.
 
 ## 5. Create the release tag
 
@@ -91,6 +78,7 @@ Read the version directly from Gradle so the tag cannot drift from the project v
 ```bash
 cd ~/ex-astris-save-editor/apk
 
+git checkout main
 git pull --ff-only
 git status
 
@@ -117,18 +105,18 @@ git push origin "$TAG"
 
 Do not routinely rewrite already published release tags.
 
-## 6. What the tag workflow verifies
+## 6. What the tag workflow does
 
 The tagged build:
 
 1. validates `v<versionName>`;
 2. requires all four signing secrets;
 3. decodes the keystore only inside the GitHub runner;
-4. runs `assembleRelease`;
+4. runs the unit tests and `assembleRelease`;
 5. locates Android SDK `apksigner` explicitly;
 6. runs `apksigner verify --verbose --print-certs`;
 7. prepares build metadata and signature log;
-8. publishes a GitHub Release only if build **and** signature verification succeeded.
+8. publishes a GitHub Release only if build **and** signature verification succeeded;
 9. sets the release description from `RELEASE_NOTES_v<versionName>.md` when that file exists.
 
 A successful `main` build also re-syncs the description of an existing `v<versionName>` release from that file, so later edits to the notes reach the GitHub Release after a push to `main`.
@@ -154,6 +142,17 @@ build.log
 build-info.txt
 release-signature.log
 ```
+
+## Upgrading from a debug build
+
+Releases since `v1.6.5` are signed with the same release key and install over each other as normal updates.
+
+Android treats CI debug APKs and release APKs as different signers, so a release APK cannot be installed over a debug-signed installation. Before switching:
+
+1. preserve any editor-local backups you need;
+2. keep a separate backup of the real Ex Astris save;
+3. uninstall only **Ex Astris Save Editor**, not the Ex Astris game;
+4. install the signed GitHub Release APK.
 
 ## Security rules
 

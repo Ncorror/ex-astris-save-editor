@@ -1,6 +1,6 @@
 # Regression and release checklist
 
-Run the relevant sections before treating a new build as stable. For a public release, complete the **Release gate** at the end as well.
+Run the relevant sections before treating a new build as stable. For a public release, also complete the **Release gate** at the end.
 
 Current expected metadata:
 
@@ -181,15 +181,14 @@ With autosave **ON**:
 - [ ] No blank description exists in the catalog.
 - [ ] IDs `500014` and `500015` remain clearly marked as provisional/internal rather than presented as confirmed normal obtainable Entropiths.
 
-## 12. Release gate
+## 12. Arknights skins
 
-Before releasing changes to the skin switches, test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files:
+Run when the skin switches, their bundles or the privileged file service change. Test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files.
 
 - [ ] Bottom navigation shows four labeled tabs: Items, Save, Skins and Settings (including Russian labels).
-- [ ] Skin controls appear near the top of Skins and no longer appear at the bottom of Save.
+- [ ] Skin controls appear on the Skins tab only.
 - [ ] Opening Skins refreshes both bundle states; returning to the foreground on Skins refreshes them again.
 - [ ] Unsaved save edits still show the Save-tab badge, and switching tabs does not discard them.
-
 - [ ] With the game fully closed, detect stock Hime and MsBlack independently.
 - [ ] Enable Hime, confirm its installed file matches Stage 127 SHA-256, then check scene, dialogue, battle, animation and effects in game.
 - [ ] Disable Hime, confirm its installed file matches the original SHA-256 and the stock model returns.
@@ -201,26 +200,25 @@ Before releasing changes to the skin switches, test both Root and Shizuku on a d
 - [ ] Confirm a still-running game is closed before replacing bundles.
 - [ ] Verify backup restoration and behavior after a game content update.
 
-The release procedure below describes the current `v1.7.0` release; update tag-specific metadata and notes when preparing the next release.
+## 13. Release gate
 
-Before tagging:
+Before tagging (see [`RELEASE.md`](RELEASE.md)):
 
+- [ ] `versionName` has no `-dev` suffix and `versionCode` was increased.
+- [ ] `CHANGELOG.md` has a section for the version.
+- [ ] `RELEASE_NOTES_v<versionName>.md` exists and uses full URLs for links.
 - [ ] `main` CI is green.
 - [ ] Phone smoke test passes on a known-good backup/save.
-- [ ] `app/build.gradle` contains the intended `versionName` and `versionCode`.
 - [ ] Release keystore is backed up privately.
 - [ ] Required GitHub Actions signing secrets exist.
 
-For tag `v1.7.0`:
+After pushing tag `v<versionName>`:
 
 - [ ] Tag exactly matches `versionName`.
-- [ ] Workflow reports `Build variant: release`.
-- [ ] Workflow reports `Signing: yes`.
+- [ ] Workflow reports `Build variant: release` and `Signing: yes`.
 - [ ] `assembleRelease` succeeds.
-- [ ] `release-signature.log` exists.
-- [ ] `apksigner verify` reports `Verifies`.
-- [ ] APK has a valid v2 signature.
+- [ ] `release-signature.log` exists and `apksigner verify` reports `Verifies` with a valid v2 signature.
 - [ ] GitHub Release is published only after signature verification succeeds.
-- [ ] Release contains versioned APK, build log, build info and signature log.
-
-The first release-signed install cannot update an older debug-signed installation in place. Preserve any editor-local backups you need before uninstalling the debug build.
+- [ ] Release contains the versioned APK, build log, build info and signature log.
+- [ ] Release description matches `RELEASE_NOTES_v<versionName>.md`.
+- [ ] The release APK installs over the previous release as an update.
