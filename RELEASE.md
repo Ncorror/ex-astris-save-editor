@@ -129,6 +129,9 @@ The tagged build:
 6. runs `apksigner verify --verbose --print-certs`;
 7. prepares build metadata and signature log;
 8. publishes a GitHub Release only if build **and** signature verification succeeded.
+9. sets the release description from `RELEASE_NOTES_v<versionName>.md` when that file exists.
+
+A successful `main` build also re-syncs the description of an existing `v<versionName>` release from that file, so later edits to the notes reach the GitHub Release after a push to `main`.
 
 A valid APK Signature Scheme **v2** result is sufficient for the current Android target. The workflow does not require v1/v3/v4 to be true.
 
