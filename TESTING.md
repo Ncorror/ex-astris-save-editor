@@ -5,7 +5,7 @@ Run the relevant sections before treating a new build as stable. For a public re
 Current expected metadata:
 
 ```text
-versionName: 1.7.0-dev2
+versionName: 1.7.0-dev3
 versionCode: 22
 catalog entries: 160
 item icons: 160
@@ -163,6 +163,10 @@ With autosave **ON**:
 ## 10. Backups
 
 - [ ] Automatic backup on open works when enabled.
+- [ ] Automatic backup on open can be disabled, but every write still creates a verified backup.
+- [ ] Simulate an unavailable backup directory: Save must stop without changing the opened file.
+- [ ] Change the save externally after opening it: Save must refuse the write and ask for reopening.
+- [ ] Try malformed footer length, invalid module offsets and an oversized zstd module: reject without writing or exhausting memory.
 - [ ] Manual backup works.
 - [ ] Backup list is newest-first.
 - [ ] Loading a backup creates a pending editor state until saved.

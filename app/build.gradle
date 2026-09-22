@@ -16,8 +16,8 @@ android {
         applicationId "com.exa.save"
         minSdk 26
         targetSdk 34
-        versionCode 22
-        versionName "1.7.0-dev2"
+        versionCode 23
+        versionName "1.7.0-dev3"
     }
 
     buildFeatures {
@@ -62,6 +62,7 @@ android {
 }
 
 dependencies {
+    testImplementation 'junit:junit:4.13.2'
     implementation 'com.github.luben:zstd-jni:1.5.6-3@aar'
 
     implementation 'androidx.core:core-ktx:1.13.1'

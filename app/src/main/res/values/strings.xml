@@ -39,6 +39,9 @@
     <string name="save_candidates_title">Choose save file</string>
     <string name="save_not_found">No .save file was found in Ex Astris Android/data. Launch the game once and make sure a local save exists.</string>
     <string name="save_path_missing">The save file no longer exists.</string>
+    <string name="save_changed_outside">The game save changed since it was opened. Reopen it before editing.</string>
+    <string name="backup_required">Could not save and verify a backup. The save was not changed.</string>
+    <string name="save_written_mismatch">The written save differs from the expected data. Check the backup before trying again.</string>
     <string name="save_source_shizuku">Shizuku · Android/data</string>
     <string name="save_source_manual">Manual file</string>
     <string name="save_details">Saved %1$s · %2$d modules · %3$d items</string>

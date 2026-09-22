@@ -33,6 +33,7 @@ import org.json.JSONObject
 import rikka.shizuku.Shizuku
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -371,6 +372,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun readSkinFile(service: IShizukuFileService, path: String): ByteArray =
         ParcelFileDescriptor.AutoCloseInputStream(service.openRead(path)).use { it.readBytes() }
+
+    private fun readSaveBytes(input: InputStream): ByteArray {
+        val output = ByteArrayOutputStream()
+        val chunk = ByteArray(64 * 1024)
+        while (true) {
+            val count = input.read(chunk)
+            if (count < 0) break
+            check(count <= SaveFile.MAX_FILE_BYTES - output.size()) { "save file too large" }
+            output.write(chunk, 0, count)
+        }
+        return output.toByteArray()
+    }
 
     private fun refreshSkins() {
         if (skinBusy) return
@@ -1146,7 +1159,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 if (!service.exists(path)) throw IllegalStateException(getString(R.string.save_path_missing))
                 val pfd = service.openRead(path)
-                val bytes = ParcelFileDescriptor.AutoCloseInputStream(pfd).use { it.readBytes() }
+                val bytes = ParcelFileDescriptor.AutoCloseInputStream(pfd).use { readSaveBytes(it) }
                 val parsed = SaveFile(bytes)
                 backupOriginal(bytes)
                 runOnUiThread {
@@ -1185,11 +1198,7 @@ class MainActivity : AppCompatActivity() {
     private fun openUri(selected: Uri) {
         io.execute {
             try {
-                val bytes = contentResolver.openInputStream(selected)!!.use { input ->
-                    val out = ByteArrayOutputStream()
-                    input.copyTo(out)
-                    out.toByteArray()
-                }
+                val bytes = contentResolver.openInputStream(selected)!!.use { readSaveBytes(it) }
                 val parsed = SaveFile(bytes)
                 backupOriginal(bytes)
                 runOnUiThread {
@@ -1224,10 +1233,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun writeBackup(bytes: ByteArray): File? {
         val dir = backupDir() ?: return null
-        val stamp = SimpleDateFormat("yyyyMMdd-HHmmss-SSS", Locale.US).format(Date())
-        val file = File(dir, "SaveFile0.$stamp.bak")
-        file.writeBytes(bytes)
-        return file
+        val file = File.createTempFile("SaveFile0.", ".bak", dir)
+        try {
+            file.outputStream().use { output ->
+                output.write(bytes)
+                output.flush()
+                output.fd.sync()
+            }
+            check(file.readBytes().contentEquals(bytes)) { getString(R.string.backup_required) }
+            return file
+        } catch (e: Throwable) {
+            file.delete()
+            throw e
+        }
     }
 
     private fun backupOriginal(bytes: ByteArray) {
@@ -1295,7 +1313,7 @@ class MainActivity : AppCompatActivity() {
         val before = snapshotForUndo()
         io.execute {
             try {
-                val parsed = SaveFile(file.readBytes())
+                val parsed = SaveFile(file.inputStream().use { readSaveBytes(it) })
                 runOnUiThread {
                     save = parsed
                     refreshInventory()
@@ -1318,6 +1336,7 @@ class MainActivity : AppCompatActivity() {
         if (isSaving) return
         val targetPath = directPath
         val documentUri = uri
+        val expectedOriginal = baselineSnapshot?.copyOf()
 
         if (targetPath == null && documentUri == null) return toast(getString(R.string.open_first))
 
@@ -1329,20 +1348,21 @@ class MainActivity : AppCompatActivity() {
         io.execute {
             try {
                 val data = sf.build()
+                SaveFile(data) // Do not write an output that this editor cannot parse back.
+                val original = expectedOriginal ?: throw IllegalStateException(getString(R.string.save_changed_outside))
                 if (targetPath != null) {
                     val backend = directBackend
                     val service = serviceFor(backend)
                         ?: throw IllegalStateException(getString(R.string.access_unavailable))
                     if (!service.exists(targetPath)) throw IllegalStateException(getString(R.string.save_path_missing))
 
-                    if (automaticBackup()) {
-                        try {
-                            val original = service.openRead(targetPath)
-                            val bytes = ParcelFileDescriptor.AutoCloseInputStream(original).use { it.readBytes() }
-                            writeBackup(bytes)
-                        } catch (_: Throwable) {
-                        }
-                    }
+                    val current = ParcelFileDescriptor.AutoCloseInputStream(service.openRead(targetPath))
+                        .use { readSaveBytes(it) }
+                    check(current.contentEquals(original)) { getString(R.string.save_changed_outside) }
+                    check(writeBackup(current) != null) { getString(R.string.backup_required) }
+                    val rechecked = ParcelFileDescriptor.AutoCloseInputStream(service.openRead(targetPath))
+                        .use { readSaveBytes(it) }
+                    check(rechecked.contentEquals(original)) { getString(R.string.save_changed_outside) }
 
                     var committed = false
                     try {
@@ -1359,8 +1379,18 @@ class MainActivity : AppCompatActivity() {
                             try { service.abortAtomicWrite(targetPath) } catch (_: Throwable) {}
                         }
                     }
+                    val written = ParcelFileDescriptor.AutoCloseInputStream(service.openRead(targetPath))
+                        .use { readSaveBytes(it) }
+                    check(written.contentEquals(data)) { getString(R.string.save_written_mismatch) }
                 } else {
+                    val current = contentResolver.openInputStream(documentUri!!)?.use { readSaveBytes(it) }
+                        ?: throw IllegalStateException(getString(R.string.save_changed_outside))
+                    check(current.contentEquals(original)) { getString(R.string.save_changed_outside) }
+                    check(writeBackup(current) != null) { getString(R.string.backup_required) }
                     contentResolver.openOutputStream(documentUri!!, "wt")!!.use { it.write(data) }
+                    val written = contentResolver.openInputStream(documentUri)?.use { readSaveBytes(it) }
+                        ?: throw IllegalStateException(getString(R.string.save_written_mismatch))
+                    check(written.contentEquals(data)) { getString(R.string.save_written_mismatch) }
                 }
                 runOnUiThread {
                     isSaving = false

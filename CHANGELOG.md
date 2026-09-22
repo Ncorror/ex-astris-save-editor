@@ -2,6 +2,13 @@
 
 All notable project changes are listed here in reverse chronological order.
 
+## 1.7.0-dev3 (unreleased)
+
+- Reject malformed or oversized save trailers, module ranges and decompressed modules before editing.
+- Validate the assembled save before writing; refuse writes if the on-disk save changed since opening.
+- Require a verified local backup before every write of an existing save, including manual document access.
+- Add save parser regression tests to the Android CI build.
+
 ## 1.7.0-dev2 (unreleased)
 
 - Moved the Arknights skin controls from the bottom of Save to their own labeled bottom navigation tab.

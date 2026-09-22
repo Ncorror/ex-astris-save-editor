@@ -65,6 +65,9 @@
     <string name="save_candidates_title">Выбери файл сохранения</string>
     <string name="save_not_found">В Android/data Ex Astris не найден файл .save. Запусти игру хотя бы один раз и убедись, что локальное сохранение существует.</string>
     <string name="save_path_missing">Файл сохранения больше не существует.</string>
+    <string name="save_changed_outside">Файл игры изменился после открытия. Откройте его заново перед записью.</string>
+    <string name="backup_required">Не удалось сохранить и проверить резервную копию. Сохранение не изменено.</string>
+    <string name="save_written_mismatch">Записанный файл отличается от ожидаемого. Проверьте резервную копию перед повторной попыткой.</string>
     <string name="save_source_shizuku">Shizuku · Android/data</string>
     <string name="save_source_manual">Выбран вручную</string>
     <string name="save_details">Сохранён %1$s · модулей %2$d · позиций %3$d</string>

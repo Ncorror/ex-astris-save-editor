@@ -1,6 +1,6 @@
 # Setup and update workflow (Termux)
 
-This file describes the repository workflow for Ex Astris Save Editor `1.7.0-dev2`. The relocated skin tab is pending an Android build and UI check.
+This file describes the repository workflow for Ex Astris Save Editor `1.7.0-dev3`. The relocated skin tab is pending an Android build and UI check.
 
 Repository:
 
@@ -104,7 +104,7 @@ gh run download -n ex-astris-save-editor-verification
 Expected metadata for the current version:
 
 ```text
-Version: 1.7.0-dev2
+Version: 1.7.0-dev3
 Version code: 22
 Catalog entries: 160
 Item icons: 160

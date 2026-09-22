@@ -79,9 +79,9 @@ jobs:
         run: |
           set -o pipefail
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
-            gradle assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log
+            gradle testDebugUnitTest assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log
           else
-            gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+            gradle testDebugUnitTest assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
           fi
 
       - name: Verify signed release APK

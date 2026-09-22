@@ -21,6 +21,11 @@ class SaveFile(raw: ByteArray) {
     companion object {
         const val TRAILER = 30
         private const val NAMED_INT = 23
+        const val MAX_FILE_BYTES = 64 * 1024 * 1024
+        private const val MAX_TAIL_BYTES = 4 * 1024 * 1024
+        private const val MAX_MODULES = 256
+        private const val MAX_MODULE_BYTES = 32 * 1024 * 1024
+        private const val MAX_TOTAL_MODULE_BYTES = 128 * 1024 * 1024
 
         /** Field-name bytes for ItemId, Odin NamedUInt entry. */
         val ITEM_ID = byteArrayOf(0x19, 0x01, 0x06, 0, 0, 0) + utf16("ItemId")
@@ -73,10 +78,13 @@ class SaveFile(raw: ByteArray) {
         }
     }
 
-    val trailer: ByteArray = raw.copyOfRange(raw.size - TRAILER, raw.size)
+    val trailer: ByteArray = raw.run {
+        require(size in TRAILER..MAX_FILE_BYTES) { "invalid save size" }
+        copyOfRange(size - TRAILER, size)
+    }
 
     /** 1 = modules are zstd-compressed, 0 = stored raw. The game accepts both. */
-    val compressedSource: Boolean get() = trailer[21].toInt() != 0
+    val compressedSource: Boolean get() = trailer[21].toInt() == 1
     val tail: ByteArray
     private val frames = ArrayList<ByteArray>()
     val mods = ArrayList<ByteArray>()
@@ -88,25 +96,39 @@ class SaveFile(raw: ByteArray) {
     val savedAt: Long get() = le64(trailer, 0)
 
     init {
-        val tailLen = le64(trailer, 8).toInt()
-        val dataLen = le64(trailer, 22).toInt()
-        require(dataLen + TRAILER == raw.size) { "trailer does not match file size" }
+        val tailLength = le64(trailer, 8)
+        val dataLen = le64(trailer, 22)
+        require(dataLen == raw.size.toLong() - TRAILER) { "trailer does not match file size" }
+        require(tailLength in 1L..minOf(MAX_TAIL_BYTES.toLong(), dataLen)) { "invalid tail size" }
+        require(trailer[21].toInt() in 0..1) { "invalid compression flag" }
+        val tailLen = tailLength.toInt()
         val body = raw.copyOfRange(0, raw.size - TRAILER)
         val comp = body.copyOfRange(0, body.size - tailLen)
         tail = body.copyOfRange(body.size - tailLen, body.size)
 
         collectFieldPositions(tail, "length", lenPos)
         collectFieldPositions(tail, "fileOffset", offPos)
-        require(lenPos.size == offPos.size && lenPos.isNotEmpty()) { "broken SaveFileTail" }
+        require(lenPos.size == offPos.size && lenPos.size in 1..MAX_MODULES) { "broken SaveFileTail" }
 
         val compressed = compressedSource
+        var nextOffset = 0
+        var totalUnpacked = 0L
         for (i in lenPos.indices) {
             val ln = le32(tail, lenPos[i])
             val off = le32(tail, offPos[i])
+            require(ln > 0 && off == nextOffset && ln <= comp.size - off) {
+                "invalid module range"
+            }
+            nextOffset = off + ln
             val frame = comp.copyOfRange(off, off + ln)
             frames.add(frame)
-            mods.add(if (compressed) unzstd(frame) else frame)
+            val module = if (compressed) unzstd(frame) else frame
+            require(module.size <= MAX_MODULE_BYTES) { "save module too large" }
+            totalUnpacked += module.size
+            require(totalUnpacked <= MAX_TOTAL_MODULE_BYTES) { "save modules too large" }
+            mods.add(module)
         }
+        require(nextOffset == comp.size) { "unreferenced module bytes" }
     }
 
     private fun collectFieldPositions(buf: ByteArray, name: String, out: MutableList<Int>) {
@@ -117,17 +139,19 @@ class SaveFile(raw: ByteArray) {
             val j = indexOf(buf, key, i)
             if (j < 0) return
             i = j + 1
+            require(j + key.size <= buf.size - 4) { "truncated SaveFileTail field" }
             out.add(j + key.size)
         }
     }
 
     private fun unzstd(src: ByteArray): ByteArray {
         ZstdInputStream(ByteArrayInputStream(src)).use { zin ->
-            val out = ByteArrayOutputStream(src.size * 4)
+            val out = ByteArrayOutputStream(minOf(src.size.toLong() * 4, 65536L).toInt())
             val buf = ByteArray(1 shl 16)
             while (true) {
                 val n = zin.read(buf)
                 if (n <= 0) break
+                require(n <= MAX_MODULE_BYTES - out.size()) { "save module too large" }
                 out.write(buf, 0, n)
             }
             return out.toByteArray()
@@ -155,27 +179,42 @@ class SaveFile(raw: ByteArray) {
         val e0 = lastIndexOf(m, byteArrayOf(0x04, 0x2e), first)
         val start = e0 - 9
         require(start >= 0 && m[start].toInt() == 6) { "array header not found" }
-        val cnt = le64(m, start + 1).toInt()
+        val count = le64(m, start + 1)
+        require(count in 1L..(m.size / 40).toLong()) { "invalid item count" }
+        val cnt = count.toInt()
+        fun available(at: Int, bytes: Int) = at >= 0 && bytes >= 0 && at <= m.size - bytes
         val out = ArrayList<Entry>(cnt)
         var p = e0
         repeat(cnt) {
             val a = p
+            require(available(p, 12)) { "truncated item entry" }
             require(m[p].toInt() == 0x04 && m[p + 1].toInt() == 0x2e) { "element does not start with 04 2e" }
             p += 12
+            require(available(p, 14)) { "truncated item key" }
             val key = le32(m, p); p += 14
+            require(available(p, 1)) { "truncated item type" }
             val t = m[p].toInt() and 0xFF
-            p += when (t) {
-                0x30 -> 5
-                0x2f -> 10 + le32(m, p + 6) * 2
+            val valueLength = when (t) {
+                0x30 -> 5L
+                0x2f -> {
+                    require(available(p, 10)) { "truncated item string" }
+                    10L + (le32(m, p + 6).toLong() and 0xffffffffL) * 2
+                }
                 else -> throw IllegalStateException("unknown type entry")
             }
+            require(valueLength <= m.size.toLong() - p) { "invalid item value length" }
+            p += valueLength.toInt()
+            require(available(p, 26)) { "truncated item metadata" }
             p += 26
+            require(available(p, 16)) { "truncated item count" }
             val num = le32(m, p + 12)
             p += 16
+            require(available(p, 2)) { "truncated item terminator" }
             require(m[p].toInt() == 0x05 && m[p + 1].toInt() == 0x05) { "element not terminated by 05 05" }
             p += 2
             out.add(Entry(a, p, key, num))
         }
+        require(available(p, 1)) { "array terminator missing" }
         require(m[p].toInt() == 7) { "array not terminated" }
         return out
     }
@@ -279,6 +318,7 @@ class SaveFile(raw: ByteArray) {
         while (true) {
             val j = indexOf(m, pat, p)
             if (j < 0) return best
+            require(j <= m.size - 9) { "truncated node id" }
             p = j + 9
             best = maxOf(best, le32(m, j + 5))
         }
