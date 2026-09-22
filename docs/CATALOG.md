@@ -1,6 +1,6 @@
 # Catalog reference
 
-Current application version: `1.6.5`.
+Current application version: `1.7.0`.
 
 Runtime catalog:
 

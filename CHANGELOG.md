@@ -2,24 +2,22 @@
 
 All notable project changes are listed here in reverse chronological order.
 
-## 1.7.0-dev3 (unreleased)
+## 1.7.0
+
+Save safety:
 
 - Reject malformed or oversized save trailers, module ranges and decompressed modules before editing.
 - Validate the assembled save before writing; refuse writes if the on-disk save changed since opening.
 - Require a verified local backup before every write of an existing save, including manual document access.
 - Add save parser regression tests to the Android CI build.
 
-## 1.7.0-dev2 (unreleased)
-
-- Moved the Arknights skin controls from the bottom of Save to their own labeled bottom navigation tab.
-- Kept the same bundle checks, backups and independent Hime/MsBlack actions.
-
-## 1.7.0-dev (unreleased)
+Arknights skins:
 
 - Added independent Hime and MsBlack Arknights map switches through Root/Shizuku.
 - Verify known game bundle SHA-256 before replacing, require a verified backup, use atomic writing and verify the result.
+- Moved the skin controls to their own labeled **Skins** tab in the bottom navigation.
 - Documented Stage 126–128 evidence, device checks and remaining audit items in `docs/`.
-- MsBlack's in-game test and the Android build/device test remain pending.
+- MsBlack's in-game test and a device UI check of the Skins tab remain pending.
 
 ## 1.6.5
 

@@ -5,8 +5,8 @@ Run the relevant sections before treating a new build as stable. For a public re
 Current expected metadata:
 
 ```text
-versionName: 1.7.0-dev3
-versionCode: 22
+versionName: 1.7.0
+versionCode: 24
 catalog entries: 160
 item icons: 160
 bulk-editable catalog entries: 43
@@ -201,7 +201,7 @@ Before releasing the skin switches, test both Root and Shizuku on a device with 
 - [ ] Confirm a still-running game is closed before replacing bundles.
 - [ ] Verify backup restoration and behavior after a game content update.
 
-The existing release procedure below describes the previous `v1.6.5` release; update tag-specific metadata and notes when preparing the next release.
+The release procedure below describes the current `v1.7.0` release; update tag-specific metadata and notes when preparing the next release.
 
 Before tagging:
 
@@ -211,7 +211,7 @@ Before tagging:
 - [ ] Release keystore is backed up privately.
 - [ ] Required GitHub Actions signing secrets exist.
 
-For tag `v1.6.5`:
+For tag `v1.7.0`:
 
 - [ ] Tag exactly matches `versionName`.
 - [ ] Workflow reports `Build variant: release`.

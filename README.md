@@ -2,15 +2,15 @@
 
 Android save editor for **Ex Astris** with direct save access through Root or Shizuku, plus a Storage Access Framework fallback.
 
-The `1.7.0-dev3` source includes a dedicated **Skins** tab in the bottom navigation with separate Arknights switches for Hime and MsBlack. These switches replace only the two verified character map AssetBundles under the game's `Android/data/.../files/Download/ab` tree. Root or Shizuku access is required; the manual file picker remains a save-file tool. The editor refuses an unknown bundle hash, saves a verified backup before each replacement, and reads the installed file again after an atomic write. The user reports both switches working on a device; the relocated navigation still needs a new Android build and UI check.
+Version `1.7.0` includes a dedicated **Skins** tab in the bottom navigation with separate Arknights switches for Hime and MsBlack. These switches replace only the two verified character map AssetBundles under the game's `Android/data/.../files/Download/ab` tree. Root or Shizuku access is required; the manual file picker remains a save-file tool. The editor refuses an unknown bundle hash, saves a verified backup before each replacement, and reads the installed file again after an atomic write. The user reports both switches working on a device; the relocated Skins tab still needs a UI check on a device.
 
 The skin switches work independently of save-file `style` or notification flags. Ex Astris must be fully closed before switching, and a game update may replace the modified bundles. See [`docs/PATCH_METHOD_HIME_MSBLACK.md`](docs/PATCH_METHOD_HIME_MSBLACK.md) for the exact file changes and [`docs/COLLAB_SKIN_AUDIT.md`](docs/COLLAB_SKIN_AUDIT.md) for the evidence and remaining work.
 
-**Current development version:** `1.7.0-dev3` (`versionCode 23`)
+**Current version:** `1.7.0` (`versionCode 24`)
 
 ## Status
 
-The save-editing features in the previous `1.6.5` build were tested on a real Android device with the game's live save format. The user has also tested the `1.7.0-dev` skin switches. The new bottom tab in `1.7.0-dev3` still needs a build and UI check. The signed release pipeline for `1.6.5` completed successfully and verified its release APK with Android `apksigner`.
+The save-editing features in the previous `1.6.5` build were tested on a real Android device with the game's live save format. The user has also tested the `1.7.0-dev` skin switches. The new bottom tab in `1.7.0` still needs a UI check on a device. The signed release pipeline for `1.6.5` completed successfully and verified its release APK with Android `apksigner`.
 
 Verified project state:
 
@@ -191,7 +191,8 @@ Current documentation:
 - [`ITEM_RESEARCH.md`](ITEM_RESEARCH.md) — evidence policy for item metadata and edit safety.
 - [`RESEARCH_SOURCES.md`](RESEARCH_SOURCES.md) — external and extracted-data research sources.
 - [`docs/CATALOG.md`](docs/CATALOG.md) — current catalog schema, categories and special cases.
-- [`RELEASE_NOTES_v1.6.5.md`](RELEASE_NOTES_v1.6.5.md) — notes for the latest signed release.
+- [`RELEASE_NOTES_v1.7.0.md`](RELEASE_NOTES_v1.7.0.md) — notes for the latest signed release.
+- [`RELEASE_NOTES_v1.6.5.md`](RELEASE_NOTES_v1.6.5.md) — notes for the previous signed release.
 
 Historical implementation/validation notes have been moved to [`docs/history/`](docs/history/README.md). They document older project states and should not be used as current setup instructions.
 
