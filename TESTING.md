@@ -183,7 +183,7 @@ With autosave **ON**:
 
 ## 12. Release gate
 
-Before releasing the skin switches, test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files:
+Before releasing changes to the skin switches, test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files:
 
 - [ ] Bottom navigation shows four labeled tabs: Items, Save, Skins and Settings (including Russian labels).
 - [ ] Skin controls appear near the top of Skins and no longer appear at the bottom of Save.
@@ -193,7 +193,7 @@ Before releasing the skin switches, test both Root and Shizuku on a device with 
 - [ ] With the game fully closed, detect stock Hime and MsBlack independently.
 - [ ] Enable Hime, confirm its installed file matches Stage 127 SHA-256, then check scene, dialogue, battle, animation and effects in game.
 - [ ] Disable Hime, confirm its installed file matches the original SHA-256 and the stock model returns.
-- [ ] Enable MsBlack, confirm Stage 128 SHA-256, then check scene, dialogue and battle in game; this runtime test remains outstanding.
+- [ ] Enable MsBlack, confirm Stage 128 SHA-256, then check scene, dialogue and battle in game.
 - [ ] Disable MsBlack and confirm the original SHA-256 and model return.
 - [ ] Verify the other character remains unchanged throughout each switch.
 - [ ] Confirm an unknown or game-updated bundle is refused without replacement.

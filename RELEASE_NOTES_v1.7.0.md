@@ -13,7 +13,7 @@
 
 - Fully close Ex Astris before switching skins. A game update may replace the modified bundles.
 - The skin switches are independent of save-file `style` or notification flags.
-- Hime and MsBlack switches were reported working on a device; MsBlack's in-game check and a device UI check of the Skins tab remain pending.
+- The signed release was checked on a device: the Skins tab, both switches (including MsBlack in game) and save writes work.
 - See [`docs/PATCH_METHOD_HIME_MSBLACK.md`](docs/PATCH_METHOD_HIME_MSBLACK.md) and [`docs/COLLAB_SKIN_AUDIT.md`](docs/COLLAB_SKIN_AUDIT.md) for details.
 
 ## Updating

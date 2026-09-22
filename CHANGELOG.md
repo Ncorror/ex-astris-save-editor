@@ -17,7 +17,6 @@ Arknights skins:
 - Verify known game bundle SHA-256 before replacing, require a verified backup, use atomic writing and verify the result.
 - Moved the skin controls to their own labeled **Skins** tab in the bottom navigation.
 - Documented Stage 126–128 evidence, device checks and remaining audit items in `docs/`.
-- MsBlack's in-game test and a device UI check of the Skins tab remain pending.
 
 ## 1.6.5
 
