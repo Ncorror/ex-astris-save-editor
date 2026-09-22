@@ -2,6 +2,13 @@
 
 All notable project changes are listed here in reverse chronological order.
 
+## 1.7.0-dev (unreleased)
+
+- Added independent Hime and MsBlack Arknights map switches through Root/Shizuku.
+- Verify known game bundle SHA-256 before replacing, require a verified backup, use atomic writing and verify the result.
+- Documented Stage 126–128 evidence, device checks and remaining audit items in `docs/`.
+- MsBlack's in-game test and the Android build/device test remain pending.
+
 ## 1.6.5
 
 - Replaced manual raw-ID entry in the add flow with a searchable catalog.

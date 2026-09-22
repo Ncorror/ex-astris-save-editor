@@ -5,8 +5,8 @@ Run the relevant sections before treating a new build as stable. For a public re
 Current expected metadata:
 
 ```text
-versionName: 1.6.5
-versionCode: 20
+versionName: 1.7.0-dev
+versionCode: 21
 catalog entries: 160
 item icons: 160
 bulk-editable catalog entries: 43
@@ -178,6 +178,21 @@ With autosave **ON**:
 - [ ] IDs `500014` and `500015` remain clearly marked as provisional/internal rather than presented as confirmed normal obtainable Entropiths.
 
 ## 12. Release gate
+
+Before releasing the skin switches, test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files:
+
+- [ ] With the game fully closed, detect stock Hime and MsBlack independently.
+- [ ] Enable Hime, confirm its installed file matches Stage 127 SHA-256, then check scene, dialogue, battle, animation and effects in game.
+- [ ] Disable Hime, confirm its installed file matches the original SHA-256 and the stock model returns.
+- [ ] Enable MsBlack, confirm Stage 128 SHA-256, then check scene, dialogue and battle in game; this runtime test remains outstanding.
+- [ ] Disable MsBlack and confirm the original SHA-256 and model return.
+- [ ] Verify the other character remains unchanged throughout each switch.
+- [ ] Confirm an unknown or game-updated bundle is refused without replacement.
+- [ ] Confirm a failed backup stops the write, an interrupted write preserves the old file, and a successful write can be read back.
+- [ ] Confirm a still-running game is closed before replacing bundles.
+- [ ] Verify backup restoration and behavior after a game content update.
+
+The existing release procedure below describes the previous `v1.6.5` release; update tag-specific metadata and notes when preparing the next release.
 
 Before tagging:
 

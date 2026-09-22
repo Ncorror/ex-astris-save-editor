@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val io = Executors.newSingleThreadExecutor()
     private val prefs by lazy { getSharedPreferences("exa_ui", MODE_PRIVATE) }
+    private var skinBusy = false
+    private var skinPaths: Map<CollabSkin, String> = emptyMap()
+    private var skinStates: Map<CollabSkin, SkinState> = emptyMap()
 
     private val requestShizuku = 73
 
@@ -227,6 +230,7 @@ class MainActivity : AppCompatActivity() {
         updateShizukuUi()
         updateAccessUi()
         updateBackupUi()
+        if (binding.savePage.visibility == View.VISIBLE) refreshSkins()
     }
 
     override fun onDestroy() {
@@ -302,6 +306,12 @@ class MainActivity : AppCompatActivity() {
         binding.bulkButton.setOnClickListener { showBulkActionsSheet() }
         binding.backupNowButton.setOnClickListener { createManualBackup() }
         binding.restoreBackupButton.setOnClickListener { showBackupPicker() }
+        binding.refreshSkinsButton.setOnClickListener { refreshSkins() }
+        binding.enableHimeButton.setOnClickListener { confirmSkinChange(CollabSkin.HIME, true) }
+        binding.disableHimeButton.setOnClickListener { confirmSkinChange(CollabSkin.HIME, false) }
+        binding.enableMsblackButton.setOnClickListener { confirmSkinChange(CollabSkin.MSBLACK, true) }
+        binding.disableMsblackButton.setOnClickListener { confirmSkinChange(CollabSkin.MSBLACK, false) }
+        renderSkinUi()
     }
 
     private fun setupNavigation() {
@@ -323,7 +333,164 @@ class MainActivity : AppCompatActivity() {
         binding.savePage.visibility = if (page == Page.SAVE) View.VISIBLE else View.GONE
         binding.settingsPage.visibility = if (page == Page.SETTINGS) View.VISIBLE else View.GONE
         binding.addFab.visibility = if (page == Page.INVENTORY) View.VISIBLE else View.GONE
+        if (page == Page.SAVE) refreshSkins()
         return true
+    }
+
+    // ---------------- Arknights character maps ----------------
+
+    private fun renderSkinUi() {
+        if (!::binding.isInitialized) return
+        val ready = serviceFor(activeBackend()) != null
+        if (!ready) {
+            skinPaths = emptyMap()
+            skinStates = emptyMap()
+            binding.skinLocation.setText(R.string.skins_check_access)
+        }
+        binding.refreshSkinsButton.isEnabled = ready && !skinBusy
+        for (skin in CollabSkin.entries) {
+            val state = skinStates[skin]
+            val status = when (state) {
+                SkinState.STOCK -> getString(R.string.skins_stock, skin.label)
+                SkinState.ARKKNIGHTS -> getString(R.string.skins_active, skin.label)
+                SkinState.UNKNOWN -> getString(R.string.skins_unrecognized, skin.label)
+                SkinState.MISSING -> getString(R.string.skins_missing, skin.label)
+                null -> getString(if (skin == CollabSkin.HIME) R.string.skins_hime_unknown
+                    else R.string.skins_msblack_unknown)
+            }
+            val statusView = if (skin == CollabSkin.HIME) binding.himeSkinStatus else binding.msblackSkinStatus
+            statusView.text = status
+            val enable = if (skin == CollabSkin.HIME) binding.enableHimeButton else binding.enableMsblackButton
+            val disable = if (skin == CollabSkin.HIME) binding.disableHimeButton else binding.disableMsblackButton
+            enable.isEnabled = ready && !skinBusy && state == SkinState.STOCK && skinPaths[skin] != null
+            disable.isEnabled = ready && !skinBusy && state == SkinState.ARKKNIGHTS && skinPaths[skin] != null
+        }
+    }
+
+    private fun readSkinFile(service: IShizukuFileService, path: String): ByteArray =
+        ParcelFileDescriptor.AutoCloseInputStream(service.openRead(path)).use { it.readBytes() }
+
+    private fun refreshSkins() {
+        if (skinBusy) return
+        val backend = activeBackend()
+        val service = serviceFor(backend)
+        if (service == null) {
+            skinPaths = emptyMap()
+            skinStates = emptyMap()
+            renderSkinUi()
+            return
+        }
+        skinBusy = true
+        binding.skinLocation.setText(R.string.skins_loading)
+        renderSkinUi()
+        val preferredRoot = directPath?.substringBefore("/files/", "")?.takeIf { it.isNotEmpty() }
+        io.execute {
+            try {
+                val found = service.findSkinMapFiles().toList()
+                val roots = found.map { it.substringBefore("/files/Download/ab/") }.distinct()
+                val root = when {
+                    preferredRoot != null && preferredRoot in roots -> preferredRoot
+                    preferredRoot != null && roots.isNotEmpty() ->
+                        throw IllegalStateException(getString(R.string.skins_selected_save_other_location))
+                    roots.size == 1 -> roots.single()
+                    roots.isEmpty() -> null
+                    else -> throw IllegalStateException(getString(R.string.skins_multiple_locations))
+                }
+                val paths = CollabSkin.entries.mapNotNull { skin ->
+                    found.firstOrNull { path ->
+                        path.startsWith("$root/files/Download/ab/") && path.endsWith("/${skin.fileName}")
+                    }?.let { skin to it }
+                }.toMap()
+                val states = paths.mapValues { (skin, path) -> skin.state(sha256(readSkinFile(service, path))) }
+                runOnUiThread {
+                    skinBusy = false
+                    skinPaths = paths
+                    skinStates = states
+                    binding.skinLocation.text = if (root != null) getString(R.string.skins_location, root)
+                        else getString(R.string.skins_missing_both)
+                    renderSkinUi()
+                }
+            } catch (e: Throwable) {
+                runOnUiThread {
+                    skinBusy = false
+                    skinPaths = emptyMap()
+                    skinStates = emptyMap()
+                    binding.skinLocation.text = e.message ?: e.javaClass.simpleName
+                    renderSkinUi()
+                }
+            }
+        }
+    }
+
+    private fun confirmSkinChange(skin: CollabSkin, enable: Boolean) {
+        val expected = if (enable) SkinState.STOCK else SkinState.ARKKNIGHTS
+        if (skinBusy || skinStates[skin] != expected || skinPaths[skin] == null) return refreshSkins()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.skins_confirm_title, skin.label))
+            .setMessage(getString(R.string.skins_confirm_message, skin.label,
+                getString(if (enable) R.string.skins_state_ark else R.string.skins_state_stock)))
+            .setPositiveButton(R.string.apply) { _, _ -> changeSkin(skin, enable) }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun changeSkin(skin: CollabSkin, enable: Boolean) {
+        if (skinBusy) return
+        val path = skinPaths[skin] ?: return
+        val service = serviceFor(activeBackend()) ?: return refreshSkins()
+        val expected = if (enable) SkinState.STOCK else SkinState.ARKKNIGHTS
+        val targetHash = if (enable) skin.collabSha256 else skin.stockSha256
+        skinBusy = true
+        renderSkinUi()
+        io.execute {
+            try {
+                val current = readSkinFile(service, path)
+                require(skin.state(sha256(current)) == expected) {
+                    getString(R.string.skins_changed_while_editing)
+                }
+                val replacement = skin.bytes(this, enable)
+                // A failed backup must stop the operation. Do not rely on the save editor's
+                // optional, best-effort automatic save backups for AssetBundle replacement.
+                val dir = getExternalFilesDir("skin_backups")
+                    ?: throw IllegalStateException(getString(R.string.skins_backup_error))
+                check(dir.isDirectory || dir.mkdirs()) { getString(R.string.skins_backup_error) }
+                val stamp = SimpleDateFormat("yyyyMMdd-HHmmss-SSS", Locale.US).format(Date())
+                val backup = File(dir, "${skin.fileName}.${stamp}.${sha256(current).take(12)}.bak")
+                backup.outputStream().use { out ->
+                    out.write(current)
+                    out.flush()
+                    out.fd.sync()
+                }
+                check(sha256(backup.readBytes()) == sha256(current)) {
+                    getString(R.string.skins_backup_error)
+                }
+                require(sha256(readSkinFile(service, path)) == sha256(current)) {
+                    getString(R.string.skins_changed_while_editing)
+                }
+                var committed = false
+                try {
+                    ParcelFileDescriptor.AutoCloseOutputStream(service.openAtomicWrite(path)).use { out ->
+                        out.write(replacement)
+                        out.flush()
+                        out.fd.sync()
+                    }
+                    service.commitAtomicWrite(path)
+                    committed = true
+                } finally {
+                    if (!committed) try { service.abortAtomicWrite(path) } catch (_: Throwable) {}
+                }
+                check(sha256(readSkinFile(service, path)) == targetHash) {
+                    getString(R.string.skins_written_mismatch)
+                }
+                runOnUiThread { toast(getString(R.string.skins_done, skin.label)); skinBusy = false; refreshSkins() }
+            } catch (e: Throwable) {
+                runOnUiThread {
+                    skinBusy = false
+                    toast(getString(R.string.skins_error, e.message ?: e.javaClass.simpleName))
+                    refreshSkins()
+                }
+            }
+        }
     }
 
     private fun setupSettings() {
@@ -650,6 +817,7 @@ class MainActivity : AppCompatActivity() {
             shizukuStateText,
             statusRes.let { getString(it).removePrefix("● ") }
         )
+        renderSkinUi()
     }
 
     // ---------------- Shizuku ----------------

@@ -12,4 +12,5 @@ interface IShizukuFileService {
     ParcelFileDescriptor openAtomicWrite(String path) = 6;
     void commitAtomicWrite(String path) = 7;
     void abortAtomicWrite(String path) = 8;
+    String[] findSkinMapFiles() = 9;
 }

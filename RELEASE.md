@@ -2,11 +2,11 @@
 
 Normal pushes to `main` build a **debug** APK. A Git tag matching `v<versionName>` builds a **signed release** APK, verifies it with Android `apksigner`, and publishes a GitHub Release only after both build and signature verification succeed.
 
-Current application version:
+Current development version (not yet validated for a signed release):
 
 ```text
-versionName 1.6.5
-versionCode 20
+versionName 1.7.0-dev
+versionCode 21
 ```
 
 ## 1. Create the signing key once

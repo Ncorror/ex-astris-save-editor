@@ -1,6 +1,6 @@
 # Setup and update workflow (Termux)
 
-This file describes the **current** repository workflow for Ex Astris Save Editor `1.6.5`.
+This file describes the repository workflow for Ex Astris Save Editor `1.7.0-dev`. The new skin switches are pending an Android device test.
 
 Repository:
 
@@ -11,7 +11,7 @@ https://github.com/Ncorror/ex-astris-save-editor.git
 Expected checkout used by the project workflow:
 
 ```text
-~/ex-astris-save-editor/apk
+~/ex-astris-save-editor
 ```
 
 ## Requirements
@@ -36,14 +36,14 @@ For a fresh checkout:
 ```bash
 cd ~
 git clone https://github.com/Ncorror/ex-astris-save-editor.git
-cd ~/ex-astris-save-editor/apk
+cd ~/ex-astris-save-editor
 ```
 
-If the repository layout on GitHub changes, use the actual directory that contains `app/`, `build.gradle`, `settings.gradle` and `.github/`.
+Use the repository root, which contains `app/`, `build.gradle`, `settings.gradle` and `.github/`.
 
 ## Apply an update archive
 
-Project update archives are prepared without an extra top-level folder so they can be copied directly over the checkout.
+The `ex-astris-save-editor-main.zip` update archive has one top-level `ex-astris-save-editor-main/` directory.
 
 Example:
 
@@ -55,8 +55,8 @@ mkdir -p ~/exa-update
 unzip -o /storage/emulated/0/Download/<update-archive>.zip \
   -d ~/exa-update
 
-cd ~/ex-astris-save-editor/apk
-cp -a ~/exa-update/. ./
+cd ~/ex-astris-save-editor
+cp -a ~/exa-update/ex-astris-save-editor-main/. ./
 
 git status
 git diff --stat
@@ -104,8 +104,8 @@ gh run download -n ex-astris-save-editor-verification
 Expected metadata for the current version:
 
 ```text
-Version: 1.6.5
-Version code: 20
+Version: 1.7.0-dev
+Version code: 21
 Catalog entries: 160
 Item icons: 160
 Add item flow: searchable catalog
@@ -156,7 +156,7 @@ If IP connectivity works but DNS lookup fails, restore Android network / Private
 Only use this section for a repository that has not yet been created on GitHub:
 
 ```bash
-cd ~/ex-astris-save-editor/apk
+cd ~/ex-astris-save-editor
 
 git init -b main
 git add -A

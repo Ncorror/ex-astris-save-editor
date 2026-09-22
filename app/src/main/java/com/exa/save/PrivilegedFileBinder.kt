@@ -38,6 +38,19 @@ open class PrivilegedFileBinder : IShizukuFileService.Stub() {
             .toTypedArray()
     }
 
+    /** Only the two known, downloaded character maps; never scan or mutate arbitrary bundles. */
+    override fun findSkinMapFiles(): Array<String> = gameFileRoots()
+        .flatMap { root ->
+            listOf(
+                File(root, "Download/ab/assets/res/prefabs/characters/hime/skin_hero01_hime_map.prefab.ab"),
+                File(root, "Download/ab/assets/res/prefabs/characters/msblack/skin_hero02_msblack_map.prefab.ab")
+            )
+        }
+        .filter { it.isFile }
+        .map { safeCanonical(it) }
+        .distinct()
+        .toTypedArray()
+
     private fun saveSortGroup(name: String): Int = when {
         name.equals(TARGET_SAVE, ignoreCase = true) -> 0
         name.startsWith("AutoSaveFile", ignoreCase = true) -> 1
