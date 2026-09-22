@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity() {
         updateShizukuUi()
         updateAccessUi()
         updateBackupUi()
-        if (binding.savePage.visibility == View.VISIBLE) refreshSkins()
+        if (binding.skinsPage.visibility == View.VISIBLE) refreshSkins()
     }
 
     override fun onDestroy() {
@@ -319,6 +319,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_inventory -> showPage(Page.INVENTORY)
                 R.id.nav_save -> showPage(Page.SAVE)
+                R.id.nav_skins -> showPage(Page.SKINS)
                 R.id.nav_settings -> showPage(Page.SETTINGS)
                 else -> false
             }
@@ -326,14 +327,15 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = R.id.nav_inventory
     }
 
-    private enum class Page { INVENTORY, SAVE, SETTINGS }
+    private enum class Page { INVENTORY, SAVE, SKINS, SETTINGS }
 
     private fun showPage(page: Page): Boolean {
         binding.inventoryPage.visibility = if (page == Page.INVENTORY) View.VISIBLE else View.GONE
         binding.savePage.visibility = if (page == Page.SAVE) View.VISIBLE else View.GONE
+        binding.skinsPage.visibility = if (page == Page.SKINS) View.VISIBLE else View.GONE
         binding.settingsPage.visibility = if (page == Page.SETTINGS) View.VISIBLE else View.GONE
         binding.addFab.visibility = if (page == Page.INVENTORY) View.VISIBLE else View.GONE
-        if (page == Page.SAVE) refreshSkins()
+        if (page == Page.SKINS) refreshSkins()
         return true
     }
 

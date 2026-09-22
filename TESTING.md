@@ -5,8 +5,8 @@ Run the relevant sections before treating a new build as stable. For a public re
 Current expected metadata:
 
 ```text
-versionName: 1.7.0-dev
-versionCode: 21
+versionName: 1.7.0-dev2
+versionCode: 22
 catalog entries: 160
 item icons: 160
 bulk-editable catalog entries: 43
@@ -180,6 +180,11 @@ With autosave **ON**:
 ## 12. Release gate
 
 Before releasing the skin switches, test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files:
+
+- [ ] Bottom navigation shows four labeled tabs: Items, Save, Skins and Settings (including Russian labels).
+- [ ] Skin controls appear near the top of Skins and no longer appear at the bottom of Save.
+- [ ] Opening Skins refreshes both bundle states; returning to the foreground on Skins refreshes them again.
+- [ ] Unsaved save edits still show the Save-tab badge, and switching tabs does not discard them.
 
 - [ ] With the game fully closed, detect stock Hime and MsBlack independently.
 - [ ] Enable Hime, confirm its installed file matches Stage 127 SHA-256, then check scene, dialogue, battle, animation and effects in game.

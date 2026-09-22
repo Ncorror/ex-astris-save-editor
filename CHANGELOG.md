@@ -2,6 +2,11 @@
 
 All notable project changes are listed here in reverse chronological order.
 
+## 1.7.0-dev2 (unreleased)
+
+- Moved the Arknights skin controls from the bottom of Save to their own labeled bottom navigation tab.
+- Kept the same bundle checks, backups and independent Hime/MsBlack actions.
+
 ## 1.7.0-dev (unreleased)
 
 - Added independent Hime and MsBlack Arknights map switches through Root/Shizuku.

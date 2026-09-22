@@ -5,8 +5,8 @@ Normal pushes to `main` build a **debug** APK. A Git tag matching `v<versionName
 Current development version (not yet validated for a signed release):
 
 ```text
-versionName 1.7.0-dev
-versionCode 21
+versionName 1.7.0-dev2
+versionCode 22
 ```
 
 ## 1. Create the signing key once

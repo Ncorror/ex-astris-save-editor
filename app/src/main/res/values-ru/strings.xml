@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="skins_title">Облики Arknights</string>
+    <string name="skins_title">Arknights</string>
     <string name="skins_description">Переключайте облики Hime и MsBlack отдельно. Меняются только проверенные файлы карты Ex Astris 1.3.0. Перед записью полностью закройте игру.</string>
     <string name="skins_check_access">Подключите Root или Shizuku, чтобы проверить файлы игры.</string>
     <string name="skins_refresh">Проверить файлы</string>
@@ -31,8 +31,10 @@
 
     <string name="nav_inventory">Предметы</string>
     <string name="nav_save">Сохранение</string>
+    <string name="nav_skins">Облики</string>
     <string name="nav_settings">Настройки</string>
     <string name="page_save">Сохранение</string>
+    <string name="page_skins">Облики персонажей</string>
     <string name="page_settings">Настройки</string>
 
     <string name="shizuku_checking">● Проверка Shizuku…</string>
