@@ -18,6 +18,17 @@ Unofficial Android save editor for **Ex Astris**. Edit your inventory, keep veri
 - **Arknights skins** for Hime and MsBlack, switched on and off independently (Root or Shizuku). The editor patches the game's own files on your phone and does not include any game files.
 - **English and Russian** interface and item descriptions.
 
+## Screenshots
+
+| Items | Skins |
+| --- | --- |
+| <img src="docs/screenshots/app-items.webp" width="260" alt="Items tab"> | <img src="docs/screenshots/app-skins.webp" width="260" alt="Skins tab"> |
+
+Arknights skins in game (standard party, then Arknights party, hub and battle):
+
+<img src="docs/screenshots/game-party-standard.webp" width="49%" alt="Standard skins"> <img src="docs/screenshots/game-party-arknights.webp" width="49%" alt="Arknights skins">
+<img src="docs/screenshots/game-hub-arknights.webp" width="49%" alt="Hub scene"> <img src="docs/screenshots/game-battle-arknights.webp" width="49%" alt="Battle">
+
 ## Download
 
 Download the APK from the [latest release](https://github.com/Ncorror/ex-astris-save-editor/releases/latest). Requires Android 8.0 or newer.

@@ -13,6 +13,13 @@ Everything from v1.8.0 is unchanged. The Arknights skins for Hime and MsBlack ar
 - Arknights skins on and off, in the world, menus, hub scenes and battle.
 - Saving item changes (the game shows the edited quantities).
 
+## Screenshots
+
+<img src="https://raw.githubusercontent.com/Ncorror/ex-astris-save-editor/main/docs/screenshots/app-items.webp" width="240" alt="Items tab"> <img src="https://raw.githubusercontent.com/Ncorror/ex-astris-save-editor/main/docs/screenshots/app-skins.webp" width="240" alt="Skins tab">
+
+<img src="https://raw.githubusercontent.com/Ncorror/ex-astris-save-editor/main/docs/screenshots/game-party-standard.webp" width="49%" alt="Standard skins"> <img src="https://raw.githubusercontent.com/Ncorror/ex-astris-save-editor/main/docs/screenshots/game-party-arknights.webp" width="49%" alt="Arknights skins">
+<img src="https://raw.githubusercontent.com/Ncorror/ex-astris-save-editor/main/docs/screenshots/game-hub-arknights.webp" width="49%" alt="Hub scene"> <img src="https://raw.githubusercontent.com/Ncorror/ex-astris-save-editor/main/docs/screenshots/game-battle-arknights.webp" width="49%" alt="Battle">
+
 ## Updating
 
 `v1.8.1` is signed with the same release key and installs over `v1.8.0` as a normal update.
