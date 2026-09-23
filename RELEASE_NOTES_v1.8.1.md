@@ -9,7 +9,7 @@ Everything from v1.8.0 is unchanged. The Arknights skins for Hime and MsBlack ar
 
 ## Checked on a device
 
-- Connect / Find save / Switch in the header card.
+- Connect / Find save / Switch in the header card, with both Root and Shizuku.
 - Arknights skins on and off, in the world, menus, hub scenes and battle.
 - Saving item changes (the game shows the edited quantities).
 
