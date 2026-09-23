@@ -195,7 +195,7 @@ jobs:
           fail_on_unmatched_files: true
 
       - name: Sync release notes
-        if: always() && github.event_name == 'push' && steps.build.outcome == 'success' && (github.ref == 'refs/heads/main' || steps.verify_release.outcome == 'success')
+        if: always() && github.event_name != 'pull_request' && steps.build.outcome == 'success' && (github.ref == 'refs/heads/main' || steps.verify_release.outcome == 'success')
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}

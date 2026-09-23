@@ -105,6 +105,15 @@ git push origin "$TAG"
 
 Do not routinely rewrite already published release tags.
 
+If pushing the tag did not start a build (this happened once right after the repository was recreated), start it manually for the tag instead of recreating it:
+
+```bash
+gh workflow run build.yml --ref "$TAG"
+gh run watch
+```
+
+A manual run publishes the release and sets its description the same way as a tag push.
+
 ## 6. What the tag workflow does
 
 The tagged build:
@@ -117,7 +126,7 @@ The tagged build:
 6. runs `apksigner verify --verbose --print-certs`;
 7. prepares build metadata and signature log;
 8. publishes a GitHub Release only if build **and** signature verification succeeded;
-9. sets the release description from `RELEASE_NOTES_v<versionName>.md` when that file exists.
+9. sets the release description from `RELEASE_NOTES_v<versionName>.md` when that file exists (also for manual `gh workflow run` builds of a tag).
 
 A successful `main` build also re-syncs the description of an existing `v<versionName>` release from that file, so later edits to the notes reach the GitHub Release after a push to `main`.
 

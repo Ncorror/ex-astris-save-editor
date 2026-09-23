@@ -5,6 +5,9 @@ All notable project changes are listed here in reverse chronological order.
 ## Unreleased
 
 - The project license changed from MIT to GPL-3.0. Releases up to and including v1.8.1 remain available under MIT.
+- The Skins tab shows "map file not found" when a character's map file is missing, instead of "not checked".
+- `.gitignore` excludes `*.ab` game files.
+- CI also sets the release description for manually started release builds.
 
 ## 1.8.1
 

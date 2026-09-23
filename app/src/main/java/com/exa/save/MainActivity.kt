@@ -416,7 +416,9 @@ class MainActivity : AppCompatActivity() {
                         path.startsWith("$root/files/Download/ab/") && path.endsWith("/${skin.fileName}")
                     }?.let { skin to it }
                 }.toMap()
-                val states = paths.mapValues { (skin, path) -> skin.state(readSkinFile(service, path)) }
+                val states = CollabSkin.entries.associateWith { skin ->
+                    paths[skin]?.let { skin.state(readSkinFile(service, it)) } ?: SkinState.MISSING
+                }
                 runOnUiThread {
                     skinBusy = false
                     skinPaths = paths

@@ -19,6 +19,9 @@ captures/
 *.save.jpg
 *.bak
 
+# Game files (never commit; the skin patch works on the player's own files)
+*.ab
+
 # Release signing keys (never commit)
 *.jks
 *.keystore
