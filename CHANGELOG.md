@@ -2,7 +2,7 @@
 
 All notable project changes are listed here in reverse chronological order.
 
-## 1.8.0-dev (unreleased)
+## 1.8.0
 
 - The skin switches no longer ship game files. The editor now patches the character map bundle already installed on the device: it reads the UnityFS container, decodes the LZ4Lit blocks, exchanges the base and Arknights SoftLink entries and re-packs only the changed block with a port of the reference LZ4HC level 12 compressor, so the result is byte-identical to the known working files (enabling reproduces the Stage 127/128 files, disabling reproduces the original game file).
 - The map file is recognized by its structure instead of fixed hashes; a file whose controller or paths do not match is refused.
