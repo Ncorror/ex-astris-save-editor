@@ -4,7 +4,7 @@
 [![Build](https://github.com/Ncorror/ex-astris-save-editor/actions/workflows/build.yml/badge.svg)](https://github.com/Ncorror/ex-astris-save-editor/actions/workflows/build.yml)
 ![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9-7F52FF?logo=kotlin&logoColor=white)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 
 Unofficial Android save editor for **Ex Astris**. Edit your inventory, keep verified backups of your save, and switch Hime and MsBlack to their Arknights collaboration skins.
 
@@ -79,6 +79,10 @@ This is an unofficial fan-made tool. It is not affiliated with or endorsed by GR
 
 ## License
 
-The source code is released under the [MIT License](LICENSE).
+Copyright (C) 2026 Exa Save Editor contributors.
 
-The item icons (`app/src/main/res/drawable-nodpi/item_*.png`) were extracted from Ex Astris, and item names and descriptions in `items.json` are partly based on the game's text. Ex Astris, its characters, artwork and text are the property of GRYPHLINE and their respective owners. They are not covered by the MIT License and are used only to identify items in this fan-made tool. Arknights is a trademark of Hypergryph.
+The source code is free software: you can redistribute it and/or modify it under the terms of the [GNU General Public License version 3](LICENSE) as published by the Free Software Foundation. It is distributed without any warranty; see the license for details. Modified versions that are distributed must also be released under GPL-3.0 with their source code.
+
+Releases up to and including v1.8.1 were published under the MIT License.
+
+The item icons (`app/src/main/res/drawable-nodpi/item_*.png`) were extracted from Ex Astris, and item names and descriptions in `items.json` are partly based on the game's text. Ex Astris, its characters, artwork and text are the property of GRYPHLINE and their respective owners. They are not covered by the GPL and are used only to identify items in this fan-made tool. Arknights is a trademark of Hypergryph.

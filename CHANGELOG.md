@@ -2,6 +2,10 @@
 
 All notable project changes are listed here in reverse chronological order.
 
+## Unreleased
+
+- The project license changed from MIT to GPL-3.0. Releases up to and including v1.8.1 remain available under MIT.
+
 ## 1.8.1
 
 - The header card on the Items tab now shows **Find save** once Root or Shizuku is connected (and **Switch** when a game save is open), instead of hiding its button.
