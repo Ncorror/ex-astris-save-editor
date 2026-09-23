@@ -133,6 +133,15 @@ class CollabSkinPatchTest {
         }
     }
 
+    /** Output must stay identical to reference lz4 1.9.4 LZ4HC level 12 (the game's compressor). */
+    @Test fun lz4MatchesReferenceHighCompression() {
+        val input = ByteArray(2000) { ((it * it) % 251).toByte() } +
+            "ab".repeat(300).toByteArray() + "Assets/Res/Prefabs/".repeat(20).toByteArray() + ByteArray(500)
+        val packed = Lz4.compress(input)
+        assertEquals(307, packed.size)
+        assertEquals("9100e249a0b5515cb98338d799cf277162d4b313294eedf559951ed2b638ee91", sha256(packed))
+    }
+
     @Test fun lz4RejectsDamagedStreams() {
         val packed = Lz4.compress("abcdabcdabcdabcdabcdabcdabcd".toByteArray())
         assertThrows(IllegalArgumentException::class.java) { Lz4.decompress(packed, 27) }
