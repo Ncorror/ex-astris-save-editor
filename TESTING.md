@@ -5,7 +5,7 @@ Run the relevant sections before treating a new build as stable. For a public re
 Current expected metadata:
 
 ```text
-versionName: 1.8.1-dev
+versionName: 1.8.1
 versionCode: 26
 catalog entries: 160
 item icons: 160

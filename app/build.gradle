@@ -17,7 +17,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 26
-        versionName "1.8.1-dev"
+        versionName "1.8.1"
     }
 
     buildFeatures {

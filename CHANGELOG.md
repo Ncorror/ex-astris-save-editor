@@ -2,9 +2,10 @@
 
 All notable project changes are listed here in reverse chronological order.
 
-## 1.8.1-dev (unreleased)
+## 1.8.1
 
 - The header card on the Items tab now shows **Find save** once Root or Shizuku is connected (and **Switch** when a game save is open), instead of hiding its button.
+- README states that the MIT License covers the source code only; item icons and game-derived item texts belong to their owners.
 
 ## 1.8.0
 
