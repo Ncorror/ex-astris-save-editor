@@ -70,8 +70,8 @@ gradle testDebugUnitTest assembleDebug
 - [TESTING.md](TESTING.md): test and release checklist
 - [RELEASE.md](RELEASE.md): signing and publishing releases
 - [CHANGELOG.md](CHANGELOG.md): version history
-- [ITEM_RESEARCH.md](ITEM_RESEARCH.md) and [docs/CATALOG.md](docs/CATALOG.md): item data, sources and bulk-edit safety
-- [docs/PATCH_METHOD_HIME_MSBLACK.md](docs/PATCH_METHOD_HIME_MSBLACK.md) and [docs/COLLAB_SKIN_AUDIT.md](docs/COLLAB_SKIN_AUDIT.md): how the skin files are modified and verified (in Russian)
+- [docs/CATALOG.md](docs/CATALOG.md): item catalog, data sources and bulk-edit safety
+- [docs/PATCH_METHOD_HIME_MSBLACK.md](docs/PATCH_METHOD_HIME_MSBLACK.md): how the skin files are modified, verified and what is still open (in Russian)
 
 ## Disclaimer
 

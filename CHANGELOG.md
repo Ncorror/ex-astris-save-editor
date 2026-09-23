@@ -8,6 +8,7 @@ All notable project changes are listed here in reverse chronological order.
 - The Skins tab shows "map file not found" when a character's map file is missing, instead of "not checked".
 - `.gitignore` excludes `*.ab` game files.
 - CI also sets the release description for manually started release builds.
+- Documentation merged: item sources moved into `docs/CATALOG.md`, the skin audit into `docs/PATCH_METHOD_HIME_MSBLACK.md`.
 
 ## 1.8.1
 

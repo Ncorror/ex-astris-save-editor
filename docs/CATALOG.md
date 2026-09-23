@@ -107,4 +107,17 @@ Notable protected records that sit inside otherwise familiar categories:
 
 These records exist in the extracted table but lacked dedicated matching sprites in the supplied `item.ab`. They remain visible but protected and explicitly provisional/internal.
 
-See [`../ITEM_RESEARCH.md`](../ITEM_RESEARCH.md) for evidence details.
+## Data sources
+
+Numeric IDs are never guessed. Sources, strongest first:
+
+1. **Extracted game tables** (`itemTable_decoded_records.csv`, `LocalizationTable_Item.csv`, `LocalizationTable_Magic.csv`, `item_sprite_map.csv` and the 160-entry catalog export): the `ID → localization key → icon key` mapping.
+2. **The game's `item.ab` bundle**: the icon atlases (210 sprites). 158 of 160 IDs have exact sprite matches; `500014` and `500015` do not.
+3. **Public terminology**, used only to cross-check English names and effects, never to assign IDs: <https://drmone.hatenablog.com/entry/exAstrisJpCn>. The official English localization exists (<https://apps.apple.com/us/app/ex-astris/id6470642337>); the Russian text is the project's own.
+4. **Real-device tests**: save discovery, quantity writes, Root (APatch) and Shizuku, backup/restore, categories and bulk editing. An earlier live-save test set covered the older 82-entry catalog. It does not prove the behavior of every ID added later, so uncertain or unique items stay protected.
+
+## Translation policy
+
+- Only Russian and English are shipped; Chinese, Japanese and Korean strings are research input only.
+- Official English terminology is preferred where it exists.
+- Where no authoritative text was available, descriptions were written conservatively from the item's class and purpose instead of inventing exact effects.
