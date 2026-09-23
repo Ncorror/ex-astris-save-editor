@@ -65,3 +65,9 @@ gradle testDebugUnitTest assembleDebug
 ## Disclaimer
 
 This is an unofficial fan-made tool. It is not affiliated with or endorsed by GRYPHLINE, Hypergryph or the developers of Ex Astris. Editing saves is at your own risk. Keep backups.
+
+## License
+
+The source code is released under the [MIT License](LICENSE).
+
+The item icons (`app/src/main/res/drawable-nodpi/item_*.png`) were extracted from Ex Astris, and item names and descriptions in `items.json` are partly based on the game's text. Ex Astris, its characters, artwork and text are the property of GRYPHLINE and their respective owners. They are not covered by the MIT License and are used only to identify items in this fan-made tool. Arknights is a trademark of Hypergryph.
