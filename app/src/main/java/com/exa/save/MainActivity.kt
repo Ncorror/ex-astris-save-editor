@@ -416,7 +416,7 @@ class MainActivity : AppCompatActivity() {
                         path.startsWith("$root/files/Download/ab/") && path.endsWith("/${skin.fileName}")
                     }?.let { skin to it }
                 }.toMap()
-                val states = paths.mapValues { (skin, path) -> skin.state(sha256(readSkinFile(service, path))) }
+                val states = paths.mapValues { (skin, path) -> skin.state(readSkinFile(service, path)) }
                 runOnUiThread {
                     skinBusy = false
                     skinPaths = paths
@@ -454,16 +454,16 @@ class MainActivity : AppCompatActivity() {
         val path = skinPaths[skin] ?: return
         val service = serviceFor(activeBackend()) ?: return refreshSkins()
         val expected = if (enable) SkinState.STOCK else SkinState.ARKKNIGHTS
-        val targetHash = if (enable) skin.collabSha256 else skin.stockSha256
+        val target = if (enable) SkinState.ARKKNIGHTS else SkinState.STOCK
         skinBusy = true
         renderSkinUi()
         io.execute {
             try {
                 val current = readSkinFile(service, path)
-                require(skin.state(sha256(current)) == expected) {
+                require(skin.state(current) == expected) {
                     getString(R.string.skins_changed_while_editing)
                 }
-                val replacement = skin.bytes(this, enable)
+                val replacement = skin.patch(current, enable)
                 // A failed backup must stop the operation. Do not rely on the save editor's
                 // optional, best-effort automatic save backups for AssetBundle replacement.
                 val dir = getExternalFilesDir("skin_backups")
@@ -494,7 +494,8 @@ class MainActivity : AppCompatActivity() {
                 } finally {
                     if (!committed) try { service.abortAtomicWrite(path) } catch (_: Throwable) {}
                 }
-                check(sha256(readSkinFile(service, path)) == targetHash) {
+                val written = readSkinFile(service, path)
+                check(written.contentEquals(replacement) && skin.state(written) == target) {
                     getString(R.string.skins_written_mismatch)
                 }
                 runOnUiThread { toast(getString(R.string.skins_done, skin.label)); skinBusy = false; refreshSkins() }

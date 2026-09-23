@@ -5,8 +5,8 @@ Run the relevant sections before treating a new build as stable. For a public re
 Current expected metadata:
 
 ```text
-versionName: 1.7.0
-versionCode: 24
+versionName: 1.8.0-dev
+versionCode: 25
 catalog entries: 160
 item icons: 160
 bulk-editable catalog entries: 43
@@ -183,19 +183,19 @@ With autosave **ON**:
 
 ## 12. Arknights skins
 
-Run when the skin switches, their bundles or the privileged file service change. Test both Root and Shizuku on a device with original Ex Astris 1.3.0 map files.
+Run when the skin switches, their bundles or the privileged file service change. Test both Root and Shizuku on a device, starting from the game's original map files.
 
 - [ ] Bottom navigation shows four labeled tabs: Items, Save, Skins and Settings (including Russian labels).
 - [ ] Skin controls appear on the Skins tab only.
 - [ ] Opening Skins refreshes both bundle states; returning to the foreground on Skins refreshes them again.
 - [ ] Unsaved save edits still show the Save-tab badge, and switching tabs does not discard them.
 - [ ] With the game fully closed, detect stock Hime and MsBlack independently.
-- [ ] Enable Hime, confirm its installed file matches Stage 127 SHA-256, then check scene, dialogue, battle, animation and effects in game.
-- [ ] Disable Hime, confirm its installed file matches the original SHA-256 and the stock model returns.
-- [ ] Enable MsBlack, confirm Stage 128 SHA-256, then check scene, dialogue and battle in game.
-- [ ] Disable MsBlack and confirm the original SHA-256 and model return.
+- [ ] Enable Hime; the status shows the Arknights skin. Check scene, dialogue, battle, animation and effects in game.
+- [ ] Disable Hime; the status shows the standard skin and the stock model returns in game.
+- [ ] Enable MsBlack; check scene, dialogue and battle in game.
+- [ ] Disable MsBlack; the stock model returns in game.
 - [ ] Verify the other character remains unchanged throughout each switch.
-- [ ] Confirm an unknown or game-updated bundle is refused without replacement.
+- [ ] A file that is not a recognized character map (for example, the other character's file renamed) is shown as unrecognized and cannot be switched.
 - [ ] Confirm a failed backup stops the write, an interrupted write preserves the old file, and a successful write can be read back.
 - [ ] Confirm a still-running game is closed before replacing bundles.
 - [ ] Verify backup restoration and behavior after a game content update.

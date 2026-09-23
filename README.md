@@ -15,7 +15,7 @@ Unofficial Android save editor for **Ex Astris**. Edit your inventory, keep veri
 - **Bulk Set / Add / Subtract** for many items at once. Unique and quest items are protected and never changed in bulk.
 - **Safe writes.** A verified backup is made before every save, corrupt files are refused, and the result is checked after writing.
 - **Undo and unsaved-change warnings,** so nothing is lost or written by accident.
-- **Arknights skins** for Hime and MsBlack, switched on and off independently (Root or Shizuku).
+- **Arknights skins** for Hime and MsBlack, switched on and off independently (Root or Shizuku). The editor patches the game's own files on your phone and does not include any game files.
 - **English and Russian** interface and item descriptions.
 
 ## Download

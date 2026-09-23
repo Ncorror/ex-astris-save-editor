@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="skins_title">Arknights</string>
-    <string name="skins_description">Переключайте облики Hime и MsBlack отдельно. Меняются только проверенные файлы карты Ex Astris 1.3.0. Перед записью полностью закройте игру.</string>
+    <string name="skins_description">Переключайте облики Hime и MsBlack отдельно. Редактор изменяет собственные файлы карт персонажей игры на этом устройстве. Перед записью полностью закройте игру.</string>
     <string name="skins_check_access">Подключите Root или Shizuku, чтобы проверить файлы игры.</string>
     <string name="skins_refresh">Проверить файлы</string>
     <string name="skins_hime_unknown">Hime · не проверено</string>
@@ -11,14 +11,14 @@
     <string name="skins_stock">%1$s · обычный облик</string>
     <string name="skins_active">%1$s · облик Arknights</string>
     <string name="skins_missing">%1$s · файл карты не найден</string>
-    <string name="skins_unrecognized">%1$s · неизвестная версия файла; запись заблокирована</string>
+    <string name="skins_unrecognized">%1$s · файл карты не распознан; запись заблокирована</string>
     <string name="skins_loading">Проверка файлов игры…</string>
     <string name="skins_multiple_locations">Обнаружено несколько расположений игры. Откройте сохранение нужного пользователя Android и повторите проверку.</string>
     <string name="skins_selected_save_other_location">Открытое сохранение и файлы персонажей находятся у разных пользователей Android. Файл для изменения не выбран.</string>
     <string name="skins_missing_both">Файлы карт персонажей не найдены в каталоге игры Download/ab.</string>
     <string name="skins_location">Файлы игры: %1$s</string>
     <string name="skins_confirm_title">Переключить облик %1$s?</string>
-    <string name="skins_confirm_message">Сначала полностью закройте Ex Astris. Редактор сохранит проверенную копию и заменит только файл карты %1$s на вариант «%2$s». Изменение появится после перезапуска игры.</string>
+    <string name="skins_confirm_message">Сначала полностью закройте Ex Astris. Редактор сохранит проверенную копию и переключит файл карты %1$s на облик «%2$s». Изменение появится после перезапуска игры.</string>
     <string name="skins_state_ark">Arknights</string>
     <string name="skins_state_stock">обычный</string>
     <string name="skins_done">Облик %1$s изменён. Перезапустите Ex Astris.</string>

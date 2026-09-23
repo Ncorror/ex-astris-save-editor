@@ -2,6 +2,13 @@
 
 All notable project changes are listed here in reverse chronological order.
 
+## 1.8.0-dev (unreleased)
+
+- The skin switches no longer ship game files. The editor now patches the character map bundle already installed on the device: it reads the UnityFS container, decodes the LZ4Lit blocks, exchanges the base and Arknights SoftLink entries and re-packs only the changed block.
+- The map file is recognized by its structure instead of fixed hashes; a file whose controller or paths do not match is refused.
+- Removed the four bundled `.ab` files from the app.
+- Added unit tests for the LZ4/LZ4Lit codec, the UnityFS rebuild and the skin patch on synthetic bundles.
+
 ## 1.7.0
 
 Save safety:
