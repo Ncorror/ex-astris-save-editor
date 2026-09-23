@@ -225,6 +225,8 @@ Android/data: %6$s</string>
     <string name="save_short">Save</string>
     <string name="quick_values_hint">These are shortcuts only — you can type any value in the field.</string>
     <string name="switch_save">Switch save</string>
+    <string name="find_save_short">Find save</string>
+    <string name="switch_save_short">Switch</string>
     <string name="unsaved_changes_count">● Unsaved item changes: %1$d</string>
     <string name="compact_unsaved_count">%1$s · %2$d changed</string>
     <string name="save_guard_title">● Unsaved changes</string>

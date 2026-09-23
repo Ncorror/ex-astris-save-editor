@@ -224,6 +224,8 @@ Android/data: %6$s</string>
     <string name="save_short">Сохранить</string>
     <string name="quick_values_hint">Это только быстрые значения — в поле можно ввести любое число.</string>
     <string name="switch_save">Сменить сохранение</string>
+    <string name="find_save_short">Найти</string>
+    <string name="switch_save_short">Сменить</string>
     <string name="unsaved_changes_count">● Несохранённых позиций: %1$d</string>
     <string name="compact_unsaved_count">%1$s · изменено %2$d</string>
     <string name="save_guard_title">● Есть несохранённые изменения</string>

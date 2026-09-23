@@ -290,12 +290,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupActions() {
-        binding.compactShizukuButton.setOnClickListener { connectSelectedAccess() }
+        binding.compactShizukuButton.setOnClickListener {
+            if (privilegedAccessReady()) findGameSave() else connectSelectedAccess()
+        }
         binding.rootButton.setOnClickListener { requestOrConnectRoot() }
         binding.shizukuButton.setOnClickListener { requestOrConnectShizuku() }
-        binding.openGameButton.setOnClickListener {
-            resolveUnsavedChanges { openExAstrisSave(forcePicker = save != null) }
-        }
+        binding.openGameButton.setOnClickListener { findGameSave() }
         binding.openManualButton.setOnClickListener {
             resolveUnsavedChanges { pickFile() }
         }
@@ -805,13 +805,8 @@ class MainActivity : AppCompatActivity() {
         binding.compactShizukuStatus.setText(statusRes)
         binding.compactShizukuStatus.setTextColor(color(statusColor))
 
-        val ready = backend == AccessBackend.ROOT || backend == AccessBackend.SHIZUKU
         binding.openGameButton.isEnabled = true
-        binding.compactShizukuButton.visibility = if (!ready) View.VISIBLE else View.GONE
-        binding.compactShizukuButton.setText(when (mode) {
-            AccessMode.MANUAL -> R.string.access_choose_file
-            else -> R.string.connect
-        })
+        updateCompactAction()
 
         val rootStateText = when {
             rootService != null -> getString(R.string.diag_connected)
@@ -1477,7 +1472,24 @@ class MainActivity : AppCompatActivity() {
         binding.bulkButton.isEnabled = rows.any { it.bulkEditable }
     }
 
+    private fun privilegedAccessReady(): Boolean =
+        activeBackend().let { it == AccessBackend.ROOT || it == AccessBackend.SHIZUKU }
+
+    private fun findGameSave() {
+        resolveUnsavedChanges { openExAstrisSave(forcePicker = save != null) }
+    }
+
+    /** Header action: connect access first, then find (or switch) the game save. */
+    private fun updateCompactAction() {
+        binding.compactShizukuButton.setText(when {
+            privilegedAccessReady() -> if (directPath != null) R.string.switch_save_short else R.string.find_save_short
+            accessMode() == AccessMode.MANUAL -> R.string.access_choose_file
+            else -> R.string.connect
+        })
+    }
+
     private fun updateFileUi() {
+        updateCompactAction()
         val sf = save
         if (sf == null) {
             binding.compactFileTitle.setText(R.string.no_file_short)
